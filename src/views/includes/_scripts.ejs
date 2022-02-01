@@ -1,0 +1,99 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js"
+    integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    var data;
+    var config;
+    var response;
+    var route;
+    var baseUrl = `http://localhost:8080/api/v2/admin`;
+    var timeout = 3000;
+    var header = {};
+    var message = "";
+    var title = "";
+    var token;
+    var userData;
+
+    // Run Endpoint handshake
+    async function handShake(val) {
+
+        if (val == 'register') {
+            route = `${baseUrl}/auth/register`;
+            title = `Account Created!`;
+            message = `Proceed to Login`;
+        }
+
+        if (val == 'login') {
+            route = `${baseUrl}/auth/login`;
+            title = `Welcome back!`;
+            message = `You'll be redirected in 3sec`;
+        }
+
+        if (val == "logout") {
+            sessionStorage.clear();
+            setTimeout(() => {
+                location.href = `/auth/login`;
+            }, 2000);
+        }
+
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            data = new FormData(formElem);
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: data
+            };
+
+            response = await axios(config);
+
+            console.log(response);
+
+            if (val == "register") {
+                setTimeout(() => {
+                    location.href = `/auth/login`;
+                }, 2000);
+            }
+            if (val == "login") {
+                token = sessionStorage.setItem('token', response.data.token);
+                userData = sessionStorage.setItem('user', JSON.stringify(response.data.data));
+                setTimeout(() => {
+                    location.href = `/dashboard`;
+                }, 2000);
+            }
+
+            document.querySelector('form').reset();
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            messageAlert(`<h5>${title}</h5>
+            <p>${message}</p>`, `success`);
+
+
+        } catch (error) {
+
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}</p>`, `error`);
+        }
+
+
+
+    }
+
+    // Toaastr alert message
+    function messageAlert(message, status) {
+        toastr.clear();
+        NioApp.Toast(message,
+            status);
+    }
+</script>

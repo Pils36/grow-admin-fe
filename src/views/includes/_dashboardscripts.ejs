@@ -1,0 +1,271 @@
+<script>
+    var data;
+    var config;
+    var response;
+    var route;
+    var baseUrl = `http://localhost:8080/api/v2/admin`;
+    var header = {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+    };
+
+    // Rendering to header 
+    $('#headerUserDropdown').html(`
+        <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
+            <div class="user-toggle">
+                <div class="user-avatar sm">
+                    <img src="${JSON.parse(localStorage.getItem('user')).avatar}"
+                        alt="${JSON.parse(localStorage.getItem('user')).username}" />
+                </div>
+                <div class="user-info d-none d-xl-block">
+                    <div class="user-status user-status-verified">
+                        ${JSON.parse(localStorage.getItem('user')).accountType.charAt(0).toUpperCase() +
+                        JSON.parse(localStorage.getItem('user')).accountType.slice(1)} Admin</div>
+                    <div class="user-name dropdown-indicator">
+                        ${JSON.parse(localStorage.getItem('user')).username.charAt(0).toUpperCase() +
+                        JSON.parse(localStorage.getItem('user')).username.slice(1)}</div>
+                </div>
+            </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+            <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                <div class="user-card">
+                    <div class="user-avatar">
+                        <img src="${JSON.parse(localStorage.getItem('user')).avatar}"
+                            alt="${JSON.parse(localStorage.getItem('user')).username}" />
+                    </div>
+                    <div class="user-info">
+                        <span
+                            class="lead-text">${JSON.parse(localStorage.getItem('user')).username.toUpperCase()}</span>
+                        <span class="sub-text">${JSON.parse(localStorage.getItem('user')).email}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-inner">
+                <ul class="link-list">
+                    <li><a href="#"><em class="icon ni ni-user-alt"></em><span>View
+                                Profile</span></a></li>
+                    <li><a href="#"><em class="icon ni ni-setting-alt"></em><span>Account
+                                Setting</span></a></li>
+                    <li><a href="#"><em class="icon ni ni-activity-alt"></em><span>Login
+                                Activity</span></a></li>
+                    <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark
+                                Mode</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown-inner">
+                <ul class="link-list">
+                    <li><a href="javascript:void(0)" onclick="logout()"><em
+                                class="icon ni ni-signout"></em><span>Sign
+                                out</span></a></li>
+                </ul>
+            </div>
+        </div>
+    `);
+
+
+    // Get Total earnings
+    async function getEarnings() {
+        try {
+
+            $("#totalEarnings").html(`
+            <div class="data-group">
+                <div class="amount">
+                    <div class="spinner-grow text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    </div>
+                <div class="nk-ecwg6-ck">
+                    <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
+                </div>
+            </div>
+            `);
+
+            var sum = 0;
+            route = `${baseUrl}/becued/totalearning`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+
+            for (let i = 0; i < response.data.data.length; i++) {
+                const element = response.data.data[i];
+
+                sum += element.total;
+            }
+
+
+            $("#totalEarnings").html(`
+                <div class="data-group">
+                    <div class="amount">$${parseFloat(sum.toFixed(2))}</div>
+                    <div class="nk-ecwg6-ck">
+                        <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
+                    </div>
+                </div>
+                <div class="info"><span class="change down text-danger"><em
+                            class="icon ni
+                            ni-arrow-long-down"></em>${(response.data.data.length > 0 ?
+                            parseFloat((sum/response.data.data.length).toFixed(2)) : 0)}%</span><span>
+                        vs. last week</span></div>
+            `);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+    }
+    getEarnings();
+
+
+    // Get Total Celebrities ...
+    async function getCelebs() {
+        try {
+
+            $("#totalCelebs").html(`
+    <div class="data-group">
+        <div class="amount">
+            <div class="spinner-grow text-secondary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            </div>
+        <div class="nk-ecwg6-ck">
+            <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
+        </div>
+    </div>
+    `);
+
+            var sum = 0;
+            route = `${baseUrl}/becued/celebs`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+
+
+            $("#totalCelebs").html(` <div class="data-group">
+                <div class="amount">${response.data.data.length}</div>
+                <div class="nk-ecwg6-ck">
+                    <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
+                </div>
+            </div>
+            <div class="info"><span class="change up text-danger"><em
+                        class="icon ni ni-arrow-long-up"></em>${parseFloat(response.data.data.length *
+                        100 / 500).toFixed(2)}%</span><span>
+                    vs. last week</span></div>
+        `);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+    }
+    getCelebs();
+
+    // Get Total Fans ...
+
+    async function getFans() {
+        try {
+
+            $("#totalFans").html(`
+        <div class="data-group">
+            <div class="amount">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div class="nk-ecwg6-ck">
+                <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
+            </div>
+        </div>
+        `);
+
+            var sum = 0;
+            route = `${baseUrl}/becued/fans`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+
+
+            $("#totalFans").html(` <div class="data-group">
+                <div class="amount">${response.data.data.length}</div>
+                <div class="nk-ecwg6-ck">
+                    <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
+                </div>
+            </div>
+            <div class="info"><span class="change down text-danger"><em
+                        class="icon ni ni-arrow-long-down"></em>${parseFloat(response.data.data.length *
+                        100 / 5000).toFixed(2)}%</span><span>
+                    vs. last week</span></div>
+        `);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+    }
+    getFans();
+
+
+    //  Get Total Wait List
+
+    async function getWaiting() {
+        try {
+
+            $("#totalWaiting").html(`
+        <div class="data-group">
+            <div class="amount">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                </div>
+            <div class="nk-ecwg6-ck">
+                <canvas class="ecommerce-line-chart-s3" id="todayOrders"></canvas>
+            </div>
+        </div>
+        
+        `);
+
+            var sum = 0;
+            route = `${baseUrl}/becued/waitlist`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+
+
+            $("#totalWaiting").html(` <div class="data-group">
+                <div class="amount">${response.data.data.length}</div>
+                <div class="nk-ecwg6-ck">
+                    <canvas class="ecommerce-line-chart-s3" id="todayOrders"></canvas>
+                </div>
+            </div>
+            <div class="info"><span class="change up text-danger"><em
+                        class="icon ni ni-arrow-long-up"></em>${parseFloat(response.data.data.length *
+                        100 / 50000).toFixed(2)}%</span><span>
+                    vs. last week</span></div>
+        `);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+    }
+    getWaiting();
+</script>

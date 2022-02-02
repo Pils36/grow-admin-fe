@@ -15,27 +15,13 @@
     var token;
     var userData;
 
-    // Run Endpoint handshake
-    async function handShake(val) {
 
-        if (val == 'register') {
-            route = `${baseUrl}/auth/register`;
-            title = `Account Created!`;
-            message = `Proceed to Login`;
-        }
+    autoRedirect();
 
-        if (val == 'login') {
-            route = `${baseUrl}/auth/login`;
-            title = `Welcome back!`;
-            message = `You'll be redirected in 3sec`;
-        }
 
-        if (val == "logout") {
-            sessionStorage.clear();
-            setTimeout(() => {
-                location.href = `/auth/login`;
-            }, 2000);
-        }
+
+    // Login Admin
+    async function basicLogin() {
 
         try {
 
@@ -43,6 +29,7 @@
             $('.spinload').removeClass('disp-0');
 
             data = new FormData(formElem);
+            route = `${baseUrl}/auth/login`;
             config = {
                 method: 'post',
                 headers: header,
@@ -50,44 +37,119 @@
                 data: data
             };
 
-            response = await axios(config);
+            const response = await axios(config);
 
-            console.log(response);
+            token = localStorage.setItem('token', response.data.token);
+            userData = localStorage.setItem('user', JSON.stringify(response.data.data));
 
-            if (val == "register") {
-                setTimeout(() => {
-                    location.href = `/auth/login`;
-                }, 2000);
-            }
-            if (val == "login") {
-                token = sessionStorage.setItem('token', response.data.token);
-                userData = sessionStorage.setItem('user', JSON.stringify(response.data.data));
-                setTimeout(() => {
-                    location.href = `/dashboard`;
-                }, 2000);
-            }
+            messageAlert(`<h5>Welcome back ${response.data.data.username}</h5>
+            <p>You have'nt missed much</p>`, `success`);
 
-            document.querySelector('form').reset();
+            setTimeout(() => {
+                location.href = `/dashboard`;
+            }, 2000);
 
+        } catch (error) {
             $('.submitBtn').removeClass('disp-0');
             $('.spinload').addClass('disp-0');
 
-            messageAlert(`<h5>${title}</h5>
-            <p>${message}</p>`, `success`);
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
+        }
 
+    }
+
+    // Register Admin
+    async function basicRegister() {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            data = new FormData(formElem);
+            route = `${baseUrl}/auth/register`;
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: data
+            };
+
+            const response = await axios(config);
+
+            document.querySelector('form').reset();
+
+
+            messageAlert(`<h5>Account created!</h5>
+                        <p>You will be redirected to login</p>`, `success`);
+
+            setTimeout(() => {
+                location.href = `/auth/login`;
+            }, 2000);
+
+        } catch (error) {
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
+        }
+    }
+
+    // Logout
+    function logout() {
+        localStorage.clear();
+        setTimeout(() => {
+            location.href = `/auth/login`;
+        }, 1000);
+    }
+
+    // Check isLoggedIn
+    async function isLoggedIn() {
+        const userToken = localStorage.getItem('token');
+
+        if (!userToken) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    // Auto redirect
+    async function autoRedirect() {
+        const validLogin = await isLoggedIn();
+
+        if (!validLogin && location.pathname !== '/auth/login') redirect('/auth/login');
+
+    }
+
+    // Run Endpoint handshake
+    async function handShake(val) {
+
+        try {
 
         } catch (error) {
 
 
-            $('.submitBtn').removeClass('disp-0');
-            $('.spinload').addClass('disp-0');
-
-            messageAlert(`<h5>${error.response.statusText}</h5>
-            <p>${error.response.data.message}</p>`, `error`);
         }
 
 
 
+    }
+
+    function redirect(route) {
+        location.href = route;
     }
 
     // Toaastr alert message

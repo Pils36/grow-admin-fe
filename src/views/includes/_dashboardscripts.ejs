@@ -1,17 +1,7 @@
 <script>
-    var data;
-    var config;
-    var response;
-    var route;
-    var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
-    // var baseUrl = `http://localhost:8080/api/v2/admin`;
-    var header = {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-    };
-
     // Rendering to header 
     $('#headerUserDropdown').html(`
-        <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
+        <a href="javascript:void()" class="dropdown-toggle mr-n1" data-toggle="dropdown">
             <div class="user-toggle">
                 <div class="user-avatar sm">
                     <img src="${JSON.parse(localStorage.getItem('user')).avatar}"
@@ -20,10 +10,10 @@
                 <div class="user-info d-none d-xl-block">
                     <div class="user-status user-status-verified">
                         ${JSON.parse(localStorage.getItem('user')).accountType.charAt(0).toUpperCase() +
-                        JSON.parse(localStorage.getItem('user')).accountType.slice(1)} Admin</div>
+        JSON.parse(localStorage.getItem('user')).accountType.slice(1)} Admin</div>
                     <div class="user-name dropdown-indicator">
                         ${JSON.parse(localStorage.getItem('user')).username.charAt(0).toUpperCase() +
-                        JSON.parse(localStorage.getItem('user')).username.slice(1)}</div>
+        JSON.parse(localStorage.getItem('user')).username.slice(1)}</div>
                 </div>
             </div>
         </a>
@@ -43,13 +33,13 @@
             </div>
             <div class="dropdown-inner">
                 <ul class="link-list">
-                    <li><a href="#"><em class="icon ni ni-user-alt"></em><span>View
+                    <li><a href="javascript:void()"><em class="icon ni ni-user-alt"></em><span>View
                                 Profile</span></a></li>
-                    <li><a href="#"><em class="icon ni ni-setting-alt"></em><span>Account
+                    <li><a href="javascript:void()"><em class="icon ni ni-setting-alt"></em><span>Account
                                 Setting</span></a></li>
-                    <li><a href="#"><em class="icon ni ni-activity-alt"></em><span>Login
+                    <li><a href="javascript:void()"><em class="icon ni ni-activity-alt"></em><span>Login
                                 Activity</span></a></li>
-                    <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark
+                    <li><a class="dark-switch" href="javascript:void()"><em class="icon ni ni-moon"></em><span>Dark
                                 Mode</span></a>
                     </li>
                 </ul>
@@ -109,13 +99,19 @@
                 <div class="info"><span class="change down text-danger"><em
                             class="icon ni
                             ni-arrow-long-down"></em>${(response.data.data.length > 0 ?
-                            parseFloat((sum/response.data.data.length).toFixed(2)) : 0)}%</span><span>
+                    parseFloat((sum / response.data.data.length).toFixed(2)) : 0)}%</span><span>
                         vs. last week</span></div>
             `);
 
         } catch (error) {
 
-            console.log(error.response);
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
 
         }
     }
@@ -158,13 +154,19 @@
             </div>
             <div class="info"><span class="change up text-danger"><em
                         class="icon ni ni-arrow-long-up"></em>${parseFloat(response.data.data.length *
-                        100 / 500).toFixed(2)}%</span><span>
+                100 / 500).toFixed(2)}%</span><span>
                     vs. last week</span></div>
         `);
 
         } catch (error) {
 
-            console.log(error.response);
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
 
         }
     }
@@ -207,23 +209,40 @@
             </div>
             <div class="info"><span class="change down text-danger"><em
                         class="icon ni ni-arrow-long-down"></em>${parseFloat(response.data.data.length *
-                        100 / 5000).toFixed(2)}%</span><span>
+                100 / 5000).toFixed(2)}%</span><span>
                     vs. last week</span></div>
         `);
 
         } catch (error) {
 
-            console.log(error.response);
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
 
         }
     }
     getFans();
 
 
-    //  Get Total Wait List
+    //  Get All Wait List
 
     async function getWaiting() {
         try {
+
+            $("#allWaitlist").html(`
+            <div class="nk-tb-col">
+                <span class="tb-lead">
+                    <div class="spinner-grow text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </span>
+            </div>
+            `);
+            waitNewHtml = "";
 
             $("#totalWaiting").html(`
         <div class="data-group">
@@ -248,7 +267,7 @@
             };
 
             response = await axios(config);
-
+            $("#allWaitlist").html(``);
 
             $("#totalWaiting").html(` <div class="data-group">
                 <div class="amount">${response.data.data.length}</div>
@@ -258,17 +277,703 @@
             </div>
             <div class="info"><span class="change up text-danger"><em
                         class="icon ni ni-arrow-long-up"></em>${parseFloat(response.data.data.length *
-                        100 / 50000).toFixed(2)}%</span><span>
+                100 / 50000).toFixed(2)}%</span><span>
                     vs. last week</span></div>
         `);
 
+
+            $("#countWaiting").text(`You have total ${response.data.data.length} on wait list.`);
+            for (let i = 0; i < response.data.data.length; i++) {
+                const element = response.data.data[i];
+
+                waitNewHtml += `
+                <div class="nk-tb-item">
+                    <div class="nk-tb-col nk-tb-col-check">
+                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                            <input type="checkbox" class="custom-control-input" id="uid1">
+                            <label class="custom-control-label" for="uid1"></label>
+                        </div>
+                    </div>
+                    <div class="nk-tb-col">
+                        <a href="javascript:void()">
+                            <div class="user-card">
+                                <div class="user-avatar bg-primary">
+                                    <span>${(element.name.charAt(0) +
+                        element.name.charAt(1)).toUpperCase()}</span>
+                                </div>
+                                <div class="user-info">
+                                    <span class="tb-lead">${element.name}<span
+                                            class="dot dot-success d-md-none ml-1"></span></span>
+                                    <span>${element.email}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="nk-tb-col tb-col-lg">
+                        <span>${element.favourite_celebrity}</span>
+                    </div>
+                    <div class="nk-tb-col tb-col-lg">
+                        <span>${new Date(element.created_at).toLocaleString('en-GB', dateOption)}</span>
+                    </div>
+
+                    <div class="nk-tb-col nk-tb-col-tools">
+                        <ul class="nk-tb-actions gx-1">
+                            <li class="nk-tb-action-hidden">
+                                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                                    title="Send Email">
+                                    <em class="icon ni ni-mail-fill"></em>
+                                </a>
+                            </li>
+                            <li class="nk-tb-action-hidden">
+                                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                                    title="Suspend">
+                                    <em class="icon ni ni-user-cross-fill"></em>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="drodown">
+                                    <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                        data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <ul class="link-list-opt no-bdr">
+                                            <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
+                                                        Details</span></a></li>
+                                            <li><a href="javascript:void()"><em class="icon ni ni-repeat"></em><span>Send
+                                                        Email</span></a>
+                                            </li>
+
+                                            <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove</span></a>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                `;
+            }
+
+            $("#allWaitlist").append(`<div class="nk-tb-item nk-tb-head">
+                <div class="nk-tb-col nk-tb-col-check">
+                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                        <input type="checkbox" class="custom-control-input" id="uid">
+                        <label class="custom-control-label" for="uid"></label>
+                    </div>
+                </div>
+                <div class="nk-tb-col"><span class="sub-text">User</span></div>
+                
+                <div class="nk-tb-col tb-col-lg"><span class="sub-text">Favourite Celebrity</span></div>
+                <div class="nk-tb-col tb-col-md"><span class="sub-text">Date Added</span></div>
+                <div class="nk-tb-col nk-tb-col-tools">
+                    <ul class="nk-tb-actions gx-1 my-n1">
+                        <li>
+                            <div class="drodown">
+                                <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                                    data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+                                        <li><a href="javascript:void()"><em class="icon ni ni-mail"></em><span>Send Email to
+                                                    All</span></a></li>
+
+                                        <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove
+                                                    Seleted</span></a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>${waitNewHtml}
+            </div>`);
+
+
+
+
         } catch (error) {
 
-            console.log(error.response);
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
 
         }
     }
     getWaiting();
+
+
+    // Get All Partners
+    async function getAllPartners() {
+        try {
+
+            $("#allPartners").html(`
+        <div class="nk-tb-col">
+            <span class="tb-lead">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </span>
+        </div>
+        `);
+            partnerNewHtml = "";
+
+            var sum = 0;
+            route = `${baseUrl}/becued/partners`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+
+            $("#allPartners").html(``);
+
+
+            $("#countPartners").text(`You have total ${response.data.data.length} on partner list.`);
+
+            if (response.data.data.length == 0) {
+                $("#allPartners").append(`<div class="nk-tb-item nk-tb-head">
+                     <div class="nk-tb-col nk-tb-col-check">
+                         <div class="custom-control custom-control-sm custom-checkbox notext">
+                             <input type="checkbox" class="custom-control-input" id="uid">
+                             <label class="custom-control-label" for="uid"></label>
+                         </div>
+                     </div>
+                     <div class="nk-tb-col"><span class="sub-text">User</span></div>
+                     <div class="nk-tb-col tb-col-md"><span class="sub-text">Phone</span></div>
+                     <div class="nk-tb-col tb-col-lg"><span class="sub-text">Company</span></div>
+                     <div class="nk-tb-col tb-col-lg"><span class="sub-text">Where to find</span></div>
+                     <div class="nk-tb-col tb-col-md"><span class="sub-text">Date Added</span></div>
+                     <div class="nk-tb-col nk-tb-col-tools">
+                         <ul class="nk-tb-actions gx-1 my-n1">
+                             <li>
+                                 <div class="drodown">
+                                     <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                                         data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                     <div class="dropdown-menu dropdown-menu-right">
+                                         <ul class="link-list-opt no-bdr">
+                                             <li><a href="javascript:void()"><em class="icon ni ni-mail"></em><span>Send
+                                                         Email to
+                                                         All</span></a></li>
+
+                                             <li><a href="javascript:void()"><em
+                                                         class="icon ni ni-trash"></em><span>Remove
+                                                         Seleted</span></a></li>
+
+                                         </ul>
+                                     </div>
+                                 </div>
+                             </li>
+                         </ul>
+                     </div>
+                 </div>
+                 <div class="nk-tb-item">
+                     <div class="nk-tb-col nk-tb-col-check">
+                         <div class="custom-control custom-control-sm custom-checkbox notext">
+                             <input type="checkbox" class="custom-control-input" id="uid1">
+                             <label class="custom-control-label" for="uid1"></label>
+                         </div>
+                     </div>
+                     <div class="nk-tb-col">
+                         <a href="javascript:void()">
+                             <div class="user-card">
+                                 <div class="user-avatar bg-primary">
+                                     <span>BE</span>
+                                 </div>
+                                 <div class="user-info">
+                                     <span class="tb-lead">Becued<span
+                                             class="dot dot-success d-md-none ml-1"></span></span>
+                                     <span>info@becued.com</span>
+                                 </div>
+                             </div>
+                         </a>
+                     </div>
+
+                     <div class="nk-tb-col tb-col-md">
+                         <span>+1188899304882</span>
+                     </div>
+
+                     <div class="nk-tb-col tb-col-lg">
+                         <span>Becued Inc.</span>
+                     </div>
+                     <div class="nk-tb-col tb-col-lg">
+                         <span>Social media</span>
+                     </div>
+                     <div class="nk-tb-col tb-col-lg">
+                         <span>${new Date().toLocaleString('en-GB', dateOption)}</span>
+                     </div>
+
+                     <div class="nk-tb-col nk-tb-col-tools">
+                         <ul class="nk-tb-actions gx-1">
+                             <li class="nk-tb-action-hidden">
+                                 <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                     data-placement="top" title="Send Email">
+                                     <em class="icon ni ni-mail-fill"></em>
+                                 </a>
+                             </li>
+                             <li class="nk-tb-action-hidden">
+                                 <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                     data-placement="top" title="Suspend">
+                                     <em class="icon ni ni-user-cross-fill"></em>
+                                 </a>
+                             </li>
+                             <li>
+                                 <div class="drodown">
+                                     <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                         data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                     <div class="dropdown-menu dropdown-menu-right">
+                                         <ul class="link-list-opt no-bdr">
+                                             <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
+                                                         Details</span></a></li>
+                                             <li><a href="javascript:void()"><em
+                                                         class="icon ni ni-repeat"></em><span>Send
+                                                         Email</span></a>
+                                             </li>
+
+                                             <li><a href="javascript:void()"><em
+                                                         class="icon ni ni-trash"></em><span>Remove</span></a>
+                                             </li>
+
+
+                                         </ul>
+                                     </div>
+                                 </div>
+                             </li>
+                         </ul>
+                     </div>
+                 </div>
+                 </div>`);
+
+            } else {
+                for (let i = 0; i < response.data.data.length; i++) {
+                    const element = response.data.data[i];
+                    partnerNewHtml += `<div
+    class="nk-tb-item">
+    <div class="nk-tb-col nk-tb-col-check">
+        <div class="custom-control custom-control-sm custom-checkbox notext">
+            <input type="checkbox" class="custom-control-input" id="uid1">
+            <label class="custom-control-label" for="uid1"></label>
+        </div>
+    </div>
+    <div class="nk-tb-col">
+        <a href="javascript:void()">
+            <div class="user-card">
+                <div class="user-avatar bg-primary">
+                    <span>${(element.name.charAt(0) +
+                            element.name.charAt(1)).toUpperCase()}</span>
+                </div>
+                <div class="user-info">
+                    <span class="tb-lead">${element.name}<span class="dot dot-success d-md-none ml-1"></span></span>
+                    <span>${element.email}</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="nk-tb-col tb-col-md">
+        <span>${element.phoneNumber}</span>
+    </div>
+
+    <div class="nk-tb-col tb-col-lg">
+        <span>${element.company}</span>
+    </div>
+    <div class="nk-tb-col tb-col-lg">
+        <span>${element.whereToFind}</span>
+    </div>
+    <div class="nk-tb-col tb-col-lg">
+        <span>${new Date(element.created_at).toLocaleString('en-GB', dateOption)}</span>
+    </div>
+
+    <div class="nk-tb-col nk-tb-col-tools">
+        <ul class="nk-tb-actions gx-1">
+            <li class="nk-tb-action-hidden">
+                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                    title="Send Email">
+                    <em class="icon ni ni-mail-fill"></em>
+                </a>
+            </li>
+            <li class="nk-tb-action-hidden">
+                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                    title="Suspend">
+                    <em class="icon ni ni-user-cross-fill"></em>
+                </a>
+            </li>
+            <li>
+                <div class="drodown">
+                    <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                        data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <ul class="link-list-opt no-bdr">
+                            <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
+                                        Details</span></a></li>
+                            <li><a href="javascript:void()"><em class="icon ni ni-repeat"></em><span>Send
+                                        Email</span></a>
+                            </li>
+
+                            <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove</span></a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    </div>
+    `;
+                }
+
+                $("#allPartners").append(`<div class="nk-tb-item nk-tb-head">
+        <div class="nk-tb-col nk-tb-col-check">
+            <div class="custom-control custom-control-sm custom-checkbox notext">
+                <input type="checkbox" class="custom-control-input" id="uid">
+                <label class="custom-control-label" for="uid"></label>
+            </div>
+        </div>
+        <div class="nk-tb-col"><span class="sub-text">User</span></div>
+        <div class="nk-tb-col tb-col-md"><span class="sub-text">Phone</span></div>
+        <div class="nk-tb-col tb-col-lg"><span class="sub-text">Company</span></div>
+        <div class="nk-tb-col tb-col-lg"><span class="sub-text">Where to find</span></div>
+        <div class="nk-tb-col tb-col-md"><span class="sub-text">Date Added</span></div>
+        <div class="nk-tb-col nk-tb-col-tools">
+            <ul class="nk-tb-actions gx-1 my-n1">
+                <li>
+                    <div class="drodown">
+                        <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                            data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="link-list-opt no-bdr">
+                                <li><a href="javascript:void()"><em class="icon ni ni-mail"></em><span>Send Email to
+                                            All</span></a></li>
+
+                                <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove
+                                            Seleted</span></a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>${partnerNewHtml}
+    </div>`);
+
+            }
+
+
+
+
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+    getAllPartners();
+
+
+    // Get All Talents
+    async function getAllTalents() {
+        try {
+
+            $("#allTalents").html(`
+                <div class="nk-tb-col">
+                    <span class="tb-lead">
+                        <div class="spinner-grow text-secondary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </span>
+                </div>
+                `);
+            talentNewHtml = "";
+
+            var sum = 0;
+            route = `${baseUrl}/becued/talents`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+
+
+            $("#allTalents").html(``);
+
+
+            $("#countTalents").text(`You have total ${response.data.data.length} on talent list.`);
+
+
+
+            if (response.data.data.length == 0) {
+                $("#allTalents").append(`<div class="nk-tb-item nk-tb-head">
+                    <div class="nk-tb-col nk-tb-col-check">
+                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                            <input type="checkbox" class="custom-control-input" id="uid">
+                            <label class="custom-control-label" for="uid"></label>
+                        </div>
+                    </div>
+                    <div class="nk-tb-col"><span class="sub-text">User</span></div>
+                    <div class="nk-tb-col tb-col-md"><span class="sub-text">Phone</span></div>
+                    <div class="nk-tb-col tb-col-lg"><span class="sub-text">Where to find</span></div>
+                    <div class="nk-tb-col tb-col-lg"><span class="sub-text">Followers</span></div>
+                    <div class="nk-tb-col tb-col-md"><span class="sub-text">Date Added</span></div>
+                    <div class="nk-tb-col nk-tb-col-tools">
+                        <ul class="nk-tb-actions gx-1 my-n1">
+                            <li>
+                                <div class="drodown">
+                                    <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                                        data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <ul class="link-list-opt no-bdr">
+                                            <li><a href="javascript:void()"><em class="icon ni ni-mail"></em><span>Send
+                                                        Email to
+                                                        All</span></a></li>
+
+                                            <li><a href="javascript:void()"><em
+                                                        class="icon ni ni-trash"></em><span>Remove
+                                                        Seleted</span></a></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nk-tb-item">
+                    <div class="nk-tb-col nk-tb-col-check">
+                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                            <input type="checkbox" class="custom-control-input" id="uid1">
+                            <label class="custom-control-label" for="uid1"></label>
+                        </div>
+                    </div>
+                    <div class="nk-tb-col">
+                        <a href="javascript:void()">
+                            <div class="user-card">
+                                <div class="user-avatar bg-primary">
+                                    <span>BE</span>
+                                </div>
+                                <div class="user-info">
+                                    <span class="tb-lead">Becued<span
+                                            class="dot dot-success d-md-none ml-1"></span></span>
+                                    <span>info@becued.com</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="nk-tb-col tb-col-md">
+                        <span>+1188899304882</span>
+                    </div>
+
+                    <div class="nk-tb-col tb-col-lg">
+                        <span>Social media</span>
+                    </div>
+                    <div class="nk-tb-col tb-col-lg">
+                        <span>300</span>
+                    </div>
+                    <div class="nk-tb-col tb-col-lg">
+                        <span>${new Date().toLocaleString('en-GB', dateOption)}</span>
+                    </div>
+
+                    <div class="nk-tb-col nk-tb-col-tools">
+                        <ul class="nk-tb-actions gx-1">
+                            <li class="nk-tb-action-hidden">
+                                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                    data-placement="top" title="Send Email">
+                                    <em class="icon ni ni-mail-fill"></em>
+                                </a>
+                            </li>
+                            <li class="nk-tb-action-hidden">
+                                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                    data-placement="top" title="Suspend">
+                                    <em class="icon ni ni-user-cross-fill"></em>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="drodown">
+                                    <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                        data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <ul class="link-list-opt no-bdr">
+                                            <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
+                                                        Details</span></a></li>
+                                            <li><a href="javascript:void()"><em
+                                                        class="icon ni ni-repeat"></em><span>Send
+                                                        Email</span></a>
+                                            </li>
+
+                                            <li><a href="javascript:void()"><em
+                                                        class="icon ni ni-trash"></em><span>Remove</span></a>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                </div>`);
+
+            } else {
+                for (let i = 0; i < response.data.data.length; i++) {
+                    const element = response.data.data[i];
+                    talentNewHtml
+                        += `<div class="nk-tb-item">
+                    <div class="nk-tb-col nk-tb-col-check">
+                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                            <input type="checkbox" class="custom-control-input" id="uid1">
+                            <label class="custom-control-label" for="uid1"></label>
+                        </div>
+                    </div>
+                    <div class="nk-tb-col">
+                        <a href="javascript:void()">
+                            <div class="user-card">
+                                <div class="user-avatar bg-primary">
+                                    <span>${(element.name.charAt(0) +
+                            element.name.charAt(1)).toUpperCase()}</span>
+                                </div>
+                                <div class="user-info">
+                                    <span class="tb-lead">${element.name}<span
+                                            class="dot dot-success d-md-none ml-1"></span></span>
+                                    <span>${element.email}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="nk-tb-col tb-col-md">
+                        <span>${element.phoneNumber}</span>
+                    </div>
+
+                    <div class="nk-tb-col tb-col-lg">
+                        <span>${element.whereToFind}</span>
+                    </div>
+                    <div class="nk-tb-col tb-col-lg">
+                        <span>${element.numberofFollowers}</span>
+                    </div>
+                    <div class="nk-tb-col tb-col-lg">
+                        <span>${new Date(element.created_at).toLocaleString('en-GB', dateOption)}</span>
+                    </div>
+
+                    <div class="nk-tb-col nk-tb-col-tools">
+                        <ul class="nk-tb-actions gx-1">
+                            <li class="nk-tb-action-hidden">
+                                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                    data-placement="top" title="Send Email">
+                                    <em class="icon ni ni-mail-fill"></em>
+                                </a>
+                            </li>
+                            <li class="nk-tb-action-hidden">
+                                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                    data-placement="top" title="Suspend">
+                                    <em class="icon ni ni-user-cross-fill"></em>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="drodown">
+                                    <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                        data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <ul class="link-list-opt no-bdr">
+                                            <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
+                                                        Details</span></a></li>
+                                            <li><a href="javascript:void()"><em
+                                                        class="icon ni ni-repeat"></em><span>Send
+                                                        Email</span></a>
+                                            </li>
+
+                                            <li><a href="javascript:void()"><em
+                                                        class="icon ni ni-trash"></em><span>Remove</span></a>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                    `;
+                }
+
+                $("#allTalents").append(`<div class="nk-tb-item nk-tb-head">
+                        <div class="nk-tb-col nk-tb-col-check">
+                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                <input type="checkbox" class="custom-control-input" id="uid">
+                                <label class="custom-control-label" for="uid"></label>
+                            </div>
+                        </div>
+                        <div class="nk-tb-col"><span class="sub-text">User</span></div>
+                        <div class="nk-tb-col tb-col-md"><span class="sub-text">Phone</span></div>
+                        <div class="nk-tb-col tb-col-lg"><span class="sub-text">Where to find</span></div>
+                        <div class="nk-tb-col tb-col-lg"><span class="sub-text">Followers</span></div>
+                        <div class="nk-tb-col tb-col-md"><span class="sub-text">Date Added</span></div>
+                        <div class="nk-tb-col nk-tb-col-tools">
+                            <ul class="nk-tb-actions gx-1 my-n1">
+                                <li>
+                                    <div class="drodown">
+                                        <a href="javascript:void()"
+                                            class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                                            data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <ul class="link-list-opt no-bdr">
+                                                <li><a href="javascript:void()"><em
+                                                            class="icon ni ni-mail"></em><span>Send Email to
+                                                            All</span></a></li>
+
+                                                <li><a href="javascript:void()"><em
+                                                            class="icon ni ni-trash"></em><span>Remove
+                                                            Seleted</span></a></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>${talentNewHtml}
+                    </div>`);
+
+            }
+
+
+
+
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+                    <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+                    <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+    getAllTalents();
 
 
     // Get Recent Bookings
@@ -286,7 +991,7 @@
         `);
 
             var sum = 0;
-            route = `${baseUrl}/becued/bookings`;
+            route = `${baseUrl}/becued/latestbookings`;
             config = {
                 method: 'get',
                 headers: header,
@@ -294,9 +999,9 @@
             };
 
             response = await axios(config);
+
             $("#recentBookings").html('');
-            var newHtml = "";
-            var newHtml = "";
+            newHtml = "";
 
             for (let i = 0; i < response.data.data.length; i++) {
                 const element = response.data.data[i];
@@ -304,7 +1009,7 @@
                 newHtml += `
                 <div class="nk-tb-item">
                 <div class="nk-tb-col">
-                    <span class="tb-lead"><a href="#">${element.info._id}</a></span>
+                    <span class="tb-lead"><a href="javascript:void()">${element.info._id}</a></span>
                 </div>
                 <div class="nk-tb-col tb-col-sm">
                     <div class="user-card">
@@ -318,7 +1023,8 @@
                     </div>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                    <span class="tb-sub">${element.info.created_at}</span>
+                    <span class="tb-sub">${new Date(element.info.created_at).toLocaleString('en-GB', dateOption)}</span>
+                    
                 </div>
                 <div class="nk-tb-col">
                     <span class="tb-sub tb-amount">${element.info.amountPaid}
@@ -344,7 +1050,13 @@
 
         } catch (error) {
 
-            console.log(error.response);
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
 
         }
     }

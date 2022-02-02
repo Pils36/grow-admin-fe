@@ -2,12 +2,15 @@
     integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
 <script>
     var data;
     var config;
     var response;
     var route;
     var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
+    // var baseUrl = `http://localhost:8080/api/v2/admin`;
     var timeout = 3000;
     var header = {};
     var message = "";

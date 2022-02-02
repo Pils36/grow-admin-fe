@@ -4,6 +4,7 @@
     var response;
     var route;
     var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
+    // var baseUrl = `http://localhost:8080/api/v2/admin`;
     var header = {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
     };
@@ -114,7 +115,7 @@
 
         } catch (error) {
 
-            console.log(error);
+            console.log(error.response);
 
         }
     }
@@ -163,7 +164,7 @@
 
         } catch (error) {
 
-            console.log(error);
+            console.log(error.response);
 
         }
     }
@@ -212,7 +213,7 @@
 
         } catch (error) {
 
-            console.log(error);
+            console.log(error.response);
 
         }
     }
@@ -263,9 +264,89 @@
 
         } catch (error) {
 
-            console.log(error);
+            console.log(error.response);
 
         }
     }
     getWaiting();
+
+
+    // Get Recent Bookings
+    async function getRecentBookings() {
+        try {
+
+            $("#recentBookings").html(`
+        <div class="nk-tb-col">
+            <span class="tb-lead">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                </span>
+        </div>
+        `);
+
+            var sum = 0;
+            route = `${baseUrl}/becued/bookings`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+            $("#recentBookings").html('');
+            var newHtml = "";
+            var newHtml = "";
+
+            for (let i = 0; i < response.data.data.length; i++) {
+                const element = response.data.data[i];
+
+                newHtml += `
+                <div class="nk-tb-item">
+                <div class="nk-tb-col">
+                    <span class="tb-lead"><a href="#">${element.info._id}</a></span>
+                </div>
+                <div class="nk-tb-col tb-col-sm">
+                    <div class="user-card">
+                        <div class="user-avatar sm bg-purple-dim">
+                            <img src="${element.fans.avatar == `NULL` ? `https://res.cloudinary.com/becued-technologies/image/upload/v1642027179/becued/assets/avatar_umteho.png` : element.fans.avatar}"
+                                alt="${element.fans._id}" />
+                        </div>
+                        <div class="user-name">
+                            <span class="tb-lead">${element.fans.fullname}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-tb-col tb-col-md">
+                    <span class="tb-sub">${element.info.created_at}</span>
+                </div>
+                <div class="nk-tb-col">
+                    <span class="tb-sub tb-amount">${element.info.amountPaid}
+                        <span>NGN</span></span>
+                </div>
+                <div class="nk-tb-col">
+                    <span class="badge badge-dot badge-dot-xs ${element.info.paymentStatus == "not paid" ?
+                        `badge-danger` : `badge-success`}">${element.info.paymentStatus}</span>
+                </div>
+                </div>
+                `;
+            }
+
+
+            $("#recentBookings").append(`<div class="nk-tb-list mt-n2">
+                <div class="nk-tb-item nk-tb-head">
+                <div class="nk-tb-col"><span>Booking No.</span></div>
+                <div class="nk-tb-col tb-col-sm"><span>Customer</span></div>
+                <div class="nk-tb-col tb-col-md"><span>Date</span></div>
+                <div class="nk-tb-col"><span>Amount</span></div>
+                <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
+            </div>${newHtml}</div>`);
+
+        } catch (error) {
+
+            console.log(error.response);
+
+        }
+    }
+    getRecentBookings();
 </script>

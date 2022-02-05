@@ -11,6 +11,8 @@
     var route;
     var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
     // var baseUrl = `http://localhost:8080/api/v2/admin`;
+    var defaultAvatarUrl =
+        `https://res.cloudinary.com/becued-technologies/image/upload/v1642027179/becued/assets/avatar_umteho.png`;
     var timeout = 3000;
     var header = {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -21,6 +23,8 @@
     var userData;
     var newHtml = "";
     var waitNewHtml = "";
+    var fanNewHtml = "";
+    var celebNewHtml = "";
     var partnerNewHtml = "";
     var talentNewHtml = "";
     var dateOption = {

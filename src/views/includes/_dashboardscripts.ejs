@@ -122,6 +122,17 @@
     async function getCelebs() {
         try {
 
+            $("#allListedCelebs").html(`
+            <div class="nk-tb-col">
+                <span class="tb-lead">
+                    <div class="spinner-grow text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </span>
+            </div>
+            `);
+            celebNewHtml = "";
+
             $("#totalCelebs").html(`
     <div class="data-group">
         <div class="amount">
@@ -145,6 +156,8 @@
 
             response = await axios(config);
 
+            $("#allListedCelebs").html('');
+
 
             $("#totalCelebs").html(` <div class="data-group">
                 <div class="amount">${response.data.data.length}</div>
@@ -157,6 +170,129 @@
                 100 / 500).toFixed(2)}%</span><span>
                     vs. last week</span></div>
         `);
+
+
+            $('#totalCelebsCount').text(`You have total ${response.data.data.length} celebrities`);
+
+            for (let i = 0; i < response.data.data.length; i++) {
+                const element = response.data.data[i];
+                celebNewHtml += `
+                <div class="nk-tb-item">
+                <div class="nk-tb-col nk-tb-col-check">
+                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                        <input type="checkbox" class="custom-control-input" id="uid1">
+                        <label class="custom-control-label" for="uid1"></label>
+                    </div>
+                </div>
+                <div class="nk-tb-col">
+                    <a href="#">
+                        <div class="user-card">
+                            <div class="user-avatar bg-primary">
+                                <img src="${element.avatar == null ? defaultAvatarUrl : element.avatar}">
+                            </div>
+                            <div class="user-info">
+                                <span class="tb-lead">${element.fullname} <span
+                                        class="dot dot-success d-md-none ml-1"></span></span>
+                                <span>${element.email}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="nk-tb-col tb-col-md">
+                    <span>${element.phoneNumber == null ? '-' : element.phoneNumber}</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                    <span>${element.isSocialAccount[0].platform == 'default' ? `BECUED` :
+                        element.isSocialAccount[0].platform.toUpperCase()}</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                    <span>${new Date(element.created_at).toLocaleString('en-GB', dateOption)}</span>
+                </div>
+                <div class="nk-tb-col tb-col-md">
+                    <span
+                        class="tb-status ${element.accountStatus != null || element.accountStatus == 'Active' ? `text-success` : `text-danger`}">${element.accountStatus
+                        == null ? `Active` : element.accountStatus}</span>
+                </div>
+                <div class="nk-tb-col nk-tb-col-tools">
+                    <ul class="nk-tb-actions gx-1">
+                        <li class="nk-tb-action-hidden">
+                            <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                data-placement="top" title="Send Email">
+                                <em class="icon ni ni-mail-fill"></em>
+                            </a>
+                        </li>
+                        <li class="nk-tb-action-hidden">
+                            <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                data-placement="top" title="Suspend">
+                                <em class="icon ni ni-user-cross-fill"></em>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="drodown">
+                                <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                    data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+                                        <li><a href="#"><em class="icon ni ni-eye"></em><span>View
+                                                    Details</span></a></li>
+                                        <li><a href="#"><em class="icon ni ni-repeat"></em><span>Send
+                                                    Email</span></a>
+                                        </li>
+                                        <li><a href="#"><em
+                                                    class="icon ni ni-activity-round"></em><span>Suspend</span></a>
+                                        </li>
+                                        <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove</span></a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                `;
+            }
+
+            $("#allListedCelebs").append(`<div class="nk-tb-item nk-tb-head">
+                    <div class="nk-tb-col nk-tb-col-check">
+                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                            <input type="checkbox" class="custom-control-input" id="uid">
+                            <label class="custom-control-label" for="uid"></label>
+                        </div>
+                    </div>
+                    <div class="nk-tb-col"><span class="sub-text">User</span></div>
+                    <div class="nk-tb-col tb-col-md"><span class="sub-text">Phone</span></div>
+                    <div class="nk-tb-col tb-col-lg"><span class="sub-text">Platform</span></div>
+                    <div class="nk-tb-col tb-col-lg"><span class="sub-text">Date Created</span></div>
+                    <div class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></div>
+                    <div class="nk-tb-col nk-tb-col-tools">
+                        <ul class="nk-tb-actions gx-1 my-n1">
+                            <li>
+                                <div class="drodown">
+                                    <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                                        data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <ul class="link-list-opt no-bdr">
+                                            <li><a href="#"><em class="icon ni ni-mail"></em><span>Send Email to
+                                                        All</span></a></li>
+                                            <li><a href="#"><em class="icon ni ni-na"></em><span>Suspend
+                                                        Selected</span></a></li>
+                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove
+                                                        Seleted</span></a></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>${celebNewHtml}
+                </div>`);
+
+
 
         } catch (error) {
 
@@ -176,6 +312,17 @@
 
     async function getFans() {
         try {
+
+            $("#allListedFans").html(`
+            <div class="nk-tb-col">
+                <span class="tb-lead">
+                    <div class="spinner-grow text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </span>
+            </div>
+            `);
+            fanNewHtml = "";
 
             $("#totalFans").html(`
         <div class="data-group">
@@ -200,6 +347,8 @@
 
             response = await axios(config);
 
+            $("#allListedFans").html('');
+
 
             $("#totalFans").html(` <div class="data-group">
                 <div class="amount">${response.data.data.length}</div>
@@ -212,6 +361,127 @@
                 100 / 5000).toFixed(2)}%</span><span>
                     vs. last week</span></div>
         `);
+
+
+            $('#totalFansCount').text(`You have total ${response.data.data.length} fans`);
+
+            for (let i = 0; i < response.data.data.length; i++) {
+                const element = response.data.data[i];
+
+
+                fanNewHtml += ` <div class="nk-tb-item">
+                <div class="nk-tb-col nk-tb-col-check">
+                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                        <input type="checkbox" class="custom-control-input" id="uid1">
+                        <label class="custom-control-label" for="uid1"></label>
+                    </div>
+                </div>
+                <div class="nk-tb-col">
+                    <a href="#">
+                        <div class="user-card">
+                            <div class="user-avatar bg-primary">
+                                <img src="${element.avatar == null ? defaultAvatarUrl : element.avatar}">
+                            </div>
+                            <div class="user-info">
+                                        <span class="tb-lead">${element.fullname} <span
+                                                class="dot dot-success d-md-none ml-1"></span></span>
+                                <span>${element.email}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="nk-tb-col tb-col-md">
+                    <span>${element.phoneNumber == null ? '-' : element.phoneNumber}</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                    <span>${element.isSocialAccount[0].platform == 'default' ? `BECUED` :
+                        element.isSocialAccount[0].platform.toUpperCase()}</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                    <span>${new Date(element.created_at).toLocaleString('en-GB', dateOption)}</span>
+                </div>
+                <div class="nk-tb-col tb-col-md">
+                    <span class="tb-status ${element.accountStatus != null || element.accountStatus == 'Active' ? `text-success` : `text-danger`}">${element.accountStatus == null ? `Active` : element.accountStatus}</span>
+                </div>
+                <div class="nk-tb-col nk-tb-col-tools">
+                    <ul class="nk-tb-actions gx-1">
+                        <li class="nk-tb-action-hidden">
+                            <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                                title="Send Email">
+                                <em class="icon ni ni-mail-fill"></em>
+                            </a>
+                        </li>
+                        <li class="nk-tb-action-hidden">
+                            <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                                title="Suspend">
+                                <em class="icon ni ni-user-cross-fill"></em>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="drodown">
+                                <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                                        class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+                                        <li><a href="#"><em class="icon ni ni-eye"></em><span>View
+                                                    Details</span></a></li>
+                                        <li><a href="#"><em class="icon ni ni-repeat"></em><span>Send
+                                                    Email</span></a>
+                                        </li>
+                                        <li><a href="#"><em
+                                                    class="icon ni ni-activity-round"></em><span>Suspend</span></a>
+                                        </li>
+                                        <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove</span></a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            `;
+            }
+
+            $("#allListedFans").append(`<div class="nk-tb-item nk-tb-head">
+                <div class="nk-tb-col nk-tb-col-check">
+                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                        <input type="checkbox" class="custom-control-input" id="uid">
+                        <label class="custom-control-label" for="uid"></label>
+                    </div>
+                </div>
+                <div class="nk-tb-col"><span class="sub-text">User</span></div>
+                <div class="nk-tb-col tb-col-md"><span class="sub-text">Phone</span></div>
+                <div class="nk-tb-col tb-col-lg"><span class="sub-text">Platform</span></div>
+                <div class="nk-tb-col tb-col-lg"><span class="sub-text">Date Created</span></div>
+                <div class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></div>
+                <div class="nk-tb-col nk-tb-col-tools">
+                    <ul class="nk-tb-actions gx-1 my-n1">
+                        <li>
+                            <div class="drodown">
+                                <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                                    data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+                                        <li><a href="#"><em class="icon ni ni-mail"></em><span>Send Email to
+                                                    All</span></a></li>
+                                        <li><a href="#"><em class="icon ni ni-na"></em><span>Suspend
+                                                    Selected</span></a></li>
+                                        <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove
+                                                    Seleted</span></a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>${fanNewHtml}
+            </div>`);
+
 
         } catch (error) {
 
@@ -433,6 +703,7 @@
             };
 
             response = await axios(config);
+
 
             $("#allPartners").html(``);
 
@@ -712,6 +983,7 @@
             };
 
             response = await axios(config);
+
 
 
             $("#allTalents").html(``);
@@ -1014,7 +1286,7 @@
                 <div class="nk-tb-col tb-col-sm">
                     <div class="user-card">
                         <div class="user-avatar sm bg-purple-dim">
-                            <img src="${element.fans.avatar == `NULL` ? `https://res.cloudinary.com/becued-technologies/image/upload/v1642027179/becued/assets/avatar_umteho.png` : element.fans.avatar}"
+                            <img src="${element.fans.avatar == `NULL` ? defaultAvatarUrl : element.fans.avatar}"
                                 alt="${element.fans._id}" />
                         </div>
                         <div class="user-name">

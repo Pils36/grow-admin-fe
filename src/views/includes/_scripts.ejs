@@ -62,7 +62,7 @@
             userData = localStorage.setItem('user', JSON.stringify(response.data.data));
 
             messageAlert(`<h5>Welcome back ${response.data.data.username}</h5>
-            <p>You have'nt missed much</p>`, `success`);
+            <p>You haven't missed much</p>`, `success`);
 
             setTimeout(() => {
                 location.href = `/dashboard`;

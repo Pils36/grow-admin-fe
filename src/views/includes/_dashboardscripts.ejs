@@ -1,4 +1,13 @@
 <script>
+    $(document).ready(function () {
+        $("#default-04").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".nk-tb-item").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
     // Rendering to header 
     $('#headerUserDropdown').html(`
         <a href="javascript:void()" class="dropdown-toggle mr-n1" data-toggle="dropdown">
@@ -928,8 +937,9 @@
                         data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <ul class="link-list-opt no-bdr">
-                            <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
-                                        Details</span></a></li>
+                            <li><a href="#" class="" data-toggle="modal"
+                                    data-target="#modalPartnerDefault${element._id}"><em
+                                        class="icon ni ni-eye"></em><span>Quick view</span></a></li>
                             <li><a href="javascript:void()"><em class="icon ni ni-repeat"></em><span>Send
                                         Email</span></a>
                             </li>
@@ -945,6 +955,76 @@
         </ul>
     </div>
     </div>
+
+
+     <div class="modal fade zoom" tabindex="-1" id="modalPartnerDefault${element._id}">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                     <em class="icon ni ni-cross"></em>
+                 </a>
+                 <div class="modal-header">
+                     <h5 class="modal-title">${element.name}</h5>
+                 </div>
+                 <div class="modal-body">
+                     <div class="mb-4 ml-1 row">
+
+                         <div class="user-avatar lg bg-primary d-none d-sm-flex">
+                             <span>${(element.name.charAt(0) +
+                                 element.name.charAt(1)).toUpperCase()}</span>
+                         </div>
+                     </div>
+
+                     <div class="mx-auto row d-flex align-items-center">
+                         <div class="row g-3">
+
+                             <div class="col-6">
+                                 <span class="sub-text">Email:</span>
+                                 <span>${element.email}</span>
+                             </div>
+                             <div class="col-6">
+                                 <span class="sub-text">Phone Number:</span>
+                                 <span class="lead-text">${element.phoneNumber}</span>
+                             </div>
+                             <div class="col-6">
+                                 <span class="sub-text">Company:</span>
+                                 <span class="lead-text">${element.company}</span>
+                             </div>
+                             <div class="col-6">
+                                 <span class="sub-text">Role:</span>
+                                 <span class="lead-text">${element.role}</span>
+                             </div>
+                             <div class="col-6">
+                                 <span class="sub-text">Industry:</span>
+                                 <span class="lead-text">${element.industry}</span>
+                             </div>
+                             <div class="col-6">
+                                 <span class="sub-text">Where to find them:</span>
+                                 <span class="lead-text">${element.whereToFind}</span>
+                             </div>
+                             <div class="col-6">
+                                 <span class="sub-text">Country:</span>
+                                 <span class="lead-text">${element.country}</span>
+                             </div>
+
+                             <div class="col-6">
+                                 <span class="sub-text">Date Added:</span>
+                                 <span>${new Date(element.created_at).toLocaleString('en-GB',
+                                     dateOption)}</span>
+                             </div>
+                             <div class="col-12">
+                                 <span class="sub-text">What to know:</span>
+                                 <span class="lead-text">${element.whatWeShouldKnow}</span>
+                             </div>
+                         </div>
+                     </div>
+
+                 </div>
+
+             </div>
+         </div>
+     </div>
+
     `;
                 }
 
@@ -1212,8 +1292,9 @@
                                         data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <ul class="link-list-opt no-bdr">
-                                            <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
-                                                        Details</span></a></li>
+                                            <li><a href="#" class="" data-toggle="modal"
+                                                    data-target="#modalTalentDefault${element._id}"><em
+                                                        class="icon ni ni-eye"></em><span>Quick view</span></a></li>
                                             <li><a href="javascript:void()"><em
                                                         class="icon ni ni-repeat"></em><span>Send
                                                         Email</span></a>
@@ -1231,6 +1312,68 @@
                         </ul>
                     </div>
                     </div>
+
+                    <div class="modal fade zoom" tabindex="-1" id="modalTalentDefault${element._id}">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                                    <em class="icon ni ni-cross"></em>
+                                </a>
+                                <div class="modal-header">
+                                    <h5 class="modal-title">${element.name}</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-4 ml-1 row">
+
+                                        <div class="user-avatar lg bg-primary d-none d-sm-flex">
+                                            <span>${(element.name.charAt(0) +
+                                                element.name.charAt(1)).toUpperCase()}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mx-auto row d-flex align-items-center">
+                                        <div class="row g-3">
+
+                                            <div class="col-6">
+                                                <span class="sub-text">Email:</span>
+                                                <span>${element.email}</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Phone Number:</span>
+                                                <span class="lead-text">${element.phoneNumber}</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Where to find them:</span>
+                                                <span class="lead-text">${element.whereToFind}</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Social handle:</span>
+                                                <span class="lead-text">${element.handle}</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Followers:</span>
+                                                <span class="lead-text">${element.numberofFollowers}</span>
+                                            </div>
+                                            
+                                            <div class="col-6">
+                                                <span class="sub-text">Date Added:</span>
+                                                <span>${new Date(element.created_at).toLocaleString('en-GB',
+                                                    dateOption)}</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <span class="sub-text">What to know:</span>
+                                                <span class="lead-text">${element.whatWeShouldKnow}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
                     `;
                 }
 

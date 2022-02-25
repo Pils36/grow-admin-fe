@@ -17,6 +17,9 @@ router.get('/fans', (req, res) => {
 router.get('/celebs', (req, res) => {
 	res.render('./pages/home/celebs');
 });
+router.get('/booking', (req, res) => {
+	res.render('./pages/home/booking');
+});
 router.get('/acceptedbookings', (req, res) => {
 	res.render('./pages/home/acceptedbookings');
 });

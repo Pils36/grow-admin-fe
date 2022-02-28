@@ -194,7 +194,7 @@
                     </div>
                 </div>
                 <div class="nk-tb-col">
-                    <a href="javascript:void()">
+                    <a href="/dashboard/celebsprofile?_celebsuserId=${element._id}">
                         <div class="user-card">
                             <div class="user-avatar bg-primary">
                                 <img src="${element.avatar == null ? defaultAvatarUrl : element.avatar}">
@@ -243,7 +243,8 @@
                                     data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul class="link-list-opt no-bdr">
-                                        <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
+                                        <li><a href="/dashboard/celebsprofile?_celebsuserId=${element._id}"><em
+                                                    class="icon ni ni-eye"></em><span>View
                                                     Details</span></a></li>
                                         <li><a href="javascript:void()"><em class="icon ni ni-repeat"></em><span>Send
                                                     Email</span></a>
@@ -283,17 +284,7 @@
                                 <div class="drodown">
                                     <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
                                         data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <ul class="link-list-opt no-bdr">
-                                            <li><a href="javascript:void()"><em class="icon ni ni-mail"></em><span>Send Email to
-                                                        All</span></a></li>
-                                            <li><a href="javascript:void()"><em class="icon ni ni-na"></em><span>Suspend
-                                                        Selected</span></a></li>
-                                            <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove
-                                                        Seleted</span></a></li>
-
-                                        </ul>
-                                    </div>
+                                    
                                 </div>
                             </li>
                         </ul>
@@ -386,7 +377,7 @@
                     </div>
                 </div>
                 <div class="nk-tb-col">
-                    <a href="javascript:void()">
+                    <a href="/dashboard/fansprofile?_fansuserId=${element._id}">
                         <div class="user-card">
                             <div class="user-avatar bg-primary">
                                 <img src="${element.avatar == null ? defaultAvatarUrl : element.avatar}">
@@ -433,7 +424,8 @@
                                         class="icon ni ni-more-h"></em></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul class="link-list-opt no-bdr">
-                                        <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
+                                        <li><a href="/dashboard/fansprofile?_fansuserId=${element._id}"><em
+                                                    class="icon ni ni-eye"></em><span>View
                                                     Details</span></a></li>
                                         <li><a href="javascript:void()"><em class="icon ni ni-repeat"></em><span>Send
                                                     Email</span></a>
@@ -473,17 +465,7 @@
                             <div class="drodown">
                                 <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
                                     data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <ul class="link-list-opt no-bdr">
-                                        <li><a href="javascript:void()"><em class="icon ni ni-mail"></em><span>Send Email to
-                                                    All</span></a></li>
-                                        <li><a href="javascript:void()"><em class="icon ni ni-na"></em><span>Suspend
-                                                    Selected</span></a></li>
-                                        <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove
-                                                    Seleted</span></a></li>
-
-                                    </ul>
-                                </div>
+                                
                             </div>
                         </li>
                     </ul>
@@ -2022,4 +2004,469 @@
         }
     }
     getAcceptedBookings();
+
+
+    // Get Fans Profile
+    async function getFansProfile() {
+        try {
+            var _userId = new URLSearchParams(window.location.search).get('_fansuserId');
+
+            if (_userId != null) {
+
+                $("#thisfansprofile").html(`
+                <div class="nk-tb-col">
+                    <span class="tb-lead">
+                        <div class="spinner-grow text-secondary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </span>
+                </div>
+                `);
+
+
+                route = `${baseUrl}/becued/fansprofile?_userId=${_userId}`;
+                config = {
+                    method: 'get',
+                    headers: header,
+                    url: route
+                };
+
+                response = await axios(config);
+
+                console.log(response);
+
+
+                $("#thisfansprofile").html("");
+
+                thisfanHtml = "";
+
+
+
+                thisfanHtml = `<div class="card-inner card-inner-lg">
+                    <div class="nk-block-head nk-block-head-lg">
+                        <div class="nk-block-between">
+                            <div class="nk-block-head-content">
+                                <h4 class="nk-block-title">Personal Information</h4>
+                                <div class="nk-block-des">
+                                    <p>Basic info, like your name and address, that's used on Becued.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="nk-block-head-content align-self-start d-lg-none">
+                                <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em
+                                        class="icon ni ni-menu-alt-r"></em></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-block">
+                        <div class="nk-data data-list">
+                            <div class="data-head">
+                                <h6 class="overline-title">Basics</h6>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Full Name</span>
+                                    <span class="data-value">${response.data.data.fullname}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Username</span>
+                                    <span class="data-value">${response.data.data.username}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-label">Email</span>
+                                    <span class="data-value">${response.data.data.email}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more disable"><em
+                                            class="icon ni ni-lock-alt"></em></span></div>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Phone Number</span>
+                                    <span class="data-value text-soft">${response.data.data.phoneNumber}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Date of Birth</span>
+                                    <span class="data-value">${response.data.data.birthday}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Account Status</span>
+                                    <span class="data-value text-soft">${response.data.data.accountStatus}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Interests</span>
+                                    <span class="data-value text-soft">${response.data.data.interests}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Loggin Account</span>
+                                    <span class="data-value text-soft">${response.data.data.isSocialAccount[0].platform
+                                        == "default" ? `Becued` : response.data.data.isSocialAccount[0].platform}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Date Added</span>
+                                    <span class="data-value text-soft">${new
+                                        Date(response.data.data.created_at).toLocaleString('en-GB', dateOption)}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
+                    data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                    <div class="card-inner-group" data-simplebar>
+                        <div class="card-inner">
+                            <div class="user-card">
+                                <div class="user-avatar">
+                                    <img src="${response.data.data.avatar}" alt="${response.data.data.username}" />
+                                </div>
+                                <div class="user-info">
+                                    <span class="lead-text">${response.data.data.fullname}</span>
+                                    <span class="sub-text">${response.data.data.email}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                       
+                        <div class="card-inner p-0">
+                            <ul class="link-list-menu">
+                                <li><a class="active"
+                                        href="/dashboard/fansprofile?_fansuserId=${response.data.data._id}"><em
+                                            class="icon ni ni-user-fill-c"></em><span>Personal
+                                            Infomation</span></a></li>
+
+                                <li><a
+                                        href="/dashboard/fanstransactionhistory?_fansuserId=${response.data.data._id}"><em
+                                            class="icon ni ni-bell-fill"></em><span>Transaction
+                                            History</span></a>
+                                </li>
+                                <li><a
+                                        href="/dashboard/fansaccountactivity?_fansuserId=${response.data.data._id}"><em
+                                            class="icon ni ni-activity-round-fill"></em><span>Account
+                                            Activity</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>`;
+
+
+
+                $("#thisfansprofile").html(thisfanHtml);
+
+
+
+            }
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+    getFansProfile();
+
+
+    // Get Celebs Profile
+    async function getCelebsProfile() {
+        try {
+            var _userId = new URLSearchParams(window.location.search).get('_celebsuserId');
+
+
+            if (_userId != null) {
+
+                $("#thiscelebsprofile").html(`
+                <div class="nk-tb-col">
+                    <span class="tb-lead">
+                        <div class="spinner-grow text-secondary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </span>
+                </div>
+                `);
+
+
+                route = `${baseUrl}/becued/celebsprofile?_userId=${_userId}`;
+                config = {
+                    method: 'get',
+                    headers: header,
+                    url: route
+                };
+
+                response = await axios(config);
+
+                console.log(response);
+
+
+                $("#thiscelebsprofile").html("");
+
+                thiscelebHtml = "";
+
+                var user = response.data.data.user;
+                var earnings = response.data.data.earnings;
+
+
+
+                thiscelebHtml = `<div class="card-inner card-inner-lg">
+                    <div class="nk-block-head nk-block-head-lg">
+                        <div class="nk-block-between">
+                            <div class="nk-block-head-content">
+                                <h4 class="nk-block-title">Personal Information</h4>
+                                <div class="nk-block-des">
+                                    <p>Basic info, like your name and address, that's used on Becued.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="nk-block-head-content align-self-start d-lg-none">
+                                <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em
+                                        class="icon ni ni-menu-alt-r"></em></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-block">
+                        <div class="nk-data data-list">
+                            <div class="data-head">
+                                <h6 class="overline-title">Basics</h6>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Full Name</span>
+                                    <span class="data-value">${user.fullname}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Username</span>
+                                    <span class="data-value">${user.username}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-label">Email</span>
+                                    <span class="data-value">${user.email}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more disable"><em
+                                            class="icon ni ni-lock-alt"></em></span></div>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Phone Number</span>
+                                    <span class="data-value text-soft">${user.phoneNumber}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Account Status</span>
+                                    <span class="data-value">${user.accountStatus}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Number of followers</span>
+                                    <span class="data-value">${user.followers}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Industry</span>
+                                    <span class="data-value">${user.industry}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Rating</span>
+                                    <span class="data-value">${user.ratings}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Social Handle</span>
+                                    <span class="data-value">${user.socialHandle} on
+                                        ${user.socialMedia}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                            <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                <div class="data-col">
+                                    <span class="data-label">Loggin Account</span>
+                                    <span class="data-value text-soft">${user.isSocialAccount[0].platform
+                                        == "default" ? `Becued` : user.isSocialAccount[0].platform}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more"><em
+                                            class="icon ni ni-forward-ios"></em></span></div>
+                            </div>
+                            
+                        </div>
+                        <div class="nk-data data-list">
+                            <div class="data-head">
+                                <h6 class="overline-title">Preferences</h6>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-label">Description</span>
+                                    <span class="data-value">&nbsp;</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more disable"><em
+                                            class="icon ni ni-lock-alt"></em></span></div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-value">${user.description}</span>
+                                </div>
+                                
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-label">Has Bank Info</span>
+                                    <span class="data-value">${user.bankInfo}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more disable"><em
+                                            class="icon ni ni-lock-alt"></em></span></div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-label">Has Intro Video</span>
+                                    <span class="data-value">${user.introVideo}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more disable"><em
+                                            class="icon ni ni-lock-alt"></em></span></div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-label">Has Price Info</span>
+                                    <span class="data-value">${user.priceInfo}</span>
+                                </div>
+                                <div class="data-col data-col-end"><span class="data-more disable"><em
+                                            class="icon ni ni-lock-alt"></em></span></div>
+                            </div>
+                           
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
+                    data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                    <div class="card-inner-group" data-simplebar>
+                        <div class="card-inner">
+                            <div class="user-card">
+                                <div class="user-avatar">
+                                    <img src="${user.avatar}" alt="${user.username}" />
+                                </div>
+                                <div class="user-info">
+                                    <span class="lead-text">${user.fullname}</span>
+                                    <span class="sub-text">${user.email}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-inner">
+                            <div class="user-account-info py-0">
+                                <h6 class="overline-title-alt">Account Balance</h6>
+                                <div class="user-balance">${parseFloat(earnings.walletBalance).toFixed(2)} <small
+                                        class="currency currency-btc">NGN</small>
+                                </div>
+                                <div class="user-balance-sub">Becued deduction
+                                    <span>${parseFloat(earnings.becuedDeduction).toFixed(2)} <span
+                                            class="currency currency-btc">NGN</span></span></div>
+                            </div>
+                        </div>
+                        <div class="card-inner p-0">
+                            <ul class="link-list-menu">
+                                <li><a class="active"
+                                        href="/dashboard/celebsprofile?_celebsuserId=${user._id}"><em
+                                            class="icon ni ni-user-fill-c"></em><span>Personal
+                                            Infomation</span></a></li>
+                                <li><a href="/dashboard/celebstransactionhistory?_celebsuserId=${user._id}"><em
+                                            class="icon ni ni-bell-fill"></em><span>Transaction History</span></a>
+                                </li>
+                                <li><a
+                                        href="/dashboard/celebsaccountactivity?_celebsuserId=${user._id}"><em
+                                            class="icon ni ni-activity-round-fill"></em><span>Account
+                                            Activity</span></a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>`;
+
+
+
+                $("#thiscelebsprofile").html(thiscelebHtml);
+
+
+
+            }
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+    getCelebsProfile();
 </script>

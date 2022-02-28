@@ -70,4 +70,12 @@ router.get('/partners', (req, res) => {
 	res.render('./pages/home/partners');
 });
 
+router.get('/fansprofile', (req, res) => {
+	res.render('./pages/home/fanprofile');
+});
+
+router.get('/celebsprofile', (req, res) => {
+	res.render('./pages/home/celebprofile');
+});
+
 module.exports = router;

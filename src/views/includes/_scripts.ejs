@@ -9,8 +9,8 @@
     var config;
     var response;
     var route;
-    var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
-    // var baseUrl = `http://localhost:8080/api/v2/admin`;
+    // var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
+    var baseUrl = `http://localhost:8080/api/v2/admin`;
     var defaultAvatarUrl =
         `https://res.cloudinary.com/becued-technologies/image/upload/v1642027179/becued/assets/avatar_umteho.png`;
     var timeout = 3000;
@@ -24,6 +24,8 @@
     var newHtml = "";
     var bookingHtml = "";
     var acceptHtml = "";
+    var pendingHtml = "";
+    var declinedHtml = "";
     var waitNewHtml = "";
     var fanNewHtml = "";
     var celebNewHtml = "";

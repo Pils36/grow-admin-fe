@@ -68,7 +68,7 @@
     async function getEarnings() {
         try {
 
-            $("#totalEarnings").html(`
+            $("#totalEarnings, #celebEarnings").html(`
             <div class="data-group">
                 <div class="amount">
                     <div class="spinner-grow text-secondary" role="status">
@@ -91,6 +91,7 @@
 
             response = await axios(config);
 
+
             for (let i = 0; i < response.data.data.length; i++) {
                 const element = response.data.data[i];
 
@@ -98,16 +99,15 @@
             }
 
 
-            $("#totalEarnings").html(`
+            $("#totalEarnings, #celebEarnings").html(`
                 <div class="data-group">
                     <div class="amount">₦${parseFloat(sum.toFixed(2))}</div>
                     <div class="nk-ecwg6-ck">
                         <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
                     </div>
                 </div>
-                <div class="info"><span class="change down text-danger"><em
-                            class="icon ni
-                            ni-arrow-long-down"></em>${(response.data.data.length > 0 ?
+                <div class="info"><span class="change up text-danger"><em
+                            class="icon ni ni-arrow-long-up"></em>${(response.data.data.length > 0 ?
                     parseFloat((sum / response.data.data.length).toFixed(2)) : 0)}%</span><span>
                         vs. last week</span></div>
             `);
@@ -125,6 +125,74 @@
         }
     }
     getEarnings();
+
+
+    // Get Becued earnings
+    async function becuedEarnings() {
+        try {
+
+            $("#becuedEarnings").html(`
+            <div class="data-group">
+                <div class="amount">
+                    <div class="spinner-grow text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    </div>
+                <div class="nk-ecwg6-ck">
+                    <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
+                </div>
+            </div>
+            `);
+
+            var sum = 0;
+            route = `${baseUrl}/becued/becuedearning`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+
+            console.log(response);
+
+
+            for (let i = 0; i < response.data.data.length; i++) {
+                const element = response.data.data[i];
+
+                sum += element.total;
+            }
+
+
+            $("#becuedEarnings").html(`
+                <div class="data-group">
+                    <div class="amount">₦${parseFloat(sum.toFixed(2))}</div>
+                    <div class="nk-ecwg6-ck">
+                        <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
+                    </div>
+                </div>
+                <div class="info"><span class="change up text-danger"><em
+                            class="icon ni ni-arrow-long-up"></em>${(response.data.data.length > 0 ?
+                    parseFloat((sum / response.data.data.length).toFixed(2)) : 0)}%</span><span>
+                        vs. last week</span></div>
+            `);
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+    becuedEarnings();
+
+
+
 
 
     // Get Total Celebrities ...
@@ -356,8 +424,8 @@
                     <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
                 </div>
             </div>
-            <div class="info"><span class="change down text-danger"><em
-                        class="icon ni ni-arrow-long-down"></em>${parseFloat(response.data.data.length *
+            <div class="info"><span class="change up text-danger"><em
+                        class="icon ni ni-arrow-long-up"></em>${parseFloat(response.data.data.length *
                 100 / 5000).toFixed(2)}%</span><span>
                     vs. last week</span></div>
         `);
@@ -1817,10 +1885,6 @@
             acceptHtml = "";
 
 
-
-
-
-
             if (response.data.data.length > 0) {
 
                 for (let i = 0; i < response.data.data.length; i++) {
@@ -2004,6 +2068,432 @@
         }
     }
     getAcceptedBookings();
+
+
+    // Get Pending Bookings
+    async function getPendingBookings() {
+
+        try {
+
+            $("#pendingbookings").html(`
+        <div class="nk-tb-col">
+            <span class="tb-lead">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </span>
+        </div>
+        `);
+
+            route = `${baseUrl}/becued/allbookings?status=pending`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+
+            $("#pendingbookings").html("");
+
+            pendingHtml = "";
+
+
+            if (response.data.data.length > 0) {
+
+                for (let i = 0; i < response.data.data.length; i++) {
+                    const element = response.data.data[i];
+                    pendingHtml += ` <div
+            class="nk-tb-item">
+            <div class="nk-tb-col nk-tb-col-check">
+                <div class="custom-control custom-control-sm custom-checkbox notext">
+                    <input type="checkbox" class="custom-control-input" id="uid1">
+                    <label class="custom-control-label" for="uid1"></label>
+                </div>
+            </div>
+            <div class="nk-tb-col">
+                <span class="tb-lead"><a
+                        href="/dashboard/booking?_id=${element.info._id}">${element.info._id}</a></span>
+            </div>
+            <div class="nk-tb-col tb-col-md">
+                <span class="tb-sub">${new Date(element.info.created_at).toLocaleString('en-GB',
+                    dateOption)}</span>
+            </div>
+            <div class="nk-tb-col">
+                <span class="dot bg-warning d-mb-none"></span>
+                <span
+                    class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">${element.info.sessionStatus}</span>
+            </div>
+            <div class="nk-tb-col tb-col-sm">
+                <span class="tb-sub">${element.fans.fullname}</span>
+            </div>
+            <div class="nk-tb-col tb-col-md">
+                <span class="tb-sub">${element.celebs.fullname}</span>
+            </div>
+            <div class="nk-tb-col">
+                <span class="tb-lead">₦${parseFloat(element.info.amountPaid).toFixed(2)}</span>
+            </div>
+            <div class="nk-tb-col nk-tb-col-tools">
+                <ul class="nk-tb-actions gx-1">
+                    <li class="nk-tb-action-hidden"><a href="javascript:void()"
+                            class="btn btn-icon btn-trigger btn-tooltip" title="Mark as Delivered"
+                            data-toggle="dropdown">
+                            <em class="icon ni ni-truck"></em></a></li>
+                    <li class="nk-tb-action-hidden"><a href="javascript:void()"
+                            class="btn btn-icon btn-trigger btn-tooltip" title="View Order" data-toggle="dropdown">
+                            <em class="icon ni ni-eye"></em></a></li>
+                    <li>
+                        <div class="drodown mr-n1">
+                            <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <ul class="link-list-opt no-bdr">
+                                    <li><a href="/dashboard/booking?_id=${element.info._id}"><em
+                                                class="icon ni ni-eye"></em><span>Booking
+                                                Details</span></a></li>
+                                    <li><a href="javascript:void()"><em class="icon ni ni-truck"></em><span>Mark as
+                                                Accepted</span></a></li>
+                                    <li><a href="javascript:void()"><em class="icon ni ni-money"></em><span>Mark as
+                                                Declined</span></a></li>
+
+                                    <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove
+                                                Booking</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </div>`;
+                }
+
+
+
+
+
+            } else {
+                pendingHtml += `
+
+
+            <div class="nk-tb-item">
+                <div class="nk-tb-col nk-tb-col-check">
+                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                        <input type="checkbox" class="custom-control-input" id="uid1">
+                        <label class="custom-control-label" for="uid1"></label>
+                    </div>
+                </div>
+                <div class="nk-tb-col">
+                    <span class="tb-lead"><a href="javascript:void()">12345678</a></span>
+                </div>
+                <div class="nk-tb-col tb-col-md">
+                    <span class="tb-sub">${new Date().toLocaleString('en-GB', dateOption)}</span>
+                </div>
+                <div class="nk-tb-col">
+                    <span class="dot bg-warning d-mb-none"></span>
+                    <span class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">No record</span>
+                </div>
+                <div class="nk-tb-col tb-col-sm">
+                    <span class="tb-sub">Becued</span>
+                </div>
+                <div class="nk-tb-col tb-col-md">
+                    <span class="tb-sub">Becued</span>
+                </div>
+                <div class="nk-tb-col">
+                    <span class="tb-lead">NGN 0.00</span>
+                </div>
+                <div class="nk-tb-col nk-tb-col-tools">
+                    <ul class="nk-tb-actions gx-1">
+                        <li class="nk-tb-action-hidden"><a href="javascript:void()"
+                                class="btn btn-icon btn-trigger btn-tooltip" title="Mark as Delivered"
+                                data-toggle="dropdown">
+                                <em class="icon ni ni-truck"></em></a></li>
+                        <li class="nk-tb-action-hidden"><a href="javascript:void()"
+                                class="btn btn-icon btn-trigger btn-tooltip" title="View Order" data-toggle="dropdown">
+                                <em class="icon ni ni-eye"></em></a></li>
+                        <li>
+                            <div class="drodown mr-n1">
+                                <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                    data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>`;
+            }
+
+
+            $("#pendingbookings").append(`<div class="nk-tb-item nk-tb-head">
+                <div class="nk-tb-col nk-tb-col-check">
+                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                        <input type="checkbox" class="custom-control-input" id="uid">
+                        <label class="custom-control-label" for="uid"></label>
+                    </div>
+                </div>
+                <div class="nk-tb-col"><span>Booking Id</span></div>
+                <div class="nk-tb-col tb-col-md"><span>Date</span></div>
+                <div class="nk-tb-col"><span class="d-none d-mb-block">Status</span></div>
+                <div class="nk-tb-col tb-col-sm"><span>Fan</span></div>
+                <div class="nk-tb-col tb-col-md"><span>Celebrity</span></div>
+                <div class="nk-tb-col"><span>Total</span></div>
+                <div class="nk-tb-col nk-tb-col-tools">
+                    <ul class="nk-tb-actions gx-1 my-n1">
+                        <li>
+                            <div class="drodown">
+                                <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                                    data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+                                        <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
+                                                    details</span></a></li>
+                                        <li><a href="javascript:void()"><em class="icon ni ni-edit"></em><span>Update
+                                                    Status</span></a></li>
+                                        <li><a href="javascript:void()"><em class="icon ni ni-truck"></em><span>Mark as
+                                                    Delivered</span></a></li>
+                                        <li><a href="javascript:void()"><em class="icon ni ni-money"></em><span>Mark as
+                                                    Paid</span></a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>${pendingHtml}`);
+
+
+
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+    getPendingBookings();
+
+
+    // Get Declined Bookings
+    async function getDeclinedBookings() {
+
+        try {
+
+            $("#declinedbookings").html(`
+        <div class="nk-tb-col">
+            <span class="tb-lead">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </span>
+        </div>
+        `);
+
+            route = `${baseUrl}/becued/allbookings?status=declined`;
+            config = {
+                method: 'get',
+                headers: header,
+                url: route
+            };
+
+            response = await axios(config);
+
+            $("#declinedbookings").html("");
+
+            declinedHtml = "";
+
+
+            if (response.data.data.length > 0) {
+
+                for (let i = 0; i < response.data.data.length; i++) {
+                    const element = response.data.data[i];
+                    declinedHtml += ` <div
+            class="nk-tb-item">
+            <div class="nk-tb-col nk-tb-col-check">
+                <div class="custom-control custom-control-sm custom-checkbox notext">
+                    <input type="checkbox" class="custom-control-input" id="uid1">
+                    <label class="custom-control-label" for="uid1"></label>
+                </div>
+            </div>
+            <div class="nk-tb-col">
+                <span class="tb-lead"><a
+                        href="/dashboard/booking?_id=${element.info._id}">${element.info._id}</a></span>
+            </div>
+            <div class="nk-tb-col tb-col-md">
+                <span class="tb-sub">${new Date(element.info.created_at).toLocaleString('en-GB',
+                    dateOption)}</span>
+            </div>
+            <div class="nk-tb-col">
+                <span class="dot bg-danger d-mb-none"></span>
+                <span
+                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">${element.info.sessionStatus}</span>
+            </div>
+            <div class="nk-tb-col tb-col-sm">
+                <span class="tb-sub">${element.fans.fullname}</span>
+            </div>
+            <div class="nk-tb-col tb-col-md">
+                <span class="tb-sub">${element.celebs.fullname}</span>
+            </div>
+            <div class="nk-tb-col">
+                <span class="tb-lead">₦${parseFloat(element.info.amountPaid).toFixed(2)}</span>
+            </div>
+            <div class="nk-tb-col nk-tb-col-tools">
+                <ul class="nk-tb-actions gx-1">
+                    <li class="nk-tb-action-hidden"><a href="javascript:void()"
+                            class="btn btn-icon btn-trigger btn-tooltip" title="Mark as Delivered"
+                            data-toggle="dropdown">
+                            <em class="icon ni ni-truck"></em></a></li>
+                    <li class="nk-tb-action-hidden"><a href="javascript:void()"
+                            class="btn btn-icon btn-trigger btn-tooltip" title="View Order" data-toggle="dropdown">
+                            <em class="icon ni ni-eye"></em></a></li>
+                    <li>
+                        <div class="drodown mr-n1">
+                            <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <ul class="link-list-opt no-bdr">
+                                    <li><a href="/dashboard/booking?_id=${element.info._id}"><em
+                                                class="icon ni ni-eye"></em><span>Booking
+                                                Details</span></a></li>
+                                    <li><a href="javascript:void()"><em class="icon ni ni-truck"></em><span>Mark as
+                                                Accepted</span></a></li>
+                                    <li><a href="javascript:void()"><em class="icon ni ni-money"></em><span>Mark as
+                                                Declined</span></a></li>
+
+                                    <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove
+                                                Booking</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </div>`;
+                }
+
+
+
+
+
+            } else {
+                declinedHtml += `
+
+
+            <div class="nk-tb-item">
+                <div class="nk-tb-col nk-tb-col-check">
+                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                        <input type="checkbox" class="custom-control-input" id="uid1">
+                        <label class="custom-control-label" for="uid1"></label>
+                    </div>
+                </div>
+                <div class="nk-tb-col">
+                    <span class="tb-lead"><a href="javascript:void()">12345678</a></span>
+                </div>
+                <div class="nk-tb-col tb-col-md">
+                    <span class="tb-sub">${new Date().toLocaleString('en-GB', dateOption)}</span>
+                </div>
+                <div class="nk-tb-col">
+                    <span class="dot bg-danger d-mb-none"></span>
+                    <span class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">No record</span>
+                </div>
+                <div class="nk-tb-col tb-col-sm">
+                    <span class="tb-sub">Becued</span>
+                </div>
+                <div class="nk-tb-col tb-col-md">
+                    <span class="tb-sub">Becued</span>
+                </div>
+                <div class="nk-tb-col">
+                    <span class="tb-lead">NGN 0.00</span>
+                </div>
+                <div class="nk-tb-col nk-tb-col-tools">
+                    <ul class="nk-tb-actions gx-1">
+                        <li class="nk-tb-action-hidden"><a href="javascript:void()"
+                                class="btn btn-icon btn-trigger btn-tooltip" title="Mark as Delivered"
+                                data-toggle="dropdown">
+                                <em class="icon ni ni-truck"></em></a></li>
+                        <li class="nk-tb-action-hidden"><a href="javascript:void()"
+                                class="btn btn-icon btn-trigger btn-tooltip" title="View Order" data-toggle="dropdown">
+                                <em class="icon ni ni-eye"></em></a></li>
+                        <li>
+                            <div class="drodown mr-n1">
+                                <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                    data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>`;
+            }
+
+
+            $("#declinedbookings").append(`<div class="nk-tb-item nk-tb-head">
+                <div class="nk-tb-col nk-tb-col-check">
+                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                        <input type="checkbox" class="custom-control-input" id="uid">
+                        <label class="custom-control-label" for="uid"></label>
+                    </div>
+                </div>
+                <div class="nk-tb-col"><span>Booking Id</span></div>
+                <div class="nk-tb-col tb-col-md"><span>Date</span></div>
+                <div class="nk-tb-col"><span class="d-none d-mb-block">Status</span></div>
+                <div class="nk-tb-col tb-col-sm"><span>Fan</span></div>
+                <div class="nk-tb-col tb-col-md"><span>Celebrity</span></div>
+                <div class="nk-tb-col"><span>Total</span></div>
+                <div class="nk-tb-col nk-tb-col-tools">
+                    <ul class="nk-tb-actions gx-1 my-n1">
+                        <li>
+                            <div class="drodown">
+                                <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                                    data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+                                        <li><a href="javascript:void()"><em class="icon ni ni-eye"></em><span>View
+                                                    details</span></a></li>
+                                        <li><a href="javascript:void()"><em class="icon ni ni-edit"></em><span>Update
+                                                    Status</span></a></li>
+                                        <li><a href="javascript:void()"><em class="icon ni ni-truck"></em><span>Mark as
+                                                    Delivered</span></a></li>
+                                        <li><a href="javascript:void()"><em class="icon ni ni-money"></em><span>Mark as
+                                                    Paid</span></a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>${declinedHtml}`);
+
+
+
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+    getDeclinedBookings();
 
 
     // Get Fans Profile

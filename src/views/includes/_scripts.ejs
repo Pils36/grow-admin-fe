@@ -8,10 +8,8 @@
 <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
 <script>
-    var data;
-    var config;
-    var response;
-    var route;
+    var data, config, response, route;
+
     var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
     // var baseUrl = `http://localhost:8080/api/v2/admin`;
     var defaultAvatarUrl =
@@ -20,22 +18,10 @@
     var header = {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
     };
-    var message = "";
-    var title = "";
-    var token;
-    var userData;
-    var newHtml = "";
-    var bookingHtml = "";
-    var acceptHtml = "";
-    var pendingHtml = "";
-    var declinedHtml = "";
-    var waitNewHtml = "";
-    var fanNewHtml = "";
-    var celebNewHtml = "";
-    var partnerNewHtml = "";
-    var talentNewHtml = "";
-    var thisfanHtml = "";
-    var thiscelebHtml = "";
+
+    var message, title, token, userData, newHtml, bookingHtml, acceptHtml, pendingHtml, declinedHtml, waitNewHtml,
+        fanNewHtml, thisTransHtml, thisHistoryHtml, thisActivityHtml, thisActHtml,
+        celebNewHtml, partnerNewHtml, talentNewHtml, thisfanHtml, thiscelebHtml = "";
     var dateOption = {
         weekday: 'long',
         year: 'numeric',

@@ -74,8 +74,24 @@ router.get('/fansprofile', (req, res) => {
 	res.render('./pages/home/fanprofile');
 });
 
+router.get('/fanstransactionhistory', (req, res) => {
+	res.render('./pages/home/fantransactionhistory');
+});
+
+router.get('/fansaccountactivity', (req, res) => {
+	res.render('./pages/home/fanactivitylog');
+});
+
 router.get('/celebsprofile', (req, res) => {
 	res.render('./pages/home/celebprofile');
+});
+
+router.get('/celebstransactionhistory', (req, res) => {
+	res.render('./pages/home/celebtransactionhistory');
+});
+
+router.get('/celebsaccountactivity', (req, res) => {
+	res.render('./pages/home/celebactivitylog');
 });
 
 module.exports = router;

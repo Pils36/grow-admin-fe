@@ -6,6 +6,9 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
+
+        $('#myTranxhistory').DataTable();
+
     });
 
     // Rendering to header 
@@ -2523,8 +2526,6 @@
 
                 response = await axios(config);
 
-                console.log(response);
-
 
                 $("#thisfansprofile").html("");
 
@@ -2547,6 +2548,8 @@
                                         class="icon ni ni-menu-alt-r"></em></a>
                             </div>
                         </div>
+
+                       
                     </div>
                     <div class="nk-block">
                         <div class="nk-data data-list">
@@ -2892,6 +2895,8 @@
                         </div>
                     </div>
                 </div>
+
+                
                 <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
                     data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
                     <div class="card-inner-group" data-simplebar>
@@ -2959,4 +2964,630 @@
     }
 
     getCelebsProfile();
+
+
+    // Get Fan Transaction  History
+    async function getFanTransactionHistory() {
+        try {
+            var _userId = new URLSearchParams(window.location.search).get('_fansuserId');
+
+            if (_userId != null) {
+
+                $("#thisfanstransactionhistory").html(`
+        <div class="nk-tb-col">
+            <span class="tb-lead">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </span>
+        </div>
+        `);
+
+
+                route = `${baseUrl}/becued/fanstransactionhistory?_userId=${_userId}`;
+                config = {
+                    method: 'get',
+                    headers: header,
+                    url: route
+                };
+
+                response = await axios(config);
+
+                $("#thisfanstransactionhistory").html("");
+
+                thisTransHtml, thisHistoryHtml = "";
+
+                if (response.data.data.history.length == 0) {
+                    thisHistoryHtml = `<tr>
+                     <td colspan="4" align="center">No transaction history record</td>
+                 </tr>`;
+                } else {
+                    for (let i = 0; i < response.data.data.history.length; i++) {
+                        const
+                            historyElement = response.data.data.history[i];
+
+                        thisHistoryHtml += `<tr>
+                        <td>${new Date(historyElement.created_at).toLocaleString('en-GB', dateOption)}</td>
+                        <td>${historyElement.activity}</td>
+                        <td>${parseFloat(historyElement.amount).toFixed(2)}</td>
+                        <td>${historyElement.status}</td>
+                        </tr>`;
+
+                    }
+
+                }
+
+
+
+                thisTransHtml = `<div class="card-inner card-inner-lg">
+            <div class="nk-block-head nk-block-head-lg">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h4 class="nk-block-title">Transaction History</h4>
+                        <div class="nk-block-des">
+                            <p>All transaction history record with bookings and spendings
+                            </p>
+                        </div>
+                    </div>
+                    <div class="nk-block-head-content align-self-start d-lg-none">
+                        <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em
+                                class="icon ni ni-menu-alt-r"></em></a>
+                    </div>
+                </div>
+            </div>
+            <div class="nk-block">
+                <div class="nk-data data-list table-responsive">
+                    <table class="table table-striped table-bordered" id="myTranxhistory">
+
+                        <thead>
+
+                            <tr>
+
+                                <td>Date</td>
+                                <td>Description</td>
+                                <td>Amount</td>
+                                <td>Status</td>
+                            
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                                
+                                ${thisHistoryHtml}
+
+
+                            </tbody>
+
+                    </table>
+                    
+                </div>
+
+            </div>
+        </div>
+        <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
+            data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+            <div class="card-inner-group" data-simplebar>
+                <div class="card-inner">
+                    <div class="user-card">
+                        <div class="user-avatar">
+                            <img src="${response.data.data.user.avatar}" alt="${response.data.data.user.username}" />
+                        </div>
+                        <div class="user-info">
+                            <span class="lead-text">${response.data.data.user.fullname}</span>
+                            <span class="sub-text">${response.data.data.user.email}</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-inner p-0">
+                    <ul class="link-list-menu">
+                        <li><a href="/dashboard/fansprofile?_fansuserId=${response.data.data.user._id}"><em
+                                    class="icon ni ni-user-fill-c"></em><span>Personal
+                                    Infomation</span></a></li>
+
+                        <li><a class="active" href="/dashboard/fanstransactionhistory?_fansuserId=${response.data.data.user._id}"><em
+                                    class="icon ni ni-bell-fill"></em><span>Transaction
+                                    History</span></a>
+                        </li>
+                        <li><a href="/dashboard/fansaccountactivity?_fansuserId=${response.data.data.user._id}"><em
+                                    class="icon ni ni-activity-round-fill"></em><span>Account
+                                    Activity</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>`;
+
+
+
+                $("#thisfanstransactionhistory").html(thisTransHtml);
+
+
+
+            }
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+    getFanTransactionHistory();
+
+
+    // Get Fan Activity Log
+    async function getFanActivityLog() {
+        try {
+            var _userId = new URLSearchParams(window.location.search).get('_fansuserId');
+
+            if (_userId != null) {
+
+                $("#thisfansactivitylog").html(`
+        <div class="nk-tb-col">
+            <span class="tb-lead">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </span>
+        </div>
+        `);
+
+
+                route = `${baseUrl}/becued/fansactivitylog?_userId=${_userId}`;
+                config = {
+                    method: 'get',
+                    headers: header,
+                    url: route
+                };
+
+                response = await axios(config);
+
+                $("#thisfansactivitylog").html("");
+
+                thisActHtml, thisActivityHtml = "";
+
+                if (response.data.data.history.length == 0) {
+                    thisActivityHtml = `<tr>
+            <td colspan="3" align="center">No activity log</td>
+        </tr>`;
+                } else {
+                    for (let i = 0; i < response.data.data.history.length; i++) {
+                        const
+                            activityElement = response.data.data.history[i];
+                        thisActivityHtml += `<tr>
+            <td>${new Date(activityElement.created_at).toLocaleString('en-GB', dateOption)}</td>
+            <td>${activityElement.activity}</td>
+            <td>${activityElement.action}</td>
+            </tr>`;
+
+                    }
+
+                }
+
+
+
+                thisActHtml = `<div class="card-inner card-inner-lg">
+                <div class="nk-block-head nk-block-head-lg">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h4 class="nk-block-title">Activity Log</h4>
+                            <div class="nk-block-des">
+                                <p>All users activity as monitored on the platform is recorded here
+                                </p>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content align-self-start d-lg-none">
+                            <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em
+                                    class="icon ni ni-menu-alt-r"></em></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-block">
+                    <div class="nk-data data-list table-responsive">
+                        <table class="table table-striped table-bordered" id="myTranxhistory">
+
+                            <thead>
+
+                                <tr>
+
+                                    <td>Date</td>
+                                    <td>Description</td>
+                                    <td>Status</td>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+
+                                ${thisActivityHtml}
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
+                data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                <div class="card-inner-group" data-simplebar>
+                    <div class="card-inner">
+                        <div class="user-card">
+                            <div class="user-avatar">
+                                <img src="${response.data.data.user.avatar}"
+                                    alt="${response.data.data.user.username}" />
+                            </div>
+                            <div class="user-info">
+                                <span class="lead-text">${response.data.data.user.fullname}</span>
+                                <span class="sub-text">${response.data.data.user.email}</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-inner p-0">
+                        <ul class="link-list-menu">
+                            <li><a href="/dashboard/fansprofile?_fansuserId=${response.data.data.user._id}"><em
+                                        class="icon ni ni-user-fill-c"></em><span>Personal
+                                        Infomation</span></a></li>
+
+                            <li><a
+                                    href="/dashboard/fanstransactionhistory?_fansuserId=${response.data.data.user._id}"><em
+                                        class="icon ni ni-bell-fill"></em><span>Transaction
+                                        History</span></a>
+                            </li>
+                            <li><a class="active" href="/dashboard/fansaccountactivity?_fansuserId=${response.data.data.user._id}"><em
+                                        class="icon ni ni-activity-round-fill"></em><span>Account
+                                        Activity</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>`;
+
+
+
+                $("#thisfansactivitylog").html(thisActHtml);
+
+
+
+            }
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+    getFanActivityLog();
+
+
+
+    // Get Celeb Transaction History
+    async function getCelebTransactionHistory() {
+        try {
+            var _userId = new URLSearchParams(window.location.search).get('_celebsuserId');
+
+            if (_userId != null) {
+
+                $("#thiscelebstransactionhistory").html(`
+    <div class="nk-tb-col">
+        <span class="tb-lead">
+            <div class="spinner-grow text-secondary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </span>
+    </div>
+    `);
+
+
+                route = `${baseUrl}/becued/celebstransactionhistory?_userId=${_userId}`;
+                config = {
+                    method: 'get',
+                    headers: header,
+                    url: route
+                };
+
+                response = await axios(config);
+
+                $("#thiscelebstransactionhistory").html("");
+
+                thisTransHtml, thisHistoryHtml = "";
+
+                if (response.data.data.history.length == 0) {
+                    thisHistoryHtml = `<tr>
+        <td colspan="4" align="center">No transaction history record</td>
+    </tr>`;
+                } else {
+                    for (let i = 0; i < response.data.data.history.length; i++) {
+                        const historyElement = response.data.data.history[i];
+                        thisHistoryHtml += `<tr>
+        <td>${new Date(historyElement.created_at).toLocaleString('en-GB', dateOption)}</td>
+        <td>${historyElement.activity}</td>
+        <td>${parseFloat(historyElement.amount).toFixed(2)}</td>
+        <td>${historyElement.status}</td>
+        </tr>`;
+
+                    }
+
+                }
+
+
+
+                thisTransHtml = `<div class="card-inner card-inner-lg">
+            <div class="nk-block-head nk-block-head-lg">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h4 class="nk-block-title">Transaction History</h4>
+                        <div class="nk-block-des">
+                            <p>All transaction history record with bookings and spendings
+                            </p>
+                        </div>
+                    </div>
+                    <div class="nk-block-head-content align-self-start d-lg-none">
+                        <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em
+                                class="icon ni ni-menu-alt-r"></em></a>
+                    </div>
+                </div>
+            </div>
+            <div class="nk-block">
+                <div class="nk-data data-list table-responsive">
+                    <table class="table table-striped table-bordered" id="myTranxhistory">
+
+                        <thead>
+
+                            <tr>
+
+                                <td>Date</td>
+                                <td>Description</td>
+                                <td>Amount</td>
+                                <td>Status</td>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+
+                            ${thisHistoryHtml}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
+            data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+            <div class="card-inner-group" data-simplebar>
+                <div class="card-inner">
+                    <div class="user-card">
+                        <div class="user-avatar">
+                            <img src="${response.data.data.user.avatar}" alt="${response.data.data.user.username}" />
+                        </div>
+                        <div class="user-info">
+                            <span class="lead-text">${response.data.data.user.fullname}</span>
+                            <span class="sub-text">${response.data.data.user.email}</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-inner p-0">
+                    <ul class="link-list-menu">
+                        <li><a href="/dashboard/celebsprofile?_celebsuserId=${response.data.data.user._id}"><em
+                                    class="icon ni ni-user-fill-c"></em><span>Personal
+                                    Infomation</span></a></li>
+
+                        <li><a class="active"
+                                href="/dashboard/celebstransactionhistory?_celebsuserId=${response.data.data.user._id}"><em
+                                    class="icon ni ni-bell-fill"></em><span>Transaction
+                                    History</span></a>
+                        </li>
+                        <li><a href="/dashboard/celebsaccountactivity?_celebsuserId=${response.data.data.user._id}"><em
+                                    class="icon ni ni-activity-round-fill"></em><span>Account
+                                    Activity</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>`;
+
+
+
+                $("#thiscelebstransactionhistory").html(thisTransHtml);
+
+
+
+            }
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+    getCelebTransactionHistory();
+
+
+    // Get Celeb Activity Log
+    async function getCelebActivityLog() {
+        try {
+            var _userId = new URLSearchParams(window.location.search).get('_celebsuserId');
+
+            if (_userId != null) {
+
+                $("#thiscelebsactivitylog").html(`
+        <div class="nk-tb-col">
+            <span class="tb-lead">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </span>
+        </div>
+        `);
+
+
+                route = `${baseUrl}/becued/celebsactivitylog?_userId=${_userId}`;
+                config = {
+                    method: 'get',
+                    headers: header,
+                    url: route
+                };
+
+                response = await axios(config);
+
+                $("#thiscelebsactivitylog").html("");
+
+                thisActHtml, thisActivityHtml = "";
+
+                if (response.data.data.history.length == 0) {
+                    thisActivityHtml = `<tr>
+            <td colspan="3" align="center">No activity log</td>
+        </tr>`;
+                } else {
+                    for (let i = 0; i < response.data.data.history.length; i++) {
+                        const
+                            activityElement = response.data.data.history[i];
+                        thisActivityHtml += `<tr>
+            <td>${new Date(activityElement.created_at).toLocaleString('en-GB', dateOption)}</td>
+            <td>${activityElement.activity}</td>
+            <td>${activityElement.action}</td>
+            </tr>`;
+
+                    }
+
+                }
+
+
+
+                thisActHtml = `<div class="card-inner card-inner-lg">
+                <div class="nk-block-head nk-block-head-lg">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h4 class="nk-block-title">Activity Log</h4>
+                            <div class="nk-block-des">
+                                <p>All users activity as monitored on the platform is recorded here
+                                </p>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content align-self-start d-lg-none">
+                            <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em
+                                    class="icon ni ni-menu-alt-r"></em></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-block">
+                    <div class="nk-data data-list table-responsive">
+                        <table class="table table-striped table-bordered" id="myTranxhistory">
+
+                            <thead>
+
+                                <tr>
+
+                                    <td>Date</td>
+                                    <td>Description</td>
+                                    <td>Status</td>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+
+                                ${thisActivityHtml}
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
+                data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                <div class="card-inner-group" data-simplebar>
+                    <div class="card-inner">
+                        <div class="user-card">
+                            <div class="user-avatar">
+                                <img src="${response.data.data.user.avatar}"
+                                    alt="${response.data.data.user.username}" />
+                            </div>
+                            <div class="user-info">
+                                <span class="lead-text">${response.data.data.user.fullname}</span>
+                                <span class="sub-text">${response.data.data.user.email}</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-inner p-0">
+                        <ul class="link-list-menu">
+                            <li><a href="/dashboard/celebsprofile?_celebsuserId=${response.data.data.user._id}"><em
+                                        class="icon ni ni-user-fill-c"></em><span>Personal
+                                        Infomation</span></a></li>
+
+                            <li><a href="/dashboard/celebstransactionhistory?_celebsuserId=${response.data.data.user._id}"><em
+                                        class="icon ni ni-bell-fill"></em><span>Transaction
+                                        History</span></a>
+                            </li>
+                            <li><a class="active"
+                                    href="/dashboard/celebsaccountactivity?_celebsuserId=${response.data.data.user._id}"><em
+                                        class="icon ni ni-activity-round-fill"></em><span>Account
+                                        Activity</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>`;
+
+
+
+                $("#thiscelebsactivitylog").html(thisActHtml);
+
+
+
+            }
+
+        } catch (error) {
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+            <p>${error.response.data.message}. Retry login</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+            <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+    getCelebActivityLog();
 </script>

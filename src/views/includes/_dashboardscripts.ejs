@@ -1615,7 +1615,6 @@
                         sum += element.amount;
                     }
                 }
-                console.log(sum);
                 $("#bookingDetails").html('');
                 bookingHtml += ` <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between g-3">
@@ -1772,12 +1771,15 @@
                                                 <ul class="preview-list g-2">
                                                     <li class="preview-item">
                                                         <div class="user-avatar-group">
-                                                            <div class="user-avatar">
-                                                                <img src="${response.data.data.fans.avatar}" alt="">
+                                                            <div class="user-avatar"
+                                                                title="${response.data.data.fans.fullname}">
+                                                                <img src="${response.data.data.fans.avatar}"
+                                                                    alt="${response.data.data.fans.fullname}">
                                                             </div>
-                                                            <div class="user-avatar">
+                                                            <div class="user-avatar"
+                                                                title="${response.data.data.celebs.fullname}">
                                                                 <img src="${response.data.data.celebs != null ? response.data.data.celebs.avatar : defaultAvatarUrl}"
-                                                                    alt="">
+                                                                    alt="${response.data.data.celebs.fullname}">
                                                             </div>
                                                         </div>
                                                     </li>
@@ -1793,12 +1795,14 @@
                                         </div>
                                         <div class="card-inner card-inner-sm">
                                             <ul class="btn-toolbar justify-center gx-1">
-                                                <li title="Send a message"><a href="javascript:void()"
+                                                <li title="Send a message"><a href="javascript:void(0)"
+                                                        onclick="sendMail('booking', '${response.data.data.info._id}')"
                                                         class="btn btn-trigger btn-icon"><em
                                                             class="icon ni ni-mail"></em></a></li>
 
 
-                                                <li title="Cancel booking"><a href="javascript:void()"
+                                                <li title="Remove booking"><a href="javascript:void(0)"
+                                                        onclick="removeItem('booking', '${response.data.data.info._id}')"
                                                         class="btn btn-trigger btn-icon text-danger"><em
                                                             class="icon ni ni-na"></em></a></li>
                                             </ul>
@@ -3590,4 +3594,73 @@
     }
 
     getCelebActivityLog();
+
+
+
+
+    function sendMail(value, id) {
+
+        $('#_id').val(id);
+        $('#value').val(value);
+
+        $('.messageModal').click();
+
+    }
+
+
+    function removeItem(value, id) {
+        console.log({
+            id,
+            value
+        });
+    }
+
+
+    async function processAlert() {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            var value = $('#value').val();
+            var id = $('#_id').val();
+            var formData = new FormData(formElem);
+
+
+            route = `${baseUrl}/becued/messaging?value=${value}&_id=${id}`;
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            $('#formElem')[0].reset();
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+
+
+        } catch (error) {
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
 </script>

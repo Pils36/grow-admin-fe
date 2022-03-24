@@ -157,7 +157,7 @@
 
             response = await axios(config);
 
-            console.log(response);
+
 
 
             for (let i = 0; i < response.data.data.length; i++) {
@@ -1615,6 +1615,8 @@
                         sum += element.amount;
                     }
                 }
+
+
                 $("#bookingDetails").html('');
                 bookingHtml += ` <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between g-3">
@@ -2732,7 +2734,7 @@
 
                 response = await axios(config);
 
-                console.log(response);
+
 
 
                 $("#thiscelebsprofile").html("");

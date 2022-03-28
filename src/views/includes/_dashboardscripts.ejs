@@ -291,23 +291,35 @@
                 </div>
                 <div class="nk-tb-col tb-col-md">
                     <span
-                        class="tb-status ${element.accountStatus != null || element.accountStatus == 'Active' ? `text-success` : `text-danger`}">${element.accountStatus
+                        class="tb-status ${element.accountStatus == 'Active' ? `text-success` : `text-danger`}">${element.accountStatus
                         == null ? `Active` : element.accountStatus}</span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
                     <ul class="nk-tb-actions gx-1">
                         <li class="nk-tb-action-hidden">
-                            <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                            <a href="javascript:void(0)" onclick="sendMail('celebprofile', '${element._id}')"
+                                class="btn btn-trigger btn-icon" data-toggle="tooltip"
                                 data-placement="top" title="Send Email">
                                 <em class="icon ni ni-mail-fill"></em>
                             </a>
                         </li>
-                        <li class="nk-tb-action-hidden">
-                            <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
-                                data-placement="top" title="Suspend">
+
+                        ${element.accountStatus == `Active` ? `<li class="nk-tb-action-hidden">
+                            <a href="javascript:void(0)" onclick="accountState('celebaccount', '${element._id}')"
+                                class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                                title="Suspend">
                                 <em class="icon ni ni-user-cross-fill"></em>
                             </a>
-                        </li>
+                        </li>` : `<li class="nk-tb-action-hidden">
+                            <a href="javascript:void(0)" onclick="activateaccountState('celebaccount', '${element._id}')"
+                                class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                                title="Activate">
+                                <em class="icon ni ni-user-check-fill"></em>
+                            </a>
+                        </li>`}
+
+
+
                         <li>
                             <div class="drodown">
                                 <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
@@ -317,12 +329,23 @@
                                         <li><a href="/dashboard/celebsprofile?_celebsuserId=${element._id}"><em
                                                     class="icon ni ni-eye"></em><span>View
                                                     Details</span></a></li>
-                                        <li><a href="javascript:void()"><em class="icon ni ni-repeat"></em><span>Send
+                                        <li><a href="javascript:void(0)"
+                                                onclick="sendMail('celebprofile', '${element._id}')"><em
+                                                    class="icon ni ni-repeat"></em><span>Send
                                                     Email</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><em
-                                                    class="icon ni ni-activity-round"></em><span>Suspend</span></a>
-                                        </li>
+
+
+                                         ${element.accountStatus == `Active` ? `<li><a href="javascript:void(0)"
+                                                 onclick="accountState('celebaccount', '${element._id}')"><em
+                                                     class="icon ni ni-activity-round"></em><span>Suspend</span></a>
+                                         </li>` : `<li><a href="javascript:void(0)"
+                                                 onclick="activateaccountState('celebaccount', '${element._id}')"><em
+                                                     class="icon ni ni-activity-round"></em><span>Activate</span></a>
+                                         </li>`}
+
+
+
                                         <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove</span></a>
                                         </li>
 
@@ -473,22 +496,33 @@
                     <span>${new Date(element.created_at).toLocaleString('en-GB', dateOption)}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                    <span class="tb-status ${element.accountStatus != null || element.accountStatus == 'Active' ? `text-success` : `text-danger`}">${element.accountStatus == null ? `Active` : element.accountStatus}</span>
+                    <span class="tb-status ${element.accountStatus == 'Active' ? `text-success` : `text-danger`}">${element.accountStatus == null ? `Active` : element.accountStatus}</span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
                     <ul class="nk-tb-actions gx-1">
                         <li class="nk-tb-action-hidden">
-                            <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                            <a href="javascript:void(0)" onclick="sendMail('fanprofile', '${element._id}')"
+                                class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
                                 title="Send Email">
                                 <em class="icon ni ni-mail-fill"></em>
                             </a>
                         </li>
-                        <li class="nk-tb-action-hidden">
-                            <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
-                                title="Suspend">
-                                <em class="icon ni ni-user-cross-fill"></em>
-                            </a>
-                        </li>
+
+                        
+
+                       ${element.accountStatus == `Active` ? `<li class="nk-tb-action-hidden">
+                           <a href="javascript:void(0)" onclick="accountState('fanaccount', '${element._id}')"
+                               class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                               title="Suspend">
+                               <em class="icon ni ni-user-cross-fill"></em>
+                           </a>
+                       </li>` : `<li class="nk-tb-action-hidden">
+                           <a href="javascript:void(0)" onclick="activateaccountState('fanaccount', '${element._id}')"
+                               class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                               title="Activate">
+                               <em class="icon ni ni-user-check-fill"></em>
+                           </a>
+                       </li>`}
                         <li>
                             <div class="drodown">
                                 <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
@@ -498,12 +532,23 @@
                                         <li><a href="/dashboard/fansprofile?_fansuserId=${element._id}"><em
                                                     class="icon ni ni-eye"></em><span>View
                                                     Details</span></a></li>
-                                        <li><a href="javascript:void()"><em class="icon ni ni-repeat"></em><span>Send
+                                        <li><a href="javascript:void(0)"
+                                                onclick="sendMail('fanprofile', '${element._id}')"><em
+                                                    class="icon ni ni-repeat"></em><span>Send
                                                     Email</span></a>
                                         </li>
-                                        <li><a href="javascript:void()"><em
+
+                                        ${element.accountStatus == `Active` ? `<li><a href="javascript:void(0)"
+                                                onclick="accountState('fanaccount', '${element._id}')"><em
                                                     class="icon ni ni-activity-round"></em><span>Suspend</span></a>
-                                        </li>
+                                        </li>` : `<li><a href="javascript:void(0)"
+                                                onclick="activateaccountState('fanaccount', '${element._id}')"><em
+                                                    class="icon ni ni-activity-round"></em><span>Activate</span></a>
+                                        </li>`}
+
+                                        
+
+
                                         <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove</span></a>
                                         </li>
 
@@ -3610,6 +3655,16 @@
     }
 
 
+    function accountState(value, id) {
+
+        $('._statusid').val(id);
+        $('.valueid').val(value);
+
+        $('.accountStateModal').click();
+
+    }
+
+
     function removeItem(value, id) {
         console.log({
             id,
@@ -3647,6 +3702,122 @@
 
             messageAlert(`<h5>${response.statusText}</h5>
             <p>${response.data.message}.</p>`, `success`);
+
+
+
+        } catch (error) {
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+
+
+    async function processStatus() {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            var formData = new FormData(accountStateElem);
+
+
+            if ($('.valueid').val() == 'fanaccount') {
+                route = `${baseUrl}/becued/fan-account-state`;
+            } else {
+                route = `${baseUrl}/becued/celebrity-account-state`;
+            }
+
+
+
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            $('#accountStateElem')[0].reset();
+
+
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+
+            setTimeout(() => {
+                location.reload()
+            }, 2000)
+
+
+
+        } catch (error) {
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+
+    async function activateaccountState(val, id) {
+        try {
+
+            var thisdata = {
+                _id: id,
+                accountStatus: 'Active'
+            }
+
+
+            if (val == 'fanaccount') {
+                route = `${baseUrl}/becued/fan-account-state`;
+            } else {
+                route = `${baseUrl}/becued/celebrity-account-state`;
+            }
+
+
+
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: thisdata
+            };
+
+            response = await axios(config);
+
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+
+            setTimeout(() => {
+                location.reload()
+            }, 2000)
 
 
 

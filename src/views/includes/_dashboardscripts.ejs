@@ -697,7 +697,8 @@
                     <div class="nk-tb-col nk-tb-col-tools">
                         <ul class="nk-tb-actions gx-1">
                             <li class="nk-tb-action-hidden">
-                                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                                <a href="javascript:void(0)" onclick="sendMail('waitlist', '${element._id}')"
+                                    class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
                                     title="Send Email">
                                     <em class="icon ni ni-mail-fill"></em>
                                 </a>
@@ -717,7 +718,9 @@
                                             <li><a href="javascript:void()" class="" data-toggle="modal"
                                                     data-target="#modalDefault${element._id}"><em
                                                         class="icon ni ni-eye"></em><span>Quick view</span></a></li>
-                                            <li><a href="javascript:void()"><em class="icon ni ni-repeat"></em><span>Send
+                                            <li><a href="javascript:void(0)"
+                                                    onclick="sendMail('waitlist', '${element._id}')"><em
+                                                        class="icon ni ni-repeat"></em><span>Send
                                                         Email</span></a>
                                             </li>
 
@@ -1018,7 +1021,8 @@
     <div class="nk-tb-col nk-tb-col-tools">
         <ul class="nk-tb-actions gx-1">
             <li class="nk-tb-action-hidden">
-                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
+                <a href="javascript:void(0)" onclick="sendMail('partner', '${element._id}')"
+                    class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top"
                     title="Send Email">
                     <em class="icon ni ni-mail-fill"></em>
                 </a>
@@ -1038,7 +1042,8 @@
                             <li><a href="javascript:void()" class="" data-toggle="modal"
                                     data-target="#modalPartnerDefault${element._id}"><em
                                         class="icon ni ni-eye"></em><span>Quick view</span></a></li>
-                            <li><a href="javascript:void()"><em class="icon ni ni-repeat"></em><span>Send
+                            <li><a href="javascript:void(0)" onclick="sendMail('partner', '${element._id}')"><em
+                                        class="icon ni ni-repeat"></em><span>Send
                                         Email</span></a>
                             </li>
 
@@ -1373,7 +1378,8 @@
                     <div class="nk-tb-col nk-tb-col-tools">
                         <ul class="nk-tb-actions gx-1">
                             <li class="nk-tb-action-hidden">
-                                <a href="javascript:void()" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                <a href="javascript:void(0)" onclick="sendMail('talent', '${element._id}')"
+                                    class="btn btn-trigger btn-icon" data-toggle="tooltip"
                                     data-placement="top" title="Send Email">
                                     <em class="icon ni ni-mail-fill"></em>
                                 </a>
@@ -1393,7 +1399,8 @@
                                             <li><a href="javascript:void()" class="" data-toggle="modal"
                                                     data-target="#modalTalentDefault${element._id}"><em
                                                         class="icon ni ni-eye"></em><span>Quick view</span></a></li>
-                                            <li><a href="javascript:void()"><em
+                                            <li><a href="javascript:void(0)"
+                                                    onclick="sendMail('talent', '${element._id}')"><em
                                                         class="icon ni ni-repeat"></em><span>Send
                                                         Email</span></a>
                                             </li>

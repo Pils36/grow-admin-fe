@@ -2787,7 +2787,6 @@
 
 
 
-
                 $("#thiscelebsprofile").html("");
 
                 thiscelebHtml = "";
@@ -2968,7 +2967,8 @@
 
                             </div>
                         </div>
-                        <div class="card-inner">
+
+                        ${earnings != null ? `<div class="card-inner">
                             <div class="user-account-info py-0">
                                 <h6 class="overline-title-alt">Account Balance</h6>
                                 <div class="user-balance">${parseFloat(earnings.walletBalance).toFixed(2)} <small
@@ -2978,7 +2978,18 @@
                                     <span>${parseFloat(earnings.becuedDeduction).toFixed(2)} <span
                                             class="currency currency-btc">NGN</span></span></div>
                             </div>
-                        </div>
+                        </div>` : `<div class="card-inner">
+                            <div class="user-account-info py-0">
+                                <h6 class="overline-title-alt">Account Balance</h6>
+                                <div class="user-balance">0.00<small
+                                        class="currency currency-btc">NGN</small>
+                                </div>
+                                <div class="user-balance-sub">Becued deduction
+                                    <span>0.00<span
+                                            class="currency currency-btc">NGN</span></span></div>
+                            </div>
+                        </div>`}
+                        
                         <div class="card-inner p-0">
                             <ul class="link-list-menu">
                                 <li><a class="active"

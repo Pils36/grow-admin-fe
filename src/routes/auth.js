@@ -2,12 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/login', (req, res) => {
-	res.render('./pages/auth/login');
-});
+const { login, register, loginAdmin } = require('../controllers/Authentication');
 
-router.get('/register', (req, res) => {
-	res.render('./pages/auth/register');
-});
+router.get('/login', login);
+
+router.get('/register', register);
+
+router.post('/login-admin', loginAdmin);
 
 module.exports = router;

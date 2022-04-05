@@ -15,7 +15,7 @@
                         </div><!-- .nk-block-head-content -->
                         <div class="nk-block-head-content">
                             <div class="toggle-wrap nk-block-tools-toggle">
-                                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1"
+                                <a href="javascript:void()" class="btn btn-icon btn-trigger toggle-expand mr-n1"
                                     data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
                                 <div class="toggle-expand-content" data-content="pageMenu">
                                     <ul class="nk-block-tools g-3">
@@ -34,6 +34,7 @@
                             </div>
                         </div><!-- .nk-block-head-content -->
                     </div><!-- .nk-block-between -->
+
                 </div><!-- .nk-block-head -->
                 <div class="nk-block">
                     <div class="nk-tb-list is-separate is-medium mb-3">
@@ -50,6 +51,11 @@
                             <div class="nk-tb-col"><span>Date and Time</span></div>
 
                         </div><!-- .nk-tb-item -->
+
+                        <% if(data.length > 0) { %>
+                        <% data.forEach(record => { %>
+
+                        <% if(record.celebs != null) { %>
                         <div class="nk-tb-item">
                             <div class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -58,49 +64,69 @@
                                 </div>
                             </div>
                             <div class="nk-tb-col">
-                                <span class="tb-lead"><a href="#">#95954</a></span>
+                                <span class="tb-sub"><%= record.celebs._id %></span>
                             </div>
 
 
                             <div class="nk-tb-col tb-col-sm">
-                                <span class="tb-sub">Arnold Armstrong</span>
+                                <span class="tb-lead">
+                                    <a
+                                        href='/dashboard/celebsprofile?_celebsuserId=<%= record.celebs._id %>'><%= record.celebs.fullname %></a></span>
                             </div>
 
                             <div class="nk-tb-col">
-                                <span class="tb-lead">$ 249.75</span>
+                                <span class="tb-lead">NGN <%= parseFloat(record.info.walletBalance).toFixed(2) %></span>
                             </div>
 
                             <div class="nk-tb-col">
-                                <span class="tb-lead">29-01-2022 12:54:34</span>
+                                <span class="tb-lead"><%= new Date(record.info.created_at).toLocaleString('en-GB', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    }) %></span>
                             </div>
 
-                        </div><!-- .nk-tb-item -->
+                        </div>
+                        <% }%>
+
+
+                        <% }); %>
 
 
 
+                        <% } else { %>
+                        <div class="nk-tb-item">
+                            <div class="nk-tb-col nk-tb-col-check">
+                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                    <input type="checkbox" class="custom-control-input" id="uid1">
+                                    <label class="custom-control-label" for="uid1"></label>
+                                </div>
+                            </div>
+                            <div class="nk-tb-col">
+                                <span class="tb-lead"><a href="javascript:void()">#</a></span>
+                            </div>
+
+
+                            <div class="nk-tb-col tb-col-sm">
+                                <span class="tb-sub">#</span>
+                            </div>
+
+                            <div class="nk-tb-col">
+                                <span class="tb-lead">#</span>
+                            </div>
+
+                            <div class="nk-tb-col">
+                                <span class="tb-lead">#</span>
+                            </div>
+
+                        </div>
+
+                        <% } %>
 
                     </div><!-- .nk-tb-list -->
-                    <div class="card">
-                        <div class="card-inner">
-                            <div class="nk-block-between-md g-3">
-                                <div class="g">
-                                    <ul class="pagination justify-content-center justify-content-md-start">
-                                        <li class="page-item"><a class="page-link" href="#"><em
-                                                    class="icon ni ni-chevrons-left"></em></a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><span class="page-link"><em
-                                                    class="icon ni ni-more-h"></em></span></li>
-                                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">7</a></li>
-                                        <li class="page-item"><a class="page-link" href="#"><em
-                                                    class="icon ni ni-chevrons-right"></em></a></li>
-                                    </ul><!-- .pagination -->
-                                </div>
 
-                            </div><!-- .nk-block-between -->
-                        </div>
-                    </div>
+
                 </div><!-- .nk-block -->
             </div>
         </div>

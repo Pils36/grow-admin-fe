@@ -47,7 +47,8 @@
             $('.spinload').removeClass('disp-0');
 
             data = new FormData(formElem);
-            route = `${baseUrl}/auth/login`;
+            // route = `${baseUrl}/auth/login`;
+            route = `/auth/login-admin`;
             config = {
                 method: 'post',
                 headers: header,
@@ -62,6 +63,8 @@
 
             messageAlert(`<h5>Welcome back ${response.data.data.username}</h5>
             <p>You haven't missed much</p>`, `success`);
+
+
 
             setTimeout(() => {
                 location.href = `/dashboard`;

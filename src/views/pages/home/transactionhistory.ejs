@@ -64,31 +64,59 @@
                             <div class="nk-tb-col tb-col-sm"><span>Customer</span></div>
                             <div class="nk-tb-col tb-col-md"><span>Service</span></div>
                             <div class="nk-tb-col"><span>Total</span></div>
-                            <div class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-1 my-n1">
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
-                                                data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>View
-                                                                details</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-edit"></em><span>Update
-                                                                Status</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-truck"></em><span>Mark as
-                                                                Delivered</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-money"></em><span>Mark as
-                                                                Paid</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove
-                                                            </span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+
                         </div><!-- .nk-tb-item -->
+
+                        <% if(data.length > 0) { %>
+
+                        <% data.forEach(record => { %>
+
+                        <% if(record.fans != null) { %>
+
+                        <div class="nk-tb-item">
+                            <div class="nk-tb-col nk-tb-col-check">
+                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                    <input type="checkbox" class="custom-control-input" id="uid1">
+                                    <label class="custom-control-label" for="uid1"></label>
+                                </div>
+                            </div>
+                            <div class="nk-tb-col">
+                                <span class="tb-lead"><a href="javascript:void()"><%= record.info._id %> </a></span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                                <span class="tb-sub"><%= new Date(record.info.created_at).toLocaleString('en-GB', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    }) %> </span>
+                            </div>
+                            <div class="nk-tb-col">
+                                <span class="dot bg-warning d-mb-none"></span>
+                                <span class="badge badge-sm badge-dot has-bg <%= record.info.status == 'credit' ? 'badge-success' : 'badge-danger' %> d-none
+                                    d-mb-inline-flex"><%= record.info.status %> </span>
+                            </div>
+                            <div class="nk-tb-col tb-col-sm">
+                                <span class="tb-sub"><%= record.fans.fullname %> </span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                                <span class="tb-sub"><%= record.info.activity %> </span>
+                            </div>
+                            <div class="nk-tb-col">
+                                <span class="tb-lead">₦<%= parseFloat(record.info.amount).toFixed(2) %> </span>
+                            </div>
+
+                        </div>
+
+                        <% } %>
+
+
+
+
+                        <% }) %>
+
+                        <% } else { %>
+
                         <div class="nk-tb-item">
                             <div class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -116,124 +144,17 @@
                             <div class="nk-tb-col">
                                 <span class="tb-lead">$ 249.75</span>
                             </div>
-                            <div class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-1">
-                                    <li class="nk-tb-action-hidden"><a href="#"
-                                            class="btn btn-icon btn-trigger btn-tooltip" title="Mark as Delivered"
-                                            data-toggle="dropdown">
-                                            <em class="icon ni ni-truck"></em></a></li>
-                                    <li class="nk-tb-action-hidden"><a href="#"
-                                            class="btn btn-icon btn-trigger btn-tooltip" title="View Order"
-                                            data-toggle="dropdown">
-                                            <em class="icon ni ni-eye"></em></a></li>
-                                    <li>
-                                        <div class="drodown mr-n1">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
-                                                data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>Booking
-                                                                Details</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-truck"></em><span>Mark as
-                                                                Delivered</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-money"></em><span>Mark as
-                                                                Paid</span></a></li>
 
-                                                    <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove
-                                                                Order</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div><!-- .nk-tb-item -->
-                        <div class="nk-tb-item">
-                            <div class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="uid2">
-                                    <label class="custom-control-label" for="uid2"></label>
-                                </div>
-                            </div>
-                            <div class="nk-tb-col">
-                                <span class="tb-lead"><a href="#">#95961</a></span>
-                            </div>
-                            <div class="nk-tb-col tb-col-md">
-                                <span class="tb-sub">Jun 3, 2020</span>
-                            </div>
-                            <div class="nk-tb-col">
-                                <span class="dot bg-success d-mb-none"></span>
-                                <span
-                                    class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">Accepted</span>
-                            </div>
-                            <div class="nk-tb-col tb-col-sm">
-                                <span class="tb-sub">Jean Douglas</span>
-                            </div>
-                            <div class="nk-tb-col tb-col-md">
-                                <span class="tb-sub">Pink Fitness Tracker</span>
-                            </div>
-                            <div class="nk-tb-col">
-                                <span class="tb-lead">$ 99.49</span>
-                            </div>
-                            <div class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-1">
-                                    <li class="nk-tb-action-hidden"><a href="#"
-                                            class="btn btn-icon btn-trigger btn-tooltip" title="Mark as Delivered"
-                                            data-toggle="dropdown">
-                                            <em class="icon ni ni-truck"></em></a></li>
-                                    <li class="nk-tb-action-hidden"><a href="#"
-                                            class="btn btn-icon btn-trigger btn-tooltip" title="View Order"
-                                            data-toggle="dropdown">
-                                            <em class="icon ni ni-eye"></em></a></li>
-                                    <li>
-                                    <li>
-                                        <div class="drodown mr-n1">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
-                                                data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>Order
-                                                                Details</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-truck"></em><span>Mark as
-                                                                Delivered</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-money"></em><span>Mark as
-                                                                Paid</span></a></li>
+                        </div>
 
-                                                    <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove
-                                                                Order</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div><!-- .nk-tb-item -->
+                        <% } %>
+
 
 
 
 
                     </div><!-- .nk-tb-list -->
-                    <div class="card">
-                        <div class="card-inner">
-                            <div class="nk-block-between-md g-3">
-                                <div class="g">
-                                    <ul class="pagination justify-content-center justify-content-md-start">
-                                        <li class="page-item"><a class="page-link" href="#"><em
-                                                    class="icon ni ni-chevrons-left"></em></a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><span class="page-link"><em
-                                                    class="icon ni ni-more-h"></em></span></li>
-                                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">7</a></li>
-                                        <li class="page-item"><a class="page-link" href="#"><em
-                                                    class="icon ni ni-chevrons-right"></em></a></li>
-                                    </ul><!-- .pagination -->
-                                </div>
 
-                            </div><!-- .nk-block-between -->
-                        </div>
-                    </div>
                 </div><!-- .nk-block -->
             </div>
         </div>

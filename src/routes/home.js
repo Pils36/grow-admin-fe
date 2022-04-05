@@ -2,6 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 
+const {
+	celebrityEarning,
+	becuedEarnings,
+	becuedEscrow,
+	becuedTransxHistory
+} = require('../controllers/EarningController');
+
 router.get('/', (req, res) => {
 	res.render('./pages/home/index');
 });
@@ -30,17 +37,13 @@ router.get('/declinedbookings', (req, res) => {
 	res.render('./pages/home/declinedbookings');
 });
 
-router.get('/celebearnings', (req, res) => {
-	res.render('./pages/home/celebrityearning');
-});
+router.get('/celebearnings', celebrityEarning);
 
-router.get('/becueddeduction', (req, res) => {
-	res.render('./pages/home/becueddeduction');
-});
+router.get('/becueddeduction', becuedEarnings);
 
-router.get('/transactionhistory', (req, res) => {
-	res.render('./pages/home/transactionhistory');
-});
+router.get('/becuedescrow', becuedEscrow);
+
+router.get('/transactionhistory', becuedTransxHistory);
 
 router.get('/celebbanks', (req, res) => {
 	res.render('./pages/home/celebbanks');

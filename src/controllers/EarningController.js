@@ -1,8 +1,5 @@
 const axios = require('axios');
 
-const LocalStorage = require('node-localstorage').LocalStorage;
-localStorage = new LocalStorage('./scratch');
-
 const headers = {
 	Authorization: `Bearer ${localStorage.getItem('token')}`
 };

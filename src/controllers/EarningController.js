@@ -10,6 +10,8 @@ const headers = {
 const baseUrl = `${process.env.APP_ENV == 'local' ? process.env.ENDPOINT_URL_DEV : process.env.ENDPOINT_URL_PROD}`;
 
 const celebrityEarning = async (req, res) => {
+	res.send(headers);
+
 	try {
 		const config = {
 			method: 'GET',

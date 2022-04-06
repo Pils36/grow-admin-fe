@@ -29,12 +29,8 @@ const loginAdmin = async (req, res) => {
 			data: data
 		});
 
-		console.log(response);
-
-		if (response.status === 200) {
-			token = localStorage.setItem('token', response.data.token);
-			userData = localStorage.setItem('user', JSON.stringify(response.data.data));
-		}
+		token = localStorage.setItem('token', response.data.token);
+		userData = localStorage.setItem('user', JSON.stringify(response.data.data));
 
 		res.status(response.status).json({
 			data: response.data.data,

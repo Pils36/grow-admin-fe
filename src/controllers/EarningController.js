@@ -35,7 +35,7 @@ const becuedEarnings = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${baseUrl}/becued/earning`,
+			url: `${routeUrl}/becued/earning`,
 			headers: headers
 		};
 
@@ -57,7 +57,7 @@ const becuedEscrow = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${baseUrl}/becued/escrow`,
+			url: `${routeUrl}/becued/escrow`,
 			headers: headers
 		};
 
@@ -79,7 +79,7 @@ const becuedTransxHistory = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${baseUrl}/becued/transaction-history`,
+			url: `${routeUrl}/becued/transaction-history`,
 			headers: headers
 		};
 

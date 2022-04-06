@@ -1,8 +1,7 @@
 const axios = require('axios');
 
-const headers = {
-	Authorization: `Bearer ${localStorage.getItem('token')}`
-};
+const LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch');
 
 const routeUrl = `${process.env.APP_ENV == 'local' ? process.env.ENDPOINT_URL_DEV : process.env.ENDPOINT_URL_PROD}`;
 
@@ -11,10 +10,8 @@ const celebrityEarning = async (req, res) => {
 		const config = {
 			method: 'GET',
 			url: `${routeUrl}/becued/earning`,
-			headers: headers
+			headers: myHeader()
 		};
-
-		// res.send(config);
 
 		const result = await axios(config);
 
@@ -35,7 +32,7 @@ const becuedEarnings = async (req, res) => {
 		const config = {
 			method: 'GET',
 			url: `${routeUrl}/becued/earning`,
-			headers: headers
+			headers: myHeader()
 		};
 
 		const result = await axios(config);
@@ -57,7 +54,7 @@ const becuedEscrow = async (req, res) => {
 		const config = {
 			method: 'GET',
 			url: `${routeUrl}/becued/escrow`,
-			headers: headers
+			headers: myHeader()
 		};
 
 		const result = await axios(config);
@@ -79,7 +76,7 @@ const becuedTransxHistory = async (req, res) => {
 		const config = {
 			method: 'GET',
 			url: `${routeUrl}/becued/transaction-history`,
-			headers: headers
+			headers: myHeader()
 		};
 
 		const result = await axios(config);
@@ -95,5 +92,13 @@ const becuedTransxHistory = async (req, res) => {
 		}
 	}
 };
+
+function myHeader() {
+	var headers = {
+		Authorization: `Bearer ${localStorage.token}`
+	};
+
+	return headers;
+}
 
 module.exports = { celebrityEarning, becuedEarnings, becuedEscrow, becuedTransxHistory };

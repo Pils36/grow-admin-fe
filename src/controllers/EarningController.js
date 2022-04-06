@@ -17,6 +17,8 @@ const celebrityEarning = async (req, res) => {
 			headers: headers
 		};
 
+		res.send(config);
+
 		const result = await axios(config);
 
 		const data = result.data;

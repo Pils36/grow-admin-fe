@@ -49,7 +49,11 @@ const adminLogout = async (req, res) => {
 	try {
 		localStorage.clear();
 
-		res.render('./pages/auth/login');
+		res.status(200).json({
+			data: true,
+			token: null,
+			message: 'Success'
+		});
 	} catch (error) {
 		res.status(401).json({
 			data: [],

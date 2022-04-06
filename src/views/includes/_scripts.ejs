@@ -129,7 +129,7 @@
     }
 
     // Logout
-    function logout() {
+    async function logout() {
         localStorage.clear();
 
         data = {};
@@ -141,6 +141,8 @@
             url: route,
             data: data
         };
+
+        const response = await axios(config);
 
 
         setTimeout(() => {

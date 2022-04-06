@@ -1,7 +1,9 @@
 const axios = require('axios');
 
-const LocalStorage = require('node-localstorage').LocalStorage,
+if (typeof localStorage === 'undefined' || localStorage === null) {
+	const LocalStorage = require('node-localstorage').LocalStorage;
 	localStorage = new LocalStorage('./scratch');
+}
 
 const headers = {
 	Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -17,7 +19,7 @@ const celebrityEarning = async (req, res) => {
 			headers: headers
 		};
 
-		res.send(config);
+		// res.send(config);
 
 		const result = await axios(config);
 

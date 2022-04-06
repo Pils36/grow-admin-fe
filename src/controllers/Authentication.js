@@ -45,4 +45,17 @@ const loginAdmin = async (req, res) => {
 	}
 };
 
-module.exports = { login, register, loginAdmin };
+const adminLogout = async (req, res) => {
+	try {
+		localStorage.clear();
+
+		res.render('./pages/auth/login');
+	} catch (error) {
+		res.status(401).json({
+			data: [],
+			message: error.message
+		});
+	}
+};
+
+module.exports = { login, register, loginAdmin, adminLogout };

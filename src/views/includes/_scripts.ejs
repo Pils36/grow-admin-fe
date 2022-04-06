@@ -130,6 +130,18 @@
     // Logout
     function logout() {
         localStorage.clear();
+
+        data = {};
+        // route = `${baseUrl}/auth/login`;
+        route = `/auth/logout-admin`;
+        config = {
+            method: 'post',
+            headers: header,
+            url: route,
+            data: data
+        };
+
+
         setTimeout(() => {
             location.href = `/auth/login`;
         }, 1000);

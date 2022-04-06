@@ -1,9 +1,7 @@
 const axios = require('axios');
 
-if (typeof localStorage === 'undefined' || localStorage === null) {
-	const LocalStorage = require('node-localstorage').LocalStorage;
-	localStorage = new LocalStorage('./scratch');
-}
+const LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch');
 
 const headers = {
 	Authorization: `Bearer ${localStorage.getItem('token')}`

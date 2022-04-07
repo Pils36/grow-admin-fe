@@ -8,6 +8,7 @@ const {
 	becuedEscrow,
 	becuedTransxHistory
 } = require('../controllers/EarningController');
+const { withdrawlRequest, withdrawlProcessed } = require('../controllers/BankingController');
 
 router.get('/', (req, res) => {
 	res.render('./pages/home/index');
@@ -53,13 +54,9 @@ router.get('/addedcards', (req, res) => {
 	res.render('./pages/home/addedcards');
 });
 
-router.get('/withdrawalrequest', (req, res) => {
-	res.render('./pages/home/withdrawalrequest');
-});
+router.get('/withdrawalrequest', withdrawlRequest);
 
-router.get('/withdrawalprocessed', (req, res) => {
-	res.render('./pages/home/withdrawalprocessed');
-});
+router.get('/withdrawalprocessed', withdrawlProcessed);
 
 router.get('/waitlist', (req, res) => {
 	res.render('./pages/home/waitlist');

@@ -96,7 +96,8 @@
                             </div>
                             <div class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
-                                    <li class="nk-tb-action-hidden"><a href="javascript:void()"
+                                    <li class="nk-tb-action-hidden"><a href="javascript:void(0)"
+                                            onclick="moveToProcessed('<%= withdraw.info._id %>', 'pending')"
                                             class="btn btn-icon btn-trigger btn-tooltip" title="Move to Processed"
                                             data-toggle="dropdown">
                                             <em class="icon ni ni-truck"></em></a></li>
@@ -114,7 +115,8 @@
                                                             data-target="#bankdetail<%= withdraw.info._id %>"><em
                                                                 class="icon ni ni-eye"></em><span>Banking
                                                                 Details</span></a></li>
-                                                    <li><a href="javascript:void()"><em
+                                                    <li><a href="javascript:void(0)"
+                                                            onclick="moveToProcessed('<%= withdraw.info._id %>', 'pending')"><em
                                                                 class="icon ni ni-truck"></em><span>Move to
                                                                 Processed</span></a></li>
 

@@ -15446,4 +15446,10 @@ body.dark-mode.ui-shady, body.dark-mode.ui-clean, body.dark-mode.bg-lighter, .du
 
 @media (max-width: 576px) { .dark-mode .nk-block-tools-toggle .toggle-expand-content { background-color: #212d3d; } }
 
+
+.user-avatar img {
+    width: inherit;
+    height: inherit;
+}
+
 /*! END @iO */

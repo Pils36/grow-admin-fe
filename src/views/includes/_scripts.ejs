@@ -259,7 +259,9 @@
     async function autoRedirect() {
         const validLogin = await isLoggedIn();
 
-        if (location.pathname !== '/auth/register') {
+        if (location.pathname !== '/auth/register' && location.pathname !== '/auth/forgot-password' && location
+            .pathname !==
+            '/auth/reset-password') {
             if (!validLogin && location.pathname !== '/auth/login') redirect('/auth/login');
         }
 

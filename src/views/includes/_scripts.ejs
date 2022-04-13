@@ -13,7 +13,7 @@
     var data, config, response, route;
 
     var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
-    // var baseUrl = `http://localhost:8080/api/v2/admin`;
+    // var baseUrl = `http://localhost:8000/api/v2/admin`;
     var defaultAvatarUrl =
         `https://res.cloudinary.com/becued-technologies/image/upload/v1642027179/becued/assets/avatar_umteho.png`;
     var timeout = 3000;
@@ -129,6 +129,97 @@
             }
         }
     }
+
+
+    // Forgot Password...
+    async function passwordReset() {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            data = new FormData(formElem);
+            route = `/auth/forgotpassword`;
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: data
+            };
+
+            const response = await axios(config);
+
+            document.querySelector('form').reset();
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            messageAlert(`<h5>Success!</h5>
+             <p>${response.data.message}</p>`, `success`);
+
+        } catch (error) {
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+         <p>${error.response.data.message}</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+         <p>${error.message}</p>`, `error`);
+            }
+        }
+    }
+
+
+
+    // Reset Password
+    async function resetPassword() {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            data = new FormData(formElem);
+            route = `/auth/resetpassword`;
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: data
+            };
+
+            const response = await axios(config);
+
+            document.querySelector('form').reset();
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            messageAlert(`<h5>Success!</h5>
+        <p>${response.data.message}</p>`, `success`);
+
+
+            setTimeout(() => {
+                location.href = `/auth/login`;
+            }, 2000);
+
+        } catch (error) {
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+        }
+    }
+
 
     // Logout
     async function logout() {

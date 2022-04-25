@@ -671,7 +671,8 @@
                         </div>
                     </div>
                     <div class="nk-tb-col">
-                        <a href="javascript:void()">
+                        <a href="javascript:void(0)" class="" data-toggle="modal"
+                            data-target="#modalDefault${element._id}">
                             <div class="user-card">
                                 <div class="user-avatar bg-primary">
                                     <span>${(element.name.charAt(0) +
@@ -714,7 +715,7 @@
                                         data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <ul class="link-list-opt no-bdr">
-                                            <li><a href="javascript:void()" class="" data-toggle="modal"
+                                            <li><a href="javascript:void(0)" class="" data-toggle="modal"
                                                     data-target="#modalDefault${element._id}"><em
                                                         class="icon ni ni-eye"></em><span>Quick view</span></a></li>
                                             <li><a href="javascript:void(0)"
@@ -784,7 +785,7 @@
                 `;
             }
 
-            $("#allWaitlist").append(`<div class="nk-tb-item nk-tb-head">
+            $("#allWaitlist").append(`<div class="nk-tb-item nk-tb-head" id="tblData">
                 <div class="nk-tb-col nk-tb-col-check">
                     <div class="custom-control custom-control-sm custom-checkbox notext">
                         <input type="checkbox" class="custom-control-input" id="uid">
@@ -816,7 +817,7 @@
                     </ul>
                 </div>
             </div>${waitNewHtml}
-            </div>`);
+            </div> `);
 
 
 
@@ -3674,6 +3675,13 @@
     }
 
 
+    function sendGeneralMail() {
+
+        $('.generalmessageModal').click();
+
+    }
+
+
     function accountState(value, id) {
 
         $('._statusid').val(id);
@@ -3718,6 +3726,54 @@
 
 
             $('#modalElem')[0].reset();
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+
+
+        } catch (error) {
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+
+    async function processGeneralAlert() {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            var value = $('#value').val();
+            var formData = new FormData(generalmodalElem);
+
+
+            route = `${baseUrl}/becued/generalmessaging`;
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            $('#generalmodalElem')[0].reset();
 
             messageAlert(`<h5>${response.statusText}</h5>
             <p>${response.data.message}.</p>`, `success`);

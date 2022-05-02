@@ -3726,6 +3726,7 @@
 
 
             $('#modalElem')[0].reset();
+            $('.summernote-basic').summernote('reset');
 
             messageAlert(`<h5>${response.statusText}</h5>
             <p>${response.data.message}.</p>`, `success`);
@@ -3774,6 +3775,7 @@
 
 
             $('#generalmodalElem')[0].reset();
+            $('.summernote-basic').summernote('reset');
 
             messageAlert(`<h5>${response.statusText}</h5>
             <p>${response.data.message}.</p>`, `success`);

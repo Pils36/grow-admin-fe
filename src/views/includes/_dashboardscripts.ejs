@@ -3800,6 +3800,123 @@
 
 
 
+
+    async function processSetup() {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            var value = $('#value').val();
+            var formData = new FormData(pricemodalElem);
+
+
+            route = `${baseUrl}/becued/setup-pricing`;
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            $('#pricemodalElem')[0].reset();
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+
+            setTimeout(() => {
+                location.reload()
+            }, 2000);
+
+
+
+        } catch (error) {
+
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+
+
+    async function updateSetup(_id) {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            var value = $('#value').val();
+            var formData = new FormData();
+
+            formData.append('referenceName', $('#referenceName' + _id).val());
+            formData.append('appleId', $('#appleId' + _id).val());
+            formData.append('productId', $('#productId' + _id).val());
+            formData.append('amount', $('#amount' + _id).val());
+
+
+            route = `${baseUrl}/becued/setup-pricing`;
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            $('#pricemodalElem' + _id)[0].reset();
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+
+            setTimeout(() => {
+                location.reload()
+            }, 2000);
+
+
+
+        } catch (error) {
+
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+
+
     async function processStatus() {
         try {
 
@@ -3959,6 +4076,55 @@
                         } else {
                             messageAlert(`<h5>Oops!</h5>
                     <p>${error.message}</p>`, `error`);
+                        }
+                    });
+
+
+                }
+            });
+    }
+
+
+    function deletePrice(_id) {
+
+        var thisdata = {
+            _id
+        }
+
+        swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to retrieve",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+
+
+                    var config = {
+                        method: "DELETE",
+                        url: `${baseUrl}/becued/delete-price`,
+                        headers: header,
+                        data: thisdata
+
+                    }
+
+                    const response = axios(config).then((result) => {
+                        messageAlert(`<h5>${result.statusText}</h5>
+                        <p>${result.data.message}.</p>`, `success`);
+
+                        setTimeout(() => {
+                            location.reload()
+                        }, 2000);
+
+                    }).catch((error) => {
+                        if (error.response) {
+                            messageAlert(`<h5>${error.response.statusText}</h5>
+                            <p>${error.response.data.message}.</p>`, `error`);
+                        } else {
+                            messageAlert(`<h5>Oops!</h5>
+                            <p>${error.message}</p>`, `error`);
                         }
                     });
 

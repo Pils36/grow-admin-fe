@@ -6,7 +6,8 @@ const {
 	celebrityEarning,
 	becuedEarnings,
 	becuedEscrow,
-	becuedTransxHistory
+	becuedTransxHistory,
+	setupPricing
 } = require('../controllers/EarningController');
 const { withdrawlRequest, withdrawlProcessed } = require('../controllers/BankingController');
 
@@ -61,6 +62,8 @@ router.get('/withdrawalrequest', withdrawlRequest);
 router.get('/withdrawalprocessed', withdrawlProcessed);
 
 router.get('/sentmessages', getAllSentMessages);
+
+router.get('/pricing-list', setupPricing);
 
 router.get('/waitlist', (req, res) => {
 	res.render('./pages/home/waitlist');

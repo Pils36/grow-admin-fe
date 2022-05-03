@@ -12,6 +12,12 @@
     With Form</button>
 
 
+
+<button type="button" class="btn btn-primary pricingSetup disp-0" data-toggle="modal"
+    data-target="#pricingSetupForm">Modal
+    With Form</button>
+
+
 <div class="modal fade" tabindex="-1" id="modalForm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -224,6 +230,80 @@
                         <button type="button" class="btn btn-lg btn-primary submitBtn"
                             onclick="processGeneralAlert()">Send
                             Message</button>
+
+                        <button class="btn btn-primary btn-lg btn-block spinload disp-0" type="button" disabled>
+                            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                            <span> Loading... </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <span class="sub-text">Becued - 2022</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Setup Pricing -->
+
+<div class="modal fade" tabindex="-1" id="pricingSetupForm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Setup Price</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="#" class="form-validate is-alter" id="pricemodalElem">
+                    <div class="form-group">
+                        <label class="form-label" for="referenceName">Reference Name</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="referenceName" name="referenceName" required>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="form-label" for="appleId">Apple ID</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="appleId" name="appleId" required>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="productId">Product ID</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="productId" name="productId" required>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="amount">Amount</label>
+                        <div class="form-control-wrap">
+                            <input type="number" min="1" step="1.00" class="form-control" id="amount" name="amount"
+                                required>
+
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-lg btn-primary submitBtn"
+                            onclick="processSetup()">Submit</button>
 
                         <button class="btn btn-primary btn-lg btn-block spinload disp-0" type="button" disabled>
                             <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>

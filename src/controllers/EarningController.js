@@ -93,6 +93,28 @@ const becuedTransxHistory = async (req, res) => {
 	}
 };
 
+const setupPricing = async (req, res) => {
+	try {
+		const config = {
+			method: 'GET',
+			url: `${routeUrl}/becued/pricing-list`,
+			headers: myHeader()
+		};
+
+		const result = await axios(config);
+
+		const data = result.data;
+
+		res.render('./pages/home/pricing-list', data);
+	} catch (error) {
+		if (error.response) {
+			res.render('./pages/error/400', { error: error.response.data.message });
+		} else {
+			res.render('./pages/error/400', { error: error.message });
+		}
+	}
+};
+
 function myHeader() {
 	var headers = {
 		Authorization: `Bearer ${localStorage.token}`
@@ -101,4 +123,4 @@ function myHeader() {
 	return headers;
 }
 
-module.exports = { celebrityEarning, becuedEarnings, becuedEscrow, becuedTransxHistory };
+module.exports = { celebrityEarning, becuedEarnings, becuedEscrow, becuedTransxHistory, setupPricing };

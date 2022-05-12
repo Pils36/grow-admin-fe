@@ -1,0 +1,255 @@
+<%- include('../../includes/_top.ejs') %>
+<%- include('../../includes/_aside.ejs') %>
+<%- include('../../includes/_header.ejs') %>
+
+
+<!-- content @s -->
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Industry & Category List</h3>
+                        </div><!-- .nk-block-head-content -->
+
+
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1"
+                                    data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+
+                                        <li>
+                                            <div>
+                                                <a href="javascript:void(0)" data-toggle="modal"
+                                                    data-target="#categoryForm" class="btn btn-primary"
+                                                    data-toggle="dropdown">Add Category <em
+                                                        class="icon ni ni-plus-sm"></em></a>
+
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right">
+                                                    <em class="icon ni ni-search"></em>
+                                                </div>
+                                                <input type="text" class="form-control" id="default-04"
+                                                    placeholder="Quick search by id">
+                                            </div>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="nk-tb-list is-separate is-medium mb-3">
+
+
+                        <div class="nk-tb-item nk-tb-head">
+
+                            <div class="nk-tb-col"><span>S/N</span></div>
+                            <div class="nk-tb-col tb-col-sm"><span>Category Image</span></div>
+                            <div class="nk-tb-col"><span>Category Name</span></div>
+                            <div class="nk-tb-col nk-tb-col-tools">
+                                <ul class="nk-tb-actions gx-1 my-n1">
+                                    <li>
+                                        <div class="drodown">
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div><!-- .nk-tb-item -->
+
+
+                        <% if(data.length > 0){ %>
+
+                        <% if(data[0].industries.length > 0) { %>
+                        <% var i = 1; %>
+                        <% data[0].industries.forEach( category => { %>
+
+                        <div class="nk-tb-item">
+
+                            <div class="nk-tb-col">
+                                <span class="tb-lead"><a href="javascript:void()"><%= i++ %></a></span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                                <div class="user-avatar" style="width: 70px; height: 70px; border-radius: 10px;">
+                                    <img src="<%= category.image %>" alt="<%= category.name %>" />
+                                </div>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                                <span class="tb-sub"><%= category.name %></span>
+                            </div>
+
+
+
+                            <div class="nk-tb-col nk-tb-col-tools">
+                                <ul class="nk-tb-actions gx-1">
+
+                                    <li>
+                                        <div class="drodown mr-n1">
+                                            <a href="javascript:void()" class="dropdown-toggle btn btn-icon btn-trigger"
+                                                data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="javascript:void(0)" data-toggle="modal"
+                                                            data-target="#categoryEditForm<%= category.name.replace(/\s+/g, '').replace('&', '') %>"><em
+                                                                class="icon ni ni-edit"></em><span>Edit</span></a>
+                                                    </li>
+                                                    <li><a href="javascript:void(0)"
+                                                            onclick="deleteCategory('<%= category.name %>')"><em
+                                                                class="icon ni ni-trash"></em><span>Delete</span></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="modal fade" tabindex="-1"
+                            id="categoryEditForm<%= category.name.replace(/\s+/g, '').replace('&', '') %>">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Update Category</h5>
+                                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                                            <em class="icon ni ni-cross"></em>
+                                        </a>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="#" class="form-validate is-alter"
+                                            id="categorymodalElem<%= category.name.replace(/\s+/g, '').replace('&', '') %>">
+                                            <div class="form-group">
+                                                <label class="form-label" for="categoryName">Name</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control"
+                                                        id="categoryName<%= category.name.replace(/\s+/g, '').replace('&', '') %>"
+                                                        name="name" value="<%= category.name %>" required>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="customFileLabel">Category Image
+                                                    Upload</label>
+                                                <div class="form-control-wrap">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input"
+                                                            id="customFile<%= category.name.replace(/\s+/g, '').replace('&', '') %>"
+                                                            name="image">
+                                                        <label class="custom-file-label" for="customFile">Choose
+                                                            file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-lg btn-primary submitBtn"
+                                                    onclick="updateCategory('<%= category.name %>')">Submit</button>
+
+                                                <button class="btn btn-primary btn-lg btn-block spinload disp-0"
+                                                    type="button" disabled>
+                                                    <span class="spinner-grow spinner-grow-sm" role="status"
+                                                        aria-hidden="true"></span>
+                                                    <span> Loading... </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer bg-light">
+                                        <span class="sub-text">Becued - 2022</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <%  }); %>
+
+
+                        <% } else { %>
+
+                        <div class="nk-tb-item">
+
+                            <div class="nk-tb-col">
+                                <span class="tb-lead"><a href="javascript:void()">#</a></span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                                <span class="tb-sub">#</span>
+                            </div>
+
+                            <div class="nk-tb-col tb-col-sm">
+                                <span class="tb-sub">#</span>
+                            </div>
+                            <div class="nk-tb-col tb-col-sm">
+                                <span class="tb-sub">#</span>
+                            </div>
+
+
+                        </div>
+
+                        <% } %>
+
+                        <% } else { %>
+                        <div class="nk-tb-item">
+
+                            <div class="nk-tb-col">
+                                <span class="tb-lead"><a href="javascript:void()">#</a></span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                                <span class="tb-sub">#</span>
+                            </div>
+
+                            <div class="nk-tb-col tb-col-sm">
+                                <span class="tb-sub">#</span>
+                            </div>
+                            <div class="nk-tb-col tb-col-sm">
+                                <span class="tb-sub">#</span>
+                            </div>
+
+
+                        </div>
+                        <% } %>
+
+
+
+
+
+
+
+
+                    </div><!-- .nk-tb-list -->
+
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+
+<%- include('../../includes/_footer.ejs') %>
+<%- include('../../includes/_bottom.ejs') %>

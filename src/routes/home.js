@@ -13,6 +13,8 @@ const { withdrawlRequest, withdrawlProcessed } = require('../controllers/Banking
 
 const { getAllSentMessages } = require('../controllers/MessagingController');
 
+const { getIndustryList, frequentlyAskedQuestions } = require('../controllers/GeneralController');
+
 router.get('/', (req, res) => {
 	res.render('./pages/home/index');
 });
@@ -64,6 +66,10 @@ router.get('/withdrawalprocessed', withdrawlProcessed);
 router.get('/sentmessages', getAllSentMessages);
 
 router.get('/pricing-list', setupPricing);
+
+router.get('/category-list', getIndustryList);
+
+router.get('/faq', frequentlyAskedQuestions);
 
 router.get('/waitlist', (req, res) => {
 	res.render('./pages/home/waitlist');

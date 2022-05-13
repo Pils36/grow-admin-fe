@@ -31,7 +31,7 @@ const frequentlyAskedQuestions = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/get-industry`,
+			url: `${routeUrl}/becued/get-faq`,
 			headers: myHeader()
 		};
 
@@ -39,7 +39,7 @@ const frequentlyAskedQuestions = async (req, res) => {
 
 		const data = result.data;
 
-		res.render('./pages/home/category-list', data);
+		res.render('./pages/home/faq', data);
 	} catch (error) {
 		if (error.response) {
 			res.render('./pages/error/400', { error: error.response.data.message });

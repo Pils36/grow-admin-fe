@@ -345,7 +345,9 @@
 
 
 
-                                        <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove</span></a>
+                                        <li><a href="javascript:void(0)"
+                                                onclick="remove('celebaccount', '${element._id}')"><em
+                                                    class="icon ni ni-trash"></em><span>Remove</span></a>
                                         </li>
 
 
@@ -548,7 +550,9 @@
                                         
 
 
-                                        <li><a href="javascript:void()"><em class="icon ni ni-trash"></em><span>Remove</span></a>
+                                        <li><a href="javascript:void(0)"
+                                                onclick="remove('fanaccount', '${element._id}')"><em
+                                                    class="icon ni ni-trash"></em><span>Remove</span></a>
                                         </li>
 
 
@@ -3854,6 +3858,9 @@
         }
     }
 
+
+
+
     async function addCategory() {
         try {
 
@@ -4041,58 +4048,62 @@
     }
 
 
-    async function activateaccountState(val, id) {
-        try {
-
-            var thisdata = {
-                _id: id,
-                accountStatus: 'Active'
-            }
-
-
-            if (val == 'fanaccount') {
-                route = `${baseUrl}/becued/fan-account-state`;
-            } else {
-                route = `${baseUrl}/becued/celebrity-account-state`;
-            }
-
-
-
-            config = {
-                method: 'post',
-                headers: header,
-                url: route,
-                data: thisdata
-            };
-
-            response = await axios(config);
+    function activateaccountState(val, id) {
+        swal({
+                title: "Are you sure?",
+                text: "Click on OK to proceed...",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    var thisdata = {
+                        _id: id,
+                        accountStatus: 'Active'
+                    }
 
 
-            messageAlert(`<h5>${response.statusText}</h5>
-            <p>${response.data.message}.</p>`, `success`);
+                    if (val == 'fanaccount') {
+                        route = `${baseUrl}/becued/fan-account-state`;
+                    } else {
+                        route = `${baseUrl}/becued/celebrity-account-state`;
+                    }
 
+                    messageAlert(`<h5>Processing...</h5>
+                    <p>Please wait...</p>`, `info`);
 
-            setTimeout(() => {
-                location.reload()
-            }, 2000)
+                    config = {
+                        method: 'post',
+                        headers: header,
+                        url: route,
+                        data: thisdata
+                    };
 
+                    response = axios(config).then((result) => {
+                        messageAlert(`<h5>${response.statusText}</h5>
+                        <p>${response.data.message}.</p>`, `success`);
 
+                        setTimeout(() => {
+                            location.reload()
+                        }, 1000);
 
-        } catch (error) {
+                    }).catch((error) => {
+                        $('.submitBtn').removeClass('disp-0');
+                        $('.spinload').addClass('disp-0');
 
-            $('.submitBtn').removeClass('disp-0');
-            $('.spinload').addClass('disp-0');
-
-            if (error.response) {
-                messageAlert(`<h5>${error.response.statusText}</h5>
-        <p>${error.response.data.message}.</p>`, `error`);
-            } else {
-                messageAlert(`<h5>Oops!</h5>
-        <p>${error.message}</p>`, `error`);
-            }
-
-        }
+                        if (error.response) {
+                            messageAlert(`<h5>${error.response.statusText}</h5>
+                        <p>${error.response.data.message}.</p>`, `error`);
+                        } else {
+                            messageAlert(`<h5>Oops!</h5>
+                        <p>${error.message}</p>`, `error`);
+                        }
+                    });
+                }
+            });
     }
+
 
 
     function moveToProcessed(_id, val) {
@@ -4296,6 +4307,264 @@
                     });
 
 
+                }
+            });
+    }
+
+    async function addCategory() {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            var formData = new FormData();
+
+            formData.append('name', $('#categoryName').val());
+
+
+            var fileSelect = document.getElementById(`customFile`);
+
+
+            if (fileSelect.files && fileSelect.files.length > 0) {
+                var file = fileSelect.files[0]
+                formData.set("image", file, file.name);
+            }
+
+
+            route = `${baseUrl}/becued/setup-category`;
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            $('#categorymodalElem')[0].reset();
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+
+            setTimeout(() => {
+                location.reload()
+            }, 2000);
+
+
+
+        } catch (error) {
+
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+    async function addFaq() {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            var formData = new FormData(faqmodalElem);
+
+
+            route = `${baseUrl}/becued/setup-faq`;
+            config = {
+                method: 'post',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            $('#faqmodalElem')[0].reset();
+            $('.summernote-basic').summernote('reset');
+
+            messageAlert(`<h5>${response.statusText}</h5>
+ <p>${response.data.message}.</p>`, `success`);
+
+
+            setTimeout(() => {
+                location.reload()
+            }, 1000);
+
+
+
+        } catch (error) {
+
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+ <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+ <p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+
+    async function updateFaq(_id) {
+        try {
+
+            $('.submitBtn').addClass('disp-0');
+            $('.spinload').removeClass('disp-0');
+
+            var formData = new FormData();
+
+            formData.append('_id', _id);
+            formData.append('question', $('#faqQuestion' + _id).val());
+            formData.append('answer', $('#faqAnswer' + _id).val());
+
+
+            route = `${baseUrl}/becued/update-faq`;
+            config = {
+                method: 'put',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+
+            $('#faqmodalElem' + _id)[0].reset();
+            $('.summernote-basic').summernote('reset');
+
+            messageAlert(`<h5>${response.statusText}</h5>
+<p>${response.data.message}.</p>`, `success`);
+
+
+            setTimeout(() => {
+                location.reload()
+            }, 1000);
+
+
+
+        } catch (error) {
+
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+<p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+<p>${error.message}</p>`, `error`);
+            }
+
+        }
+    }
+
+    function deleteFaq(_id) {
+
+        swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to retrieve",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+
+
+                    var config = {
+                        method: "delete",
+                        url: `${baseUrl}/becued/delete-faq/${_id}`,
+                        headers: header,
+
+                    }
+
+                    const response = axios(config).then((result) => {
+                        messageAlert(`<h5>${result.statusText}</h5>
+<p>${result.data.message}.</p>`, `success`);
+
+                        setTimeout(() => {
+                            location.reload()
+                        }, 1000);
+
+                    }).catch((error) => {
+                        if (error.response) {
+                            messageAlert(`<h5>${error.response.statusText}</h5>
+<p>${error.response.data.message}.</p>`, `error`);
+                        } else {
+                            messageAlert(`<h5>Oops!</h5>
+<p>${error.message}</p>`, `error`);
+                        }
+                    });
+
+
+                }
+            });
+    }
+
+
+    function remove(account, _id) {
+        swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this account!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    var config = {
+                        method: "delete",
+                        url: `${baseUrl}/becued/delete-account/${_id}?account=${account}`,
+                        headers: header,
+
+                    }
+
+                    response = axios(config).then((result) => {
+
+                        messageAlert(`<h5>${result.statusText}</h5>
+                         <p>${result.data.message}.</p>`, `success`);
+
+                        setTimeout(() => {
+                            location.reload()
+                        }, 1000);
+
+                    }).catch((error) => {
+                        if (error.response) {
+                            messageAlert(`<h5>${error.response.statusText}</h5>
+                        <p>${error.response.data.message}.</p>`, `error`);
+                        } else {
+                            messageAlert(`<h5>Oops!</h5>
+                        <p>${error.message}</p>`, `error`);
+                        }
+                    })
                 }
             });
     }

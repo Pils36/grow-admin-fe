@@ -57,7 +57,7 @@
                         <tr>
                             <td><%= i++ %> </td>
                             <td><%= record.subject %> </td>
-                            <td><%= record.message %> </td>
+                            <td><%- record.message %> </td>
                             <td><%= record.name %> </td>
                             <td><%= new Date(record.created_at).toLocaleString('en-GB', {
         weekday: 'long',

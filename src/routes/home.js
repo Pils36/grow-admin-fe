@@ -13,7 +13,7 @@ const { withdrawlRequest, withdrawlProcessed } = require('../controllers/Banking
 
 const { getAllSentMessages } = require('../controllers/MessagingController');
 
-const { getIndustryList, frequentlyAskedQuestions } = require('../controllers/GeneralController');
+const { getIndustryList, frequentlyAskedQuestions, celebrityProfileInformation } = require('../controllers/GeneralController');
 
 router.get('/', (req, res) => {
 	res.render('./pages/home/index');
@@ -99,12 +99,18 @@ router.get('/celebsprofile', (req, res) => {
 	res.render('./pages/home/celebprofile');
 });
 
+router.get('/profile-edit', celebrityProfileInformation);
+
 router.get('/celebstransactionhistory', (req, res) => {
 	res.render('./pages/home/celebtransactionhistory');
 });
 
 router.get('/celebsaccountactivity', (req, res) => {
 	res.render('./pages/home/celebactivitylog');
+});
+
+router.post('/uploadfile', (req, res) => {
+	console.log(req);
 });
 
 module.exports = router;

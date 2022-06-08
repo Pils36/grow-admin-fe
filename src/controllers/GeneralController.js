@@ -57,4 +57,30 @@ function myHeader() {
 	return headers;
 }
 
-module.exports = { getIndustryList, frequentlyAskedQuestions };
+const celebrityProfileInformation = async (req, res) => {
+	try {
+
+		var _id = req.url.split("=")[1];
+
+		const config = {
+			method: 'GET',
+			url: `${routeUrl}/becued/get-celeb-profile/${_id}`,
+			headers: myHeader()
+		};
+
+		const result = await axios(config);
+
+		const data = result.data;
+
+		res.render('./pages/home/celebprofileedit', data);
+
+	} catch (error) {
+		if (error.response) {
+			res.render('./pages/error/400', { error: error.response.data.message });
+		} else {
+			res.render('./pages/error/400', { error: error.message });
+		}
+	}
+}
+
+module.exports = { getIndustryList, frequentlyAskedQuestions, celebrityProfileInformation };

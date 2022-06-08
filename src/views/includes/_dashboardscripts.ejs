@@ -2956,6 +2956,7 @@
                            
                             
                         </div>
+                        <a href="/dashboard/profile-edit?celeb=${user._id}" class="btn btn-primary btn-block">Update details</a>
                     </div>
                 </div>
 
@@ -3013,8 +3014,12 @@
                                             Activity</span></a></li>
                                 
                             </ul>
+                            
                         </div>
+                        
                     </div>
+
+                    
                 </div>`;
 
 
@@ -4567,5 +4572,169 @@
                     })
                 }
             });
+    }
+
+
+    async function updateProfile(action, id) {
+
+        try {
+
+            $('.profilesubmitBtn').addClass('disp-0');
+            $('.profilespinload').removeClass('disp-0');
+
+            var formData = new FormData(profileUpdate);
+
+            if (action == 'celeb') {
+                route = `${baseUrl}/becued/celebprofileupdate/${id}`;
+
+            } else {
+                route = `${baseUrl}/becued/fanprofileupdate/${id}`;
+
+            }
+
+            config = {
+                method: 'put',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+            $('.profilesubmitBtn').removeClass('disp-0');
+            $('.profilespinload').addClass('disp-0');
+
+            setTimeout(() => {
+                location.reload()
+            }, 2000);
+
+
+        } catch (error) {
+
+            $('.profilesubmitBtn').removeClass('disp-0');
+            $('.profilespinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+
+    }
+
+
+    async function updateIndustry(action, id) {
+
+        try {
+
+            $('.industrysubmitBtn').addClass('disp-0');
+            $('.industryspinload').removeClass('disp-0');
+
+            var formData = new FormData(industryUpdate);
+
+            if (action == 'celeb') {
+                route = `${baseUrl}/becued/celebindustryupdate/${id}`;
+
+            } else {
+                route = `${baseUrl}/becued/fanindustryupdate/${id}`;
+
+            }
+
+            config = {
+                method: 'put',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+            $('.industrysubmitBtn').removeClass('disp-0');
+            $('.industryspinload').addClass('disp-0');
+
+            setTimeout(() => {
+                location.reload()
+            }, 2000);
+
+
+        } catch (error) {
+
+            $('.industrysubmitBtn').removeClass('disp-0');
+            $('.industryspinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+
+    }
+
+    async function updatePricing(action, id) {
+
+        try {
+
+            $('.pricingsubmitBtn').addClass('disp-0');
+            $('.pricingspinload').removeClass('disp-0');
+
+            var formData = new FormData(pricingUpdate);
+
+            if (action == 'celeb') {
+                route = `${baseUrl}/becued/celebpricingupdate/${id}`;
+
+            } else {
+                route = `${baseUrl}/becued/fanpricingupdate/${id}`;
+
+            }
+
+            config = {
+                method: 'put',
+                headers: header,
+                url: route,
+                data: formData
+            };
+
+            response = await axios(config);
+
+            messageAlert(`<h5>${response.statusText}</h5>
+            <p>${response.data.message}.</p>`, `success`);
+
+            $('.pricingsubmitBtn').removeClass('disp-0');
+            $('.pricingspinload').addClass('disp-0');
+
+            setTimeout(() => {
+                location.reload()
+            }, 2000);
+
+
+        } catch (error) {
+
+            $('.pricingsubmitBtn').removeClass('disp-0');
+            $('.pricingspinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+
     }
 </script>

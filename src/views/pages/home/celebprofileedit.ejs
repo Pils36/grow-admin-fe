@@ -1,0 +1,394 @@
+<%- include('../../includes/_top.ejs') %>
+<%- include('../../includes/_aside.ejs') %>
+<%- include('../../includes/_header.ejs') %>
+<!-- content @s -->
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="card">
+                        <div class="card-aside-wrap">
+                            <div class="card card-preview">
+                                <div class="card-inner">
+                                    <div class="preview-block">
+                                        <div class="user-card">
+                                            <div class="user-avatar">
+                                                <img src="<%= data.user.avatar %>" alt="">
+                                            </div>
+
+                                        </div>
+
+                                        <br>
+
+                                        <span class="preview-title-lg 
+                                        overline-title">Profile Details</span>
+                                        <form action="#" method="put" id="profileUpdate">
+                                            <div class="row gy-4">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="fullname">Fullname</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="form-icon form-icon-left">
+                                                                <em class="icon ni ni-user"></em>
+                                                            </div>
+                                                            <input name="fullname" type="text" class="form-control"
+                                                                id="fullname" placeholder="Fullname"
+                                                                value="<%= data.user.fullname %>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="usernam">Username</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="form-icon form-icon-left">
+                                                                <em class="icon ni ni-happy"></em>
+                                                            </div>
+                                                            <input name="username" type="text" class="form-control"
+                                                                id="username" placeholder="Username"
+                                                                value="<%= data.user.username %>" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="email">Email Address</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="form-icon form-icon-left">
+                                                                <em class="icon ni ni-mail"></em>
+                                                            </div>
+                                                            <input name="email" type="text" class="form-control"
+                                                                id="email" placeholder="Email Address"
+                                                                value="<%= data.user.email %>" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="avatar">Profile Picture
+
+                                                        </label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="custom-file">
+                                                                <input name="avatar" type="file"
+                                                                    class="custom-file-input" id="avatar">
+                                                                <label class="custom-file-label" for="avatar">Upload
+                                                                    avatar</label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="email">Telephone</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="form-icon form-icon-left">
+                                                                <em class="icon ni ni-mobile"></em>
+                                                            </div>
+                                                            <input name="phoneNumber" type="text" class="form-control"
+                                                                id="phoneNumber" value="<%= data.user.phoneNumber %>"
+                                                                placeholder="Telephone">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="socialHandle">Social
+                                                            Handle</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="form-icon form-icon-left">
+                                                                <em class="icon ni ni-cloud"></em>
+                                                            </div>
+                                                            <input name="socialHandle" type="text" class="form-control"
+                                                                id="socialHandle" value="<%= data.user.socialHandle %>"
+                                                                placeholder="<%= data.user.socialHandle != "" ? data.user.socialHandle : '@wizkidayo' %>">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Social Media</label>
+                                                        <div class="form-control-wrap">
+                                                            <select class="form-select" name="socialMedia">
+
+                                                                <option value="Twitter"
+                                                                    <%= data.user.socialMedia == "Twitter" ? 'selected' : '' %>>
+                                                                    Twitter</option>
+                                                                <option value="Instagram"
+                                                                    <%= data.user.socialMedia == "Instagram" ? 'selected' : '' %>>
+                                                                    Instagram</option>
+                                                                <option value="Facebook"
+                                                                    <%= data.user.socialMedia == "Facebook" ? 'selected' : '' %>>
+                                                                    Facebook</option>
+                                                                <option value="TikTok"
+                                                                    <%= data.user.socialMedia == "TikTok" ? 'selected' : '' %>>
+                                                                    TikTok</option>
+                                                                <option value="SnapChat"
+                                                                    <%= data.user.socialMedia == "SnapChat" ? 'selected' : '' %>>
+                                                                    SnapChat</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="stageName">Stage Name</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="form-icon form-icon-left">
+                                                                <em class="icon ni ni-cloud"></em>
+                                                            </div>
+                                                            <input name="stageName" type="text" class="form-control"
+                                                                id="stageName"
+                                                                value="<%= data.user.stageName != 'NULL' ? data.user.stageName : '' %>"
+                                                                placeholder="<%= data.user.stageName != 'NULL' ? data.user.stageName : 'Wizkid' %>">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="form-label"
+                                                            for="default-textarea">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <textarea name="description" class="form-control no-resize"
+                                                                id="description" placeholder="Brief
+                                                            description"><%= data.user.description %></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <a href="javascript:void(0)"
+                                                            onclick="updateProfile('celeb', '<%= data.user._id %>')"
+                                                            class="btn btn-primary btn-action
+                                                            profilesubmitBtn"><span>Update
+                                                                Profile</span><em class="icon ni ni-cc-secure"></em></a>
+
+                                                        <button class="btn btn-primary profilespinload disp-0"
+                                                            type="button" disabled>
+                                                            <span class="spinner-grow spinner-grow-sm" role="status"
+                                                                aria-hidden="true"></span>
+                                                            <span> Loading... </span>
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </form>
+                                        <hr class="preview-hr">
+                                        <span class="preview-title-lg overline-title">Industry Information</span>
+                                        <p class="text-danger">
+                                            Current Industries: <%= data.user.industry %>
+                                        </p>
+                                        <form action="#" methood="put" id="industryUpdate">
+                                            <div class="row gy-4">
+
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="form-label">List of Industries</label>
+                                                        <div class="form-control-wrap">
+                                                            <select name="industry" class="form-select"
+                                                                multiple="multiple"
+                                                                data-placeholder="Select Multiple Industries">
+
+                                                                <% if(data.industries.industries.length > 0) {%>
+
+                                                                <% data.industries.industries.forEach(record => { %>
+
+                                                                <option value="<%= record.name%>"><%= record.name%>
+                                                                </option>
+
+
+                                                                <% }); %>
+
+                                                                <% } %>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <a href="javascript:void(0)"
+                                                            onclick="updateIndustry('celeb', '<%= data.user._id %>')"
+                                                            class="btn btn-primary btn-action industrysubmitBtn"><span>Update
+                                                                Industry</span><em class="icon ni ni-bulb"></em></a>
+
+                                                        <button class="btn btn-primary industryspinload disp-0"
+                                                            type="button" disabled>
+                                                            <span class="spinner-grow spinner-grow-sm" role="status"
+                                                                aria-hidden="true"></span>
+                                                            <span> Loading... </span>
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                        <hr class="preview-hr">
+                                        <span class="preview-title-lg overline-title">Pricing Information</span>
+                                        <p class="text-danger">
+                                            Current Pricing: NGN
+                                            <%= data.user.priceInfo != false ? Number(data.pricing.bookingAmount).toFixed(2) : '0.00' %>
+
+                                            | <span class="text-primary">Booking Type:
+                                                <%= data.user.priceInfo != false ? data.pricing.bookingType : '' %></span>
+
+                                        </p>
+
+
+                                        <form action="#" method="put" id="pricingUpdate">
+                                            <div class="row gy-4">
+
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="bookingType">Booking
+                                                            Type</label>
+                                                        <div class="form-control-wrap">
+                                                            <select name="bookingType" class="form-select"
+                                                                data-placeholder="Select Booking Type">
+
+                                                                <option value="Free">
+                                                                    Free
+                                                                </option>
+                                                                <option value="Paid">
+                                                                    Paid
+                                                                </option>
+
+
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="bookingAmount">Booking
+                                                            Amount</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="form-icon form-icon-left">
+                                                                <em class="icon ni ni-cart"></em>
+                                                            </div>
+                                                            <input name="bookingAmount" type="number"
+                                                                class="form-control" id="bookingAmount"
+                                                                value="<%= data.user.priceInfo != false ? data.pricing.bookingAmount != null ? data.pricing.bookingAmount : '' : ''%>"
+                                                                placeholder="<%= data.user.priceInfo != false ? data.pricing.bookingAmount != null ? data.pricing.bookingAmount : '49999' : '0.00'%>">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Price ID</label>
+                                                        <div class="form-control-wrap">
+                                                            <select name="priceId" class="form-select"
+                                                                data-placeholder="Select Price">
+
+                                                                <% if(data.becuedPricing.length > 0) {%>
+
+                                                                <% data.becuedPricing.forEach(item => { %>
+
+                                                                <option value="<%= item.productId%>">
+                                                                    <%= item.productId+' - (NGN'+item.amount+')'%>
+                                                                </option>
+
+
+                                                                <% }); %>
+
+                                                                <% } %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <a href="javascript:void(0)"
+                                                            onclick="updatePricing('celeb', '<%= data.user._id %>')"
+                                                            class="btn btn-primary btn-action
+                                                            pricingsubmitBtn"><span>Update
+                                                                Pricing</span><em
+                                                                class="icon ni ni-cc-alt-fill"></em></a>
+
+                                                        <button class="btn btn-primary pricingspinload disp-0"
+                                                            type="button" disabled>
+                                                            <span class="spinner-grow spinner-grow-sm" role="status"
+                                                                aria-hidden="true"></span>
+                                                            <span> Loading... </span>
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                        <hr class="preview-hr">
+                                        <span class="preview-title-lg overline-title">Intro Video Information </span>
+                                        <div class="row gy-4 align-center">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <div class="upload-zone">
+                                                        <div class="dz-message" data-dz-message>
+                                                            <span class="dz-message-text">Drag and drop file</span>
+                                                            <span class="dz-message-or">or</span>
+                                                            <button class="btn btn-primary">SELECT</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <a href="javascript:void(0)"
+                                                        class="btn btn-primary btn-action"><span>Update
+                                                            Intro Video</span><em class="icon ni ni-video"></em></a>
+
+                                                    <button class="btn btn-primary introvideospinload disp-0"
+                                                        type="button" disabled>
+                                                        <span class="spinner-grow spinner-grow-sm" role="status"
+                                                            aria-hidden="true"></span>
+                                                        <span> Loading... </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card-preview -->
+
+                        </div><!-- .card-aside-wrap -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+<%- include('../../includes/_footer.ejs') %>
+<%- include('../../includes/_bottom.ejs') %>

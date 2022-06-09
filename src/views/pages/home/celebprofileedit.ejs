@@ -142,7 +142,7 @@
                                                 </div>
 
 
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="form-label" for="stageName">Stage Name</label>
                                                         <div class="form-control-wrap">
@@ -157,6 +157,21 @@
                                                     </div>
 
                                                 </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="stageRole">Stage Role</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="form-icon form-icon-left">
+                                                                <em class="icon ni ni-cloud"></em>
+                                                            </div>
+                                                            <input name="stageRole" type="text" class="form-control"
+                                                                id="stageRole"
+                                                                value="<%= data.user.stageRole != 'NULL' ? data.user.stageRole : '' %>"
+                                                                placeholder="<%= data.user.stageRole != 'NULL' ? data.user.stageRole : 'TV Host' %>">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
 
 
                                                 <div class="col-sm-12">
@@ -166,7 +181,7 @@
                                                         <div class="form-control-wrap">
                                                             <textarea name="description" class="form-control no-resize"
                                                                 id="description"
-                                                                placeholder="Briefdescription"><%= data.user.description %></textarea>
+                                                                placeholder="Brief description"><%= data.user.description %></textarea>
                                                         </div>
                                                     </div>
 
@@ -350,10 +365,17 @@
                                         </form>
                                         <hr class="preview-hr">
                                         <span class="preview-title-lg overline-title">Intro Video Information </span>
+
                                         <div class="row gy-4 align-center">
+
+
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <div class="upload-zone">
+
+                                                        <input type="hidden" name="_id" id="introId"
+                                                            value="<%= data.user._id %>">
+
                                                         <div class="dz-message" data-dz-message>
                                                             <span class="dz-message-text">Drag and drop file</span>
                                                             <span class="dz-message-or">or</span>
@@ -366,7 +388,8 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <a href="javascript:void(0)"
-                                                        class="btn btn-primary btn-action"><span>Update
+                                                        onclick="updateIntroVideo('celeb', '<%= data.user._id %>')"
+                                                        class="btn btn-primary btn-action introvideosubmitBtn"><span>Update
                                                             Intro Video</span><em class="icon ni ni-video"></em></a>
 
                                                     <button class="btn btn-primary introvideospinload disp-0"

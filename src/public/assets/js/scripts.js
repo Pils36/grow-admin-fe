@@ -1,5 +1,11 @@
 'use strict';
 
+var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
+// var baseUrl = `http://localhost:8000/api/v2/admin`;
+var header = {
+	'Authorization': 'Bearer ' + localStorage.getItem('token')
+};
+
 !(function (NioApp, $) {
 	'use strict';
 
@@ -428,16 +434,18 @@
 				var maxFiles = $(elm).data('max-files'),
 					maxFiles = maxFiles ? maxFiles : null;
 				var maxFileSize = $(elm).data('max-file-size'),
-					maxFileSize = maxFileSize ? maxFileSize : 256;
+					maxFileSize = maxFileSize ? maxFileSize : 1000000000000;
 				var acceptedFiles = $(elm).data('accepted-files'),
-					acceptedFiles = acceptedFiles ? acceptedFiles : null;
+					acceptedFiles = acceptedFiles ? acceptedFiles : ".mp4, .flv, .mov, .wmv, .avi, .mkv, .avchd, .webm, .mpeg-2";
 				var def = {
 					autoDiscover: false,
 					maxFiles: maxFiles,
 					maxFilesize: maxFileSize,
 					acceptedFiles: acceptedFiles,
 					addRemoveLinks: true,
-					autoQueue: false,
+					autoProcessQueue: false,
+					headers: header,
+					params: { 'id': $('#introId').val() }
 				},
 					attr = opt ? extend(def, opt) : def;
 				$(this).addClass('dropzone').dropzone(attr);
@@ -447,7 +455,7 @@
 
 	NioApp.Dropzone.init = function () {
 		NioApp.Dropzone('.upload-zone', {
-			url: '/dashboard/uploadfile'
+			url: `${baseUrl}/becued/celebintrovideoupdate/${$('#introId').val()}`
 		});
 	}; // Wizard @v1.0
 

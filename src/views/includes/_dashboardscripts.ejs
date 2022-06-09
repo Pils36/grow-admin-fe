@@ -4737,4 +4737,31 @@
         }
 
     }
+
+    async function updateIntroVideo(action, id) {
+
+        try {
+
+            $('.introvideosubmitBtn').addClass('disp-0');
+            $('.introvideospinload').removeClass('disp-0');
+
+
+        } catch (error) {
+
+
+
+            $('.introvideosubmitBtn').removeClass('disp-0');
+            $('.introvideospinload').addClass('disp-0');
+
+            if (error.response) {
+                messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}.</p>`, `error`);
+            } else {
+                messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+            }
+
+        }
+
+    }
 </script>

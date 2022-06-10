@@ -443,7 +443,6 @@ var header = {
 					maxFilesize: maxFileSize,
 					acceptedFiles: acceptedFiles,
 					addRemoveLinks: true,
-					autoProcessQueue: false,
 					headers: header,
 					params: { 'id': $('#introId').val() }
 				},
@@ -455,7 +454,31 @@ var header = {
 
 	NioApp.Dropzone.init = function () {
 		NioApp.Dropzone('.upload-zone', {
-			url: `${baseUrl}/becued/celebintrovideoupdate/${$('#introId').val()}`
+			url: `${baseUrl}/becued/celebintrovideoupdate/${$('#introId').val()}`,
+
+			complete: function (result) {
+
+				var response = JSON.parse(result.xhr.responseText).message;
+
+				if (result.status == "success") {
+
+					toastr.clear();
+					NioApp.Toast(`<h5>Great!</h5>
+            <p>${response}</p>`, `success`);
+
+
+					setTimeout(() => {
+						location.reload()
+					}, 2000);
+
+				}
+				else {
+					toastr.clear();
+					NioApp.Toast(`<h5>Oops!</h5>
+            <p>${response}</p>`, `error`);
+				}
+
+			}
 		});
 	}; // Wizard @v1.0
 

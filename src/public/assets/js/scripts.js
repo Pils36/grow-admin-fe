@@ -1,7 +1,7 @@
 'use strict';
 
-var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
-// var baseUrl = `http://localhost:8000/api/v2/admin`;
+// var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
+var baseUrl = `http://localhost:8000/api/v2/admin`;
 var header = {
 	'Authorization': 'Bearer ' + localStorage.getItem('token')
 };

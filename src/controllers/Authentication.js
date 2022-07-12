@@ -30,7 +30,7 @@ const loginAdmin = async (req, res) => {
 
 		const response = await axios({
 			method: 'POST',
-			url: `${process.env.APP_ENV == 'local'
+			url: `${process.env.NODE_ENV == 'local'
 				? process.env.ENDPOINT_URL_DEV
 				: process.env.ENDPOINT_URL_PROD}/auth/login`,
 			headers: headers,
@@ -77,7 +77,7 @@ const postForgotPassword = async (req, res) => {
 
 		const response = await axios({
 			method: 'POST',
-			url: `${process.env.APP_ENV == 'local'
+			url: `${process.env.NODE_ENV == 'local'
 				? process.env.ENDPOINT_URL_DEV
 				: process.env.ENDPOINT_URL_PROD}/auth/forgot-password`,
 			headers: headers,
@@ -110,7 +110,7 @@ const postResetPassword = async (req, res) => {
 
 		const response = await axios({
 			method: 'POST',
-			url: `${process.env.APP_ENV == 'local'
+			url: `${process.env.NODE_ENV == 'local'
 				? process.env.ENDPOINT_URL_DEV
 				: process.env.ENDPOINT_URL_PROD}/auth/reset-password`,
 			headers: headers,

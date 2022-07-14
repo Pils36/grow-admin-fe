@@ -9,7 +9,7 @@ const celebrityEarning = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/earning`,
+			url: `${routeUrl}/earning`,
 			headers: myHeader()
 		};
 
@@ -27,11 +27,11 @@ const celebrityEarning = async (req, res) => {
 	}
 };
 
-const becuedEarnings = async (req, res) => {
+const growngEarnings = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/earning`,
+			url: `${routeUrl}/earning`,
 			headers: myHeader()
 		};
 
@@ -39,7 +39,7 @@ const becuedEarnings = async (req, res) => {
 
 		const data = result.data;
 
-		res.render('./pages/home/becueddeduction', data);
+		res.render('./pages/homededuction', data);
 	} catch (error) {
 		if (error.response) {
 			res.render('./pages/error/400', { error: error.response.data.message });
@@ -49,11 +49,11 @@ const becuedEarnings = async (req, res) => {
 	}
 };
 
-const becuedEscrow = async (req, res) => {
+const growngEscrow = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/escrow`,
+			url: `${routeUrl}/escrow`,
 			headers: myHeader()
 		};
 
@@ -61,7 +61,7 @@ const becuedEscrow = async (req, res) => {
 
 		const data = result.data;
 
-		res.render('./pages/home/becuedescrow', data);
+		res.render('./pages/homeescrow', data);
 	} catch (error) {
 		if (error.response) {
 			res.render('./pages/error/400', { error: error.response.data.message });
@@ -71,11 +71,11 @@ const becuedEscrow = async (req, res) => {
 	}
 };
 
-const becuedTransxHistory = async (req, res) => {
+const growngTransxHistory = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/transaction-history`,
+			url: `${routeUrl}/transaction-history`,
 			headers: myHeader()
 		};
 
@@ -97,7 +97,7 @@ const setupPricing = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/pricing-list`,
+			url: `${routeUrl}/pricing-list`,
 			headers: myHeader()
 		};
 
@@ -123,4 +123,4 @@ function myHeader() {
 	return headers;
 }
 
-module.exports = { celebrityEarning, becuedEarnings, becuedEscrow, becuedTransxHistory, setupPricing };
+module.exports = { celebrityEarning, growngEarnings, growngEscrow, growngTransxHistory, setupPricing };

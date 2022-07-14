@@ -9,7 +9,7 @@ const getIndustryList = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/get-industry`,
+			url: `${routeUrl}/get-industry`,
 			headers: myHeader()
 		};
 
@@ -31,7 +31,7 @@ const frequentlyAskedQuestions = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/get-faq`,
+			url: `${routeUrl}/get-faq`,
 			headers: myHeader()
 		};
 
@@ -64,7 +64,7 @@ const celebrityProfileInformation = async (req, res) => {
 
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/get-celeb-profile/${_id}`,
+			url: `${routeUrl}/get-celeb-profile/${_id}`,
 			headers: myHeader()
 		};
 
@@ -83,4 +83,30 @@ const celebrityProfileInformation = async (req, res) => {
 	}
 }
 
-module.exports = { getIndustryList, frequentlyAskedQuestions, celebrityProfileInformation };
+const useranalyticInformation = async (req, res) => {
+	try {
+
+		var _id = req.url.split("=")[1];
+
+		const config = {
+			method: 'GET',
+			url: `${routeUrl}/user/analytics/${_id}`,
+			headers: myHeader()
+		};
+
+		const result = await axios(config);
+
+		const data = result.data;
+
+		res.render('./pages/home/useranalytics', data);
+
+	} catch (error) {
+		if (error.response) {
+			res.render('./pages/error/400', { error: error.response.data.message });
+		} else {
+			res.render('./pages/error/400', { error: error.message });
+		}
+	}
+}
+
+module.exports = { getIndustryList, frequentlyAskedQuestions, celebrityProfileInformation, useranalyticInformation };

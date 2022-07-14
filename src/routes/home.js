@@ -2,18 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 
-const {
-	celebrityEarning,
-	becuedEarnings,
-	becuedEscrow,
-	becuedTransxHistory,
-	setupPricing
-} = require('../controllers/EarningController');
-const { withdrawlRequest, withdrawlProcessed } = require('../controllers/BankingController');
+
 
 const { getAllSentMessages } = require('../controllers/MessagingController');
 
-const { getIndustryList, frequentlyAskedQuestions, celebrityProfileInformation } = require('../controllers/GeneralController');
+const { getIndustryList, frequentlyAskedQuestions, celebrityProfileInformation, useranalyticInformation } = require('../controllers/GeneralController');
 
 router.get('/', (req, res) => {
 	res.render('./pages/home/index');
@@ -21,11 +14,11 @@ router.get('/', (req, res) => {
 router.get('/earnings', (req, res) => {
 	res.render('./pages/home/earnings');
 });
-router.get('/analytics', (req, res) => {
-	res.render('./pages/home/analytics');
-});
-router.get('/fans', (req, res) => {
-	res.render('./pages/home/fans');
+router.get('/useranalytics', useranalyticInformation);
+
+
+router.get('/user', (req, res) => {
+	res.render('./pages/home/user');
 });
 router.get('/celebs', (req, res) => {
 	res.render('./pages/home/celebs');
@@ -43,14 +36,6 @@ router.get('/declinedbookings', (req, res) => {
 	res.render('./pages/home/declinedbookings');
 });
 
-router.get('/celebearnings', celebrityEarning);
-
-router.get('/becueddeduction', becuedEarnings);
-
-router.get('/becuedescrow', becuedEscrow);
-
-router.get('/transactionhistory', becuedTransxHistory);
-
 router.get('/celebbanks', (req, res) => {
 	res.render('./pages/home/celebbanks');
 });
@@ -59,13 +44,8 @@ router.get('/addedcards', (req, res) => {
 	res.render('./pages/home/addedcards');
 });
 
-router.get('/withdrawalrequest', withdrawlRequest);
-
-router.get('/withdrawalprocessed', withdrawlProcessed);
 
 router.get('/sentmessages', getAllSentMessages);
-
-router.get('/pricing-list', setupPricing);
 
 router.get('/category-list', getIndustryList);
 
@@ -83,16 +63,13 @@ router.get('/partners', (req, res) => {
 	res.render('./pages/home/partners');
 });
 
-router.get('/fansprofile', (req, res) => {
-	res.render('./pages/home/fanprofile');
+router.get('/userprofile', (req, res) => {
+	res.render('./pages/home/userprofile');
 });
 
-router.get('/fanstransactionhistory', (req, res) => {
-	res.render('./pages/home/fantransactionhistory');
-});
 
-router.get('/fansaccountactivity', (req, res) => {
-	res.render('./pages/home/fanactivitylog');
+router.get('/useraccountactivity', (req, res) => {
+	res.render('./pages/home/useractivitylog');
 });
 
 router.get('/celebsprofile', (req, res) => {

@@ -1,5 +1,5 @@
 {
-  "name": "becued-admin-fe",
+  "name": "growng-admin-fe",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pils36/becued-admin-fe.git"
+    "url": "git+https://github.com/Pils36/grow-admin-fe.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Pils36/becued-admin-fe/issues"
+    "url": "https://github.com/Pils36/grow-admin-fe/issues"
   },
-  "homepage": "https://github.com/Pils36/becued-admin-fe#readme",
+  "homepage": "https://github.com/Pils36/grow-admin-fe#readme",
   "dependencies": {
     "axios": "^0.25.0",
     "cookie-parser": "^1.4.6",

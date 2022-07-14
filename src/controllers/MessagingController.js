@@ -9,7 +9,7 @@ const getAllSentMessages = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/allsentmessages`,
+			url: `${routeUrl}/allsentmessages`,
 			headers: myHeader()
 		};
 

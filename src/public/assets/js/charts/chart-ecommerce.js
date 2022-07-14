@@ -1,6 +1,6 @@
 'use strict';
 
-!(function(NioApp, $) {
+!(function (NioApp, $) {
 	'use strict';
 
 	var totalSales = {
@@ -231,7 +231,7 @@
 
 	function ecommerceLineS1(selector, set_data) {
 		var $selector = selector ? $(selector) : $('.ecommerce-line-chart-s1');
-		$selector.each(function() {
+		$selector.each(function () {
 			var $self = $(this),
 				_self_id = $self.attr('id'),
 				_get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
@@ -344,7 +344,7 @@
 		});
 	} // init chart
 
-	NioApp.coms.docReady.push(function() {
+	NioApp.coms.docReady.push(function () {
 		ecommerceLineS1();
 	});
 	var storeVisitors = {
@@ -426,7 +426,7 @@
 
 	function ecommerceLineS2(selector, set_data) {
 		var $selector = selector ? $(selector) : $('.ecommerce-line-chart-s2');
-		$selector.each(function() {
+		$selector.each(function () {
 			var $self = $(this),
 				_self_id = $self.attr('id'),
 				_get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
@@ -538,7 +538,7 @@
 		});
 	} // init chart
 
-	NioApp.coms.docReady.push(function() {
+	NioApp.coms.docReady.push(function () {
 		ecommerceLineS2();
 	});
 	var todayOrders = {
@@ -563,7 +563,7 @@
 				label: 'Orders',
 				color: '#854fff',
 				background: 'transparent',
-				data: [ 92, 105, 125, 85, 110, 106, 131, 105, 110, 131, 105, 110 ]
+				data: [92, 105, 125, 85, 110, 106, 131, 105, 110, 131, 105, 110]
 			}
 		]
 	};
@@ -589,7 +589,7 @@
 				label: 'Revenue',
 				color: '#33d895',
 				background: 'transparent',
-				data: [ 92, 105, 125, 85, 110, 106, 131, 105, 110, 131, 105, 110 ]
+				data: [92, 105, 125, 85, 110, 106, 131, 105, 110, 131, 105, 110]
 			}
 		]
 	};
@@ -615,7 +615,7 @@
 				label: 'Customers',
 				color: '#ff63a5',
 				background: 'transparent',
-				data: [ 92, 105, 125, 85, 110, 106, 131, 105, 110, 131, 105, 110 ]
+				data: [92, 105, 125, 85, 110, 106, 131, 105, 110, 131, 105, 110]
 			}
 		]
 	};
@@ -641,14 +641,14 @@
 				label: 'Visitors',
 				color: '#559bfb',
 				background: 'transparent',
-				data: [ 92, 105, 125, 85, 110, 106, 131, 105, 110, 131, 105, 110 ]
+				data: [92, 105, 125, 85, 110, 106, 131, 105, 110, 131, 105, 110]
 			}
 		]
 	};
 
 	function ecommerceLineS3(selector, set_data) {
 		var $selector = selector ? $(selector) : $('.ecommerce-line-chart-s3');
-		$selector.each(function() {
+		$selector.each(function () {
 			var $self = $(this),
 				_self_id = $self.attr('id'),
 				_get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
@@ -761,7 +761,7 @@
 		});
 	} // init chart
 
-	NioApp.coms.docReady.push(function() {
+	NioApp.coms.docReady.push(function () {
 		ecommerceLineS3();
 	});
 	var salesStatistics = {
@@ -841,7 +841,7 @@
 			{
 				label: 'Declined bookings',
 				color: '#eb6459',
-				dash: [ 5 ],
+				dash: [5],
 				background: 'transparent',
 				data: [
 					110,
@@ -881,7 +881,7 @@
 
 	function ecommerceLineS4(selector, set_data) {
 		var $selector = selector ? $(selector) : $('.ecommerce-line-chart-s4');
-		$selector.each(function() {
+		$selector.each(function () {
 			var $self = $(this),
 				_self_id = $self.attr('id'),
 				_get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
@@ -998,7 +998,7 @@
 		});
 	} // init chart
 
-	NioApp.coms.docReady.push(function() {
+	NioApp.coms.docReady.push(function () {
 		ecommerceLineS4();
 	});
 	var averargeOrder = {
@@ -1079,7 +1079,7 @@
 
 	function ecommerceBarS1(selector, set_data) {
 		var $selector = selector ? $(selector) : $('.ecommerce-bar-chart-s1');
-		$selector.each(function() {
+		$selector.each(function () {
 			var $self = $(this),
 				_self_id = $self.attr('id'),
 				_get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
@@ -1184,30 +1184,30 @@
 		});
 	} // init chart
 
-	NioApp.coms.docReady.push(function() {
+	NioApp.coms.docReady.push(function () {
 		ecommerceBarS1();
 	});
 	var trafficSources = {
-		labels: [ 'Organic Search', 'Social Media', 'Referrals', 'Others' ],
+		labels: ['Organic Search', 'Social Media', 'Referrals', 'Others'],
 		dataUnit: 'People',
 		legend: false,
 		datasets: [
 			{
 				borderColor: '#fff',
-				background: [ '#b695ff', '#b8acff', '#ffa9ce', '#f9db7b' ],
-				data: [ 4305, 859, 482, 138 ]
+				background: ['#b695ff', '#b8acff', '#ffa9ce', '#f9db7b'],
+				data: [4305, 859, 482, 138]
 			}
 		]
 	};
 	var orderStatistics = {
-		labels: [ 'Accepted', 'Pending', 'Declined' ],
+		labels: ['Accepted', 'Pending', 'Declined'],
 		dataUnit: 'Bookings',
 		legend: false,
 		datasets: [
 			{
 				borderColor: '#fff',
-				background: [ '#816bff', '#13c9f2', '#ff82b7' ],
-				data: [ 4305, 859, 482 ]
+				background: ['#816bff', '#13c9f2', '#ff82b7'],
+				data: [4305, 859, 482]
 			}
 		]
 	};
@@ -1215,7 +1215,7 @@
 	async function ecommerceDoughnutS1(selector, set_data) {
 		var $selector = selector ? $(selector) : $('.ecommerce-doughnut-s1');
 
-		var routeA = `${baseUrl}/becued/allbookings?status=accepted`;
+		var routeA = `${baseUrl}/allbookings?status=accepted`;
 		config = {
 			method: 'get',
 			headers: header,
@@ -1224,7 +1224,7 @@
 
 		var respA = await axios(config);
 
-		var routeB = `${baseUrl}/becued/allbookings?status=pending`;
+		var routeB = `${baseUrl}/allbookings?status=pending`;
 		config = {
 			method: 'get',
 			headers: header,
@@ -1233,7 +1233,7 @@
 
 		var respB = await axios(config);
 
-		var routeC = `${baseUrl}/becued/allbookings?status=declined`;
+		var routeC = `${baseUrl}/allbookings?status=declined`;
 		config = {
 			method: 'get',
 			headers: header,
@@ -1243,19 +1243,19 @@
 		var respC = await axios(config);
 
 		orderStatistics = {
-			labels: [ 'Accepted', 'Pending', 'Declined' ],
+			labels: ['Accepted', 'Pending', 'Declined'],
 			dataUnit: 'Bookings',
 			legend: false,
 			datasets: [
 				{
 					borderColor: '#fff',
-					background: [ '#816bff', '#13c9f2', '#ff82b7' ],
-					data: [ respA.data.data.length, respB.data.data.length, respC.data.data.length ]
+					background: ['#816bff', '#13c9f2', '#ff82b7'],
+					data: []
 				}
 			]
 		};
 
-		$selector.each(function() {
+		$selector.each(function () {
 			var $self = $(this),
 				_self_id = $self.attr('id'),
 				_get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
@@ -1263,7 +1263,7 @@
 			var selectCanvas = document.getElementById(_self_id).getContext('2d');
 			var chart_data = [];
 
-			for (var i = 0; i < _get_data.datasets.length; i++) {
+			for (var i = 0; i < 5; i++) {
 				chart_data.push({
 					backgroundColor: _get_data.datasets[i].background,
 					borderWidth: 2,
@@ -1324,7 +1324,7 @@
 		});
 	} // init chart
 
-	NioApp.coms.docReady.push(function() {
+	NioApp.coms.docReady.push(function () {
 		ecommerceDoughnutS1();
 	});
 })(NioApp, jQuery);

@@ -9,7 +9,7 @@ const withdrawlRequest = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/withdrawal-requests`,
+			url: `${routeUrl}/withdrawal-requests`,
 			headers: myHeader()
 		};
 
@@ -30,7 +30,7 @@ const withdrawlProcessed = async (req, res) => {
 	try {
 		const config = {
 			method: 'GET',
-			url: `${routeUrl}/becued/withdrawal-processed`,
+			url: `${routeUrl}/withdrawal-processed`,
 			headers: myHeader()
 		};
 

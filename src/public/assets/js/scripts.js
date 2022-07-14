@@ -1,7 +1,7 @@
 'use strict';
 
-// var baseUrl = `https://api-v2-staging.becued.com/api/v2/admin`;
-var baseUrl = `http://localhost:8000/api/v2/admin`;
+var baseUrl = `https://api-v1-staging.growng.company/api/v1/admin`;
+// var baseUrl = `http://localhost:4400/api/v1/admin`;
 var header = {
 	'Authorization': 'Bearer ' + localStorage.getItem('token')
 };
@@ -454,7 +454,7 @@ var header = {
 
 	NioApp.Dropzone.init = function () {
 		NioApp.Dropzone('.upload-zone', {
-			url: `${baseUrl}/becued/celebintrovideoupdate/${$('#introId').val()}`,
+			url: `${baseUrl}/celebintrovideoupdate/${$('#introId').val()}`,
 
 			complete: function (result) {
 

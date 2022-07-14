@@ -46,6 +46,14 @@ const loginAdmin = async (req, res) => {
 			message: 'Success'
 		});
 	} catch (error) {
+
+		if (error.response) {
+			return res.status(400).json({
+				data: [],
+				message: error.response.data.message
+			});
+		}
+
 		res.status(401).json({
 			data: [],
 			message: error.message

@@ -613,7 +613,7 @@
                             <div class="data-item" data-toggle="modal" data-target="#profile-edit">
                                 <div class="data-col">
                                     <span class="data-label">Full Name</span>
-                                    <span class="data-value">${response.data.data.fullName}</span>
+                                    <span class="data-value">${response.data.data.user.fullName}</span>
                                 </div>
                                 <div class="data-col data-col-end"><span class="data-more"><em
                                             class="icon ni ni-forward-ios"></em></span></div>
@@ -622,7 +622,7 @@
                             <div class="data-item">
                                 <div class="data-col">
                                     <span class="data-label">Email</span>
-                                    <span class="data-value">${response.data.data.email}</span>
+                                    <span class="data-value">${response.data.data.user.email}</span>
                                 </div>
                                 <div class="data-col data-col-end"><span class="data-more disable"><em
                                             class="icon ni ni-lock-alt"></em></span></div>
@@ -630,7 +630,7 @@
                             <div class="data-item" >
                                 <div class="data-col">
                                     <span class="data-label">Phone Number</span>
-                                    <span class="data-value text-soft">${response.data.data.phoneNumber}</span>
+                                    <span class="data-value text-soft">${response.data.data.user.phoneNumber}</span>
                                 </div>
                                 <div class="data-col data-col-end"><span class="data-more"><em
                                             class="icon ni ni-forward-ios"></em></span></div>
@@ -638,7 +638,7 @@
                             <div class="data-item" >
                                 <div class="data-col">
                                     <span class="data-label">Farm Name</span>
-                                    <span class="data-value">${response.data.data.businessName}</span>
+                                    <span class="data-value">${response.data.data.user.businessName}</span>
                                 </div>
                                 <div class="data-col data-col-end"><span class="data-more"><em
                                             class="icon ni ni-forward-ios"></em></span></div>
@@ -646,7 +646,7 @@
                             <div class="data-item" >
                                 <div class="data-col">
                                     <span class="data-label">Farm Location</span>
-                                    <span class="data-value">${response.data.data.farmLocation}</span>
+                                    <span class="data-value">${response.data.data.user.farmLocation}</span>
                                 </div>
                                 <div class="data-col data-col-end"><span class="data-more"><em
                                             class="icon ni ni-forward-ios"></em></span></div>
@@ -654,7 +654,7 @@
                             <div class="data-item" >
                                 <div class="data-col">
                                     <span class="data-label">City & State</span>
-                                    <span class="data-value">${response.data.data.cityState}</span>
+                                    <span class="data-value">${response.data.data.user.cityState}</span>
                                 </div>
                                 <div class="data-col data-col-end"><span class="data-more"><em
                                             class="icon ni ni-forward-ios"></em></span></div>
@@ -663,7 +663,7 @@
                             <div class="data-item" >
                                 <div class="data-col">
                                     <span class="data-label">Account Status</span>
-                                    <span class="data-value text-soft">${response.data.data.status}</span>
+                                    <span class="data-value text-soft">${response.data.data.user.status}</span>
                                 </div>
                                 <div class="data-col data-col-end"><span class="data-more"><em
                                             class="icon ni ni-forward-ios"></em></span></div>
@@ -674,7 +674,7 @@
                                 <div class="data-col">
                                     <span class="data-label">Date Added</span>
                                     <span class="data-value text-soft">${new
-                                        Date(response.data.data.created_at).toLocaleString('en-GB', dateOption)}</span>
+                                        Date(response.data.data.user.created_at).toLocaleString('en-GB', dateOption)}</span>
                                 </div>
                                 <div class="data-col data-col-end"><span class="data-more"><em
                                             class="icon ni ni-forward-ios"></em></span></div>
@@ -690,11 +690,11 @@
                         <div class="card-inner">
                             <div class="user-card">
                                 <div class="user-avatar">
-                                    <img src="${response.data.data.avatar}" alt="${response.data.data.fullName}" />
+                                    <img src="${response.data.data.user.avatar}" alt="${response.data.data.user.fullName}" />
                                 </div>
                                 <div class="user-info">
-                                    <span class="lead-text">${response.data.data.fullName}</span>
-                                    <span class="sub-text">${response.data.data.email}</span>
+                                    <span class="lead-text">${response.data.data.user.fullName}</span>
+                                    <span class="sub-text">${response.data.data.user.email}</span>
                                 </div>
 
                             </div>
@@ -703,17 +703,17 @@
                         <div class="card-inner p-0">
                             <ul class="link-list-menu">
                                 <li><a class="active"
-                                        href="/dashboard/userprofile?_userId=${response.data.data._id}"><em
+                                        href="/dashboard/userprofile?_userId=${response.data.data.user._id}"><em
                                             class="icon ni ni-user-fill-c"></em><span>Personal
                                             Infomation</span></a></li>
 
                                             <li><a
-                                                    href="/dashboard/useraccountactivity?_userId=${response.data.data._id}"><em
+                                                    href="/dashboard/useraccountactivity?_userId=${response.data.data.user._id}"><em
                                                         class="icon ni ni-activity-round-fill"></em><span>Account
                                                         Activity</span></a></li>
 
                                 <li><a
-                                        href="/dashboard/useranalytics?_userId=${response.data.data._id}"><em
+                                        href="/dashboard/useranalytics?_userId=${response.data.data.user._id}"><em
                                             class="icon ni ni-bell-fill"></em><span>Analytics</span></a>
                                 </li>
                                 

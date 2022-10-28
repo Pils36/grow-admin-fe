@@ -1,7 +1,6 @@
 'use strict';
 
-var baseUrl = `https://api-v1-staging.growng.company/api/v1/admin`;
-// var baseUrl = `http://localhost:4400/api/v1/admin`;
+var baseUrl = `${document.domain === 'localhost' ? 'http://localhost:5400/api/v1/admin' : 'https://api-v1-staging.growng.company/api/v1/admin'}`;
 var header = {
 	'Authorization': 'Bearer ' + localStorage.getItem('token')
 };

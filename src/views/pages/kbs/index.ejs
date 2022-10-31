@@ -1,0 +1,92 @@
+<%- include('../../includes/_top.ejs') %>
+<%- include('../../includes/_aside.ejs') %>
+<%- include('../../includes/_header.ejs') %>
+<!-- content @s -->
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Knowledge Hub</h3>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void()" class="btn btn-icon btn-trigger toggle-expand mr-n1"
+                                    data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right">
+                                                    <em class="icon ni ni-search"></em>
+                                                </div>
+                                                <input type="text" class="form-control" id="default-04"
+                                                    placeholder="Quick search by id">
+                                            </div>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                            <div class="row g-gs">
+                <% if(data.length > 0) { %>
+                        <% data.forEach(record => { %>
+                                <div class="col-sm-6 col-lg-4 col-xxl-4">
+                                    <div class="card card-bordered">
+                                        <center>
+                                            <img src="<%= record.cropFile %>" class="card-img-top"
+                                                alt="<%= record.crop %>"
+                                                style="width: 200px; height: 200px; object-fit: contain;">
+                                        </center>
+                                        <div class="card-inner">
+                                            <span class="text-danger" style="font-weight: bold;"><%= record.crop %>
+                                                <br><small class="text-primary"
+                                                    style="font-weight: bold;"><%= record.module %> </small></span>
+                                            
+                                            <h5 class="card-title"><%= record.title %></h5>
+                                            <span><%= record.subTitle %></span>
+                                                    <hr>
+
+                                            <p class="card-text"><%= record.content %></p>
+
+                                            <a href="javascript:void()" class="btn btn-primary">Edit</a>
+                                            <a href="javascript:void()" class="btn btn-danger">Delete</a>
+                                        </div>
+
+                                        
+                                        
+                                    </div>
+
+                                    
+                                </div>
+                        <% }); %> 
+
+                <% } else { %>
+                    
+                    <div class="card card-bordered">
+                        <img src="..." class="card-img-top" alt="">
+                        <div class="card-inner">
+                            <h5 class="card-title">No record here!</h5>
+                            <p class="card-text">You have not created any knowledge base session.</p>
+                            <a href="/dashboard/kbs/create" class="btn btn-primary">Get Started</a>
+                        </div>
+                    </div>
+                    
+                <% } %> 
+                            </div>
+
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+<%- include('../../includes/_footer.ejs') %>
+<%- include('../../includes/_bottom.ejs') %>

@@ -2,8 +2,6 @@ const express = require('express');
 
 const router = express.Router();
 
-
-
 const { getAllSentMessages } = require('../controllers/MessagingController');
 
 const { getIndustryList, frequentlyAskedQuestions, celebrityProfileInformation, useranalyticInformation } = require('../controllers/GeneralController');
@@ -15,6 +13,10 @@ router.get('/earnings', (req, res) => {
 	res.render('./pages/home/earnings');
 });
 router.get('/useranalytics', useranalyticInformation);
+
+router.get('/createkbs', (req, res) => {
+	res.render('./pages/kbs/create')
+});
 
 
 router.get('/user', (req, res) => {

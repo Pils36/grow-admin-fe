@@ -1,0 +1,162 @@
+<%- include('../../includes/_top.ejs') %>
+<%- include('../../includes/_aside.ejs') %>
+<%- include('../../includes/_header.ejs') %>
+<!-- content @s -->
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Create Knowledge Hub</h3>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void()" class="btn btn-icon btn-trigger toggle-expand mr-n1"
+                                    data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right">
+                                                    <em class="icon ni ni-search"></em>
+                                                </div>
+                                                <input type="text" class="form-control" id="default-04"
+                                                    placeholder="Quick search by id">
+                                            </div>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+
+                <div class="card card-bordered">
+                    <div class="card-inner">
+                        <div class="card-head">
+                            <h5 class="card-title">Add new</h5>
+                        </div>
+                        <form action="#" class="gy-3">
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="site-name">Crop Name</label>
+                                        <span class="form-note">Kindly select the crop to add.</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control" id="site-name"
+                                                value="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Module</label>
+                                        <span class="form-note">Select module for this crop.</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control" id="site-email"
+                                                value="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Title</label>
+                                        <span class="form-note">Module title for what to create</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control" id="site-copyright"
+                                                placeholder="Post-harvest">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Sub Title</label>
+                                        <span class="form-note">Module sub-title for what to create</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control" id="site-copyright"
+                                                placeholder="&copy; Soil analysis, land preparation, ploughing etc">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="site-off">Crop thumbnail</label>
+                                        <span class="form-note">Enable to make website make offline.</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <div class="custom-file">
+                                            <input type="file" multiple="" class="custom-file-input" id="customFile">
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Content</label>
+                                        <span class="form-note">Give insightful information about the item created</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <textarea class="form-control form-control-sm" id="cf-default-textarea"
+                                                placeholder="Write your message"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-lg-8 offset-lg-4">
+                                    <div class="form-group mt-2">
+                                        <button type="submit" class="btn btn-lg btn-primary btn-block">Submit and Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><!-- card -->
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+<%- include('../../includes/_footer.ejs') %>
+<%- include('../../includes/_bottom.ejs') %>

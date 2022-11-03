@@ -4,7 +4,9 @@
 
 <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
     $(document).ready(function () {
@@ -315,4 +317,156 @@
             downloadLink.click();
         }
     }
+
+
+    const deleteItem = async (val, id) => {
+        try {
+
+            swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then(async (willDelete) => {
+            if (willDelete) {
+                
+                url = (val === 'crop' ? `/dashboard/crops/delete/${id}` : `/dashboard/kbs/delete/${id}`);
+
+                config = {
+                method: 'delete',
+                headers: header,
+                url
+                };
+
+                const response = await axios(config);
+
+                if (response.status === 200) {
+                    messageAlert(`<h5>Success!</h5>
+                    <p>Successfully deleted ${val.toUpperCase()} item</p>`, `success`);
+                }
+
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            }
+            });
+
+
+            
+        } catch (error) {
+
+        if (error.response) {
+        messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}</p>`, `error`);
+        } else {
+        messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+        }
+        }
+    }
+
+
+    const updateItem = async (val, id) => {
+
+        $('.submitBtn').addClass('disp-0');
+        $('.spinload').removeClass('disp-0');
+
+        try {
+
+            url = (val === 'crop' ? `/dashboard/crops/edit/${id}` : `/dashboard/kbs/edit/${id}`);
+
+            var formData = new FormData(document.getElementById("formElem"+id));
+
+            var fileSelect = document.getElementById('customFile');
+
+            if (fileSelect.files && fileSelect.files.length > 0) {
+                for (let i = 0; i < fileSelect.files.length; i++) {
+                    const file = fileSelect.files[i];
+
+                    formData.set("cropFile", file);
+                }
+            }
+
+
+
+            config = {
+            method: 'post',
+            headers: header,
+            url,
+            data: formData
+            };
+
+            const response = await axios(config);
+
+            if (response.status === 200) {
+            messageAlert(`<h5>Success!</h5>
+            <p>Successfully updated ${val.toUpperCase()} content</p>`, `success`);
+            }
+
+            setTimeout(() => {
+            location.reload();
+            }, 1000);
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+            
+        } catch (error) {
+
+            $('.submitBtn').removeClass('disp-0');
+            $('.spinload').addClass('disp-0');
+
+        if (error.response) {
+        messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}</p>`, `error`);
+        } else {
+        messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+        }
+        }
+    }
+
+    const createItem = async (val) => {
+
+    $('.submitBtn').addClass('disp-0');
+    $('.spinload').removeClass('disp-0');
+
+    try {
+
+    url = (val === 'crop' ? `/dashboard/crops/create` : `/dashboard/kbs/create`);
+
+    var formData = new FormData(document.getElementById("formElem"));
+
+    var fileSelect = document.getElementById('customFile');
+
+    if (fileSelect.files && fileSelect.files.length > 0) {
+    for (let i = 0; i < fileSelect.files.length; i++) { const file=fileSelect.files[i]; formData.set("cropFile", file);
+        } } config={ method: 'post' , headers: header, url, data: formData }; const response=await axios(config); if
+        (response.status===200) { messageAlert(`<h5>Success!</h5>
+        <p>Successfully created ${val.toUpperCase()} content</p>`, `success`);
+        }
+
+        setTimeout(() => {
+        location.reload();
+        }, 1000);
+
+        $('.submitBtn').removeClass('disp-0');
+        $('.spinload').addClass('disp-0');
+
+        } catch (error) {
+
+        $('.submitBtn').removeClass('disp-0');
+        $('.spinload').addClass('disp-0');
+
+        if (error.response) {
+        messageAlert(`<h5>${error.response.statusText}</h5>
+        <p>${error.response.data.message}</p>`, `error`);
+        } else {
+        messageAlert(`<h5>Oops!</h5>
+        <p>${error.message}</p>`, `error`);
+        }
+        }
+        }
+
 </script>

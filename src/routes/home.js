@@ -18,6 +18,10 @@ router.get('/createkbs', (req, res) => {
 	res.render('./pages/kbs/create')
 });
 
+router.get('/createcrops', (req, res) => {
+	res.render('./pages/crop/create')
+});
+
 
 router.get('/user', (req, res) => {
 	res.render('./pages/home/user');

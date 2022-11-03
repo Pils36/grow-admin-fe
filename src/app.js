@@ -22,6 +22,7 @@ app.use('/', require('./routes/welcome'));
 app.use('/auth', require('./routes/auth'));
 app.use('/dashboard', require('./routes/home'));
 app.use('/dashboard/kbs', require('./routes/knowledgehub/index'));
+app.use('/dashboard/crops', require('./routes/crop/index'));
 app.use('*', require('./routes/error'));
 
 app.listen(PORT, () => console.log(`listening on port ${process.env.APP_URL}:${PORT}`));

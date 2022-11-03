@@ -1,12 +1,12 @@
 const axios = require('axios');
 const routeUrl = `${process.env.NODE_ENV == 'local' ? process.env.ENDPOINT_URL_DEV : process.env.ENDPOINT_URL_PROD}`;
 
-const getKnowledge = async (req, res) => {
+const getCrop = async (req, res) => {
     try {
 
         const config = {
             method: 'GET',
-            url: `${routeUrl}/knowledge`,
+            url: `${routeUrl}/crop`,
             headers: myHeader()
         };
 
@@ -14,36 +14,36 @@ const getKnowledge = async (req, res) => {
 
         const data = result.data;
 
-        res.render('./pages/kbs/index', data);
-        
+        res.render('./pages/crop/index', data);
+
     } catch (error) {
-		if (error.response) {
-			res.render('./pages/error/400', { error: error.response.data.message });
-		} else {
-			res.render('./pages/error/400', { error: error.message });
-		}
-	}
+        if (error.response) {
+            res.render('./pages/error/400', { error: error.response.data.message });
+        } else {
+            res.render('./pages/error/400', { error: error.message });
+        }
+    }
 }
 
 
-const createKnowledge = async (req, res) => {
+const createCrop = async (req, res) => {
     try {
 
         let file = "";
-        const { crop, module, title, subTitle, content } = req.body;
+        const { name, category } = req.body;
 
         if (req.files != null) {
-            file = req.files.cropFile.tempFilePath;
+            file = req.files.image.tempFilePath;
         }
 
 
         const config = {
             method: 'POST',
-            url: `${routeUrl}/knowledge/create`,
+            url: `${routeUrl}/crop/create`,
             headers: myHeader(),
             data: {
-                crop, module, title, subTitle, content,
-                cropFile: file
+                name, category,
+                image: file
             }
         };
 
@@ -54,7 +54,7 @@ const createKnowledge = async (req, res) => {
             message: result.message,
             status: result.status
         });
-        
+
     } catch (error) {
 
         let message = "Something went wrong";
@@ -71,26 +71,24 @@ const createKnowledge = async (req, res) => {
         });
     }
 }
-
-
-const editKnowledge = async (req, res) => {
+const editCrop = async (req, res) => {
     try {
 
         let file = "";
-        const { crop, module, title, subTitle, content } = req.body;
+        const { name, category } = req.body;
 
         if (req.files != null) {
-            file = req.files.cropFile.tempFilePath;
+            file = req.files.image.tempFilePath;
         }
 
 
         const config = {
             method: 'PUT',
-            url: `${routeUrl}/knowledge/update/${req.params.id}`,
+            url: `${routeUrl}/crop/update/${req.params.id}`,
             headers: myHeader(),
             data: {
-                crop, module, title, subTitle, content,
-                cropFile: file
+                name, category,
+                image: file
             }
         };
 
@@ -120,12 +118,12 @@ const editKnowledge = async (req, res) => {
 }
 
 
-const deleteKbs = async (req, res) => {
+const deleteCrop = async (req, res) => {
     try {
 
         const config = {
             method: 'DELETE',
-            url: `${routeUrl}/knowledge/delete/${req.params.id}`,
+            url: `${routeUrl}/crop/delete/${req.params.id}`,
             headers: myHeader()
         };
 
@@ -153,6 +151,8 @@ const deleteKbs = async (req, res) => {
         });
     }
 }
+
+
 
 
 function myHeader() {
@@ -164,4 +164,4 @@ function myHeader() {
 }
 
 
-module.exports = { getKnowledge, createKnowledge, editKnowledge, deleteKbs }
+module.exports = { getCrop, createCrop, editCrop, deleteCrop }

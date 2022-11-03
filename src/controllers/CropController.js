@@ -81,6 +81,7 @@ const editCrop = async (req, res) => {
             file = req.files.image.tempFilePath;
         }
 
+        
         const config = {
             method: 'PUT',
             url: `${routeUrl}/crop/update/${req.params.id}`,
